@@ -1,0 +1,333 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="essential-script" th:inline="javascript">
+
+    const domain = "http://localhost:8000/api-cms";
+
+    function setCookie(name, value, opts = {}) {
+        const {
+            days,            // số ngày sống
+            maxAge,          // hoặc đặt giây sống
+            path = "/",
+            domain,          // ví dụ ".example.com" (để chia sẻ subdomain). Đừng set trên localhost
+            sameSite = "Lax",// "Lax" | "Strict" | "None"
+            secure           // true nếu chạy HTTPS (bắt buộc nếu sameSite=None)
+        } = opts;
+
+        let cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+        if (typeof maxAge === "number") cookie += `; Max-Age=${maxAge}`;
+        else if (typeof days === "number") cookie += `; Max-Age=${days * 24 * 60 * 60}`;
+        cookie += `; Path=${path}`;
+        if (domain) cookie += `; Domain=${domain}`;
+        if (sameSite) cookie += `; SameSite=${sameSite}`;
+        if (secure || sameSite === "None") cookie += `; Secure`; // SameSite=None phải kèm Secure
+
+        document.cookie = cookie;
+    }
+
+    function getCookie(name) {
+        const key = encodeURIComponent(name) + "=";
+        return document.cookie
+            .split(";")
+            .map(v => v.trim())
+            .filter(v => v.startsWith(key))
+            .map(v => decodeURIComponent(v.substring(key.length)))[0] ?? null;
+    }
+
+    function deleteCookie(name, opts = {}) {
+        // Xoá = set Max-Age=0, phải dùng cùng path/domain như lúc set
+        setCookie(name, "", {...opts, maxAge: 0});
+    }
+
+
+    function showSuccessDialog(message) {
+        const dialog = document.getElementById('successDialog');
+        dialog.innerText = message;
+        dialog.style.display = 'block';
+
+        setTimeout(() => {
+            dialog.style.display = 'none';
+        }, 4000); // auto ẩn sau 4 giây
+    }
+
+    function showErrorDialog(message) {
+        const dialog = document.getElementById('errorDialog');
+        dialog.innerText = message;
+        dialog.style.display = 'block';
+
+        // Ẩn sau 5 giây
+        setTimeout(() => {
+            dialog.style.display = 'none';
+        }, 5000);
+    }
+
+    function closeErrorDialog() {
+        document.getElementById('errorDialog').style.display = 'none';
+    }
+
+
+    // file-scope single promise to serialize refreshes
+    let globalRefreshPromise = null;
+
+    /**
+     * callApi: centralized API caller
+     * - No automatic timeouts; request only aborted if caller passes options.signal.
+     * - 403: flash error message (no refresh / no retry).
+     * - 401: attempt refresh-token once (single-flight). If refresh succeeds, retry once.
+     *        If already retried once or refresh fails -> clear auth and redirect to /login.
+     */
+    async function callApi(url, options = {}, onSuccess) {
+        const fullUrl = domain + url;
+
+        // shallow copies
+        options = {...options};
+        options.headers = {...(options.headers || {})};
+
+        // internal retry counter (only allow 1 retry)
+        const retryCount = typeof options._retryCount === 'number' ? options._retryCount : 0;
+
+        const token = getCookie("token");
+        if (token) options.headers['Authorization'] = 'Bearer ' + token;
+
+        // Chain caller's signal into our own controller so callers can abort.
+        const externalSignal = options.signal;
+        const controller = new AbortController();
+        if (externalSignal) {
+            if (externalSignal.aborted) controller.abort();
+            else externalSignal.addEventListener('abort', () => controller.abort(), {once: true});
+        }
+        options.signal = controller.signal;
+
+        try {
+            const response = await fetch(fullUrl, options);
+
+            let data;
+            try {
+                data = await response.json();
+            } catch {
+                data = null;
+            }
+
+            if (response.ok) {
+                if (typeof onSuccess === 'function') onSuccess(data);
+                return data;
+            }
+
+            const apiMessage = (data && (data.message || (data.data && data.data.message) || data.error))
+                || 'Lỗi không xác định từ server.';
+
+            // 403: forbidden — just flash message and throw (no refresh, no retry)
+            if (response.status === 403) {
+                showErrorDialog(`${response.status} - ${apiMessage}`);
+                console.error("API 403 body:", data);
+                throw new Error(`${response.status} - ${apiMessage}`);
+            }
+
+            // 401: unauthorized — attempt refresh once (single retry)
+            if (response.status === 401) {
+                // If we've already retried once, give up and redirect to login
+                if (retryCount >= 1) {
+                    deleteCookie("rememberMe");
+                    deleteCookie("token");
+                    deleteCookie("refreshToken");
+                    showErrorDialog(`${response.status} - ${apiMessage}`);
+                    window.location.href = "/login";
+                    throw new Error(`Unauthorized after retry: ${response.status} - ${apiMessage}`);
+                }
+
+                // Need a refresh token to continue
+                if (!getCookie("refreshToken")) {
+                    deleteCookie("rememberMe");
+                    deleteCookie("token");
+                    deleteCookie("refreshToken");
+                    showErrorDialog('No refresh token available. Redirecting to login.');
+                    window.location.href = "/login";
+                    throw new Error('No refresh token available');
+                }
+
+                // Start single-flight refresh if not already started
+                if (!globalRefreshPromise) {
+                    globalRefreshPromise = (async () => {
+                        try {
+                            const res = await fetch(domain + "/v1/api/public/refresh-token", {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({refreshToken: getCookie("refreshToken")})
+                            });
+
+                            if (!res.ok) {
+                                const txt = await res.text();
+                                // clear cookies
+                                deleteCookie("rememberMe");
+                                deleteCookie("token");
+                                deleteCookie("refreshToken");
+                                throw new Error(`${res.status} - ${txt || 'Refresh token failed'}`);
+                            }
+
+                            const refreshBody = await res.json();
+                            const newAccess = refreshBody?.data?.accessToken || refreshBody?.accessToken;
+                            if (!newAccess) {
+                                // clear cookies
+                                deleteCookie("rememberMe");
+                                deleteCookie("token");
+                                deleteCookie("refreshToken");
+                                throw new Error('No access token in refresh response');
+                            }
+
+                            setCookie("token", newAccess, {maxAge: 20});
+                            return newAccess;
+                        } catch (e) {
+                            // propagate error to waiters
+                            throw e;
+                        }
+                    })();
+                }
+
+                try {
+                    const newToken = await globalRefreshPromise;
+                    // clear single-flight promise now that it settled
+                    globalRefreshPromise = null;
+
+                    // prepare retry options: bump retry count, create fresh options so we won't reuse old signal
+                    const retryOptions = {...options, _retryCount: retryCount + 1};
+                    retryOptions.headers = {...options.headers};
+                    // remove any signal so the recursive call creates a fresh controller
+                    delete retryOptions.signal;
+
+                    retryOptions.headers['Authorization'] = 'Bearer ' + newToken;
+
+                    // retry (this will create a fresh AbortController inside the recursive call)
+                    return await callApi(url, retryOptions, onSuccess);
+                } catch (refreshError) {
+                    // refresh failed: clear promise, clear cookies, redirect to login
+                    globalRefreshPromise = null;
+                    deleteCookie("rememberMe");
+                    deleteCookie("token");
+                    deleteCookie("refreshToken");
+                    showErrorDialog(refreshError.message || 'Token refresh failed');
+                    window.location.href = "/login";
+                    throw refreshError;
+                }
+            }
+
+            // other non-ok responses (not 401/403)
+            showErrorDialog(`${response.status} - ${apiMessage}`);
+            console.error("API error body:", data);
+            throw new Error(`${response.status} - ${apiMessage}`);
+        } catch (error) {
+            // AbortError handling: comes from external/manual abort (no timeouts here)
+            if (error && error.name === 'AbortError') {
+                const msg = error.message || 'Request aborted';
+                showErrorDialog(msg);
+                throw error;
+            }
+
+            // network errors / unexpected exceptions
+            showErrorDialog(error && error.message ? error.message : 'Network or unexpected error');
+            throw error;
+        }
+    }
+
+
+
+    const fileNameFromPath = (p) => (p ? p.split('/').pop() : '-');
+    const viDateTime = (iso) => {
+        if (!iso) return '-';
+        const d = new Date(iso * 1000);
+        if (isNaN(d)) return '-';
+        return d.toLocaleString('vi-VN', {
+            timeZone: 'Asia/Bangkok', hour12: false,
+            year: 'numeric', month: '2-digit', day: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+        });
+    };
+
+
+    function viewUIDetail() {
+        if (document.getElementById("detail").classList.contains('d-none')) {
+            document.getElementById("detail").classList.remove('d-none')
+            document.getElementById("list-data").classList.remove("col-lg-12");
+            document.getElementById("list-data").classList.add("col-lg-8");
+        }
+    }
+
+    function viewOrHiddenDetail() {
+        if (document.getElementById("detail").classList.contains('d-none')) {
+            document.getElementById("detail").classList.remove('d-none')
+            document.getElementById("list-data").classList.remove("col-lg-12");
+            document.getElementById("list-data").classList.add("col-lg-8");
+        } else {
+            document.getElementById("detail").classList.add('d-none')
+            document.getElementById("list-data").classList.add("col-lg-12");
+            document.getElementById("list-data").classList.remove("col-lg-8");
+        }
+    }
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString('vi-VN', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+
+    window.addEventListener('load', async () => {
+        let backLogin = true;
+        const currentUrl = window.location.href;
+        if (getCookie("refreshToken") === null) {
+            if (currentUrl.includes('/login')
+                || currentUrl.includes('/force-change-password')
+                || currentUrl.includes('/register')
+            ) {
+                return;
+            }
+            if (backLogin && !currentUrl.includes('/login')) {
+                window.location.replace("/login");
+                return;
+            }
+            let body = {};
+            if (getCookie("token")) {
+                return;
+            }
+            body["refreshToken"] = getCookie("refreshToken");
+
+            await callApi('/v1/api/auth/refresh-token', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(body)
+            }, (data) => {
+                if (getCookie('rememberMe') === true) {
+                    setCookie("rememberMe", true, {days: 5})
+                    setCookie("token", data.data.accessToken, {maxAge: 20});
+                    setCookie("refreshToken", data.data.refreshToken, {days: 5});
+                } else {
+                    setCookie("rememberMe", false)
+                    setCookie("token", data.data.accessToken, {});
+                    setCookie("refreshToken", data.data.refreshToken, {});
+                }
+                backLogin = false;
+            });
+
+        }
+    }, {once: true});
+
+    // Hàm để ẩn div
+    function hideDiv(divId) {
+        const div = document.getElementById(divId);
+        if (div) div.classList.add("d-none");
+    }
+
+    // Hàm để hiện div
+    function showDiv(divId) {
+        const div = document.getElementById(divId);
+        if (div) div.classList.remove("d-none");
+    }
+
+    function showToast(msg) {
+        document.getElementById('toastMsg').textContent = msg;
+        new bootstrap.Toast(document.getElementById('appToast'), {delay: 2200}).show();
+    }
+</script>
+</html>

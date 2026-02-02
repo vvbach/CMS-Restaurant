@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="add-account-popup" class="modal fade clearfix" id="popup-new" tabindex="-1"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-content modal-dialog modal-lg">
+        <div class="modal-body">
+            <h2 class="card-title mb-0 me-2">Thêm mới</h2>
+            <form id="form-new" class="row g-3">
+                <div class="col-12">
+                    <label for="input-username-new" class="form-label">Tài khoản</label>
+                    <input type="text" name="username" class="form-control" id="input-username-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-username-new">Chưa nhập tài khoản</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-fullName-new" class="form-label">Họ và tên</label>
+                    <input type="text" name="fullName" class="form-control" id="input-fullName-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-fullName-new">Chưa nhập họ và tên</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-gender-new" class="form-label">Giới tính</label>
+                    <select id="input-gender-new" name="gender" class="form-select">
+                        <option value="">Chọn giới tính</option>
+                        <option value="MALE">Nam</option>
+                        <option value="FEMALE">Nữ</option>
+                        <option value="OTHER">Khác</option>
+                    </select>
+                    <div class="invalid-feedback" id="invalid-feedback-input-gender-new">Chưa chọn giới tính</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-phone-new" class="form-label">Số điện thoại</label>
+                    <input type="text" name="phone" class="form-control" id="input-phone-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-phone-new">Chưa nhập số điện thoại</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-email-new" class="form-label">Email</label>
+                    <input type="text" name="email" class="form-control" id="input-email-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-email-new">Chưa nhập email</div>
+                </div>
+                <div class="text-center">
+                    <button id="btn-new-account" class="btn btn-primary" type="button" data-bs-dismiss="modal">Thêm mới</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

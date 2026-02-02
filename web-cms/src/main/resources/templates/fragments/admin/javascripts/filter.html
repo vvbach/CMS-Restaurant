@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="filter" th:inline="javascript">
+    let maxPage = 10;
+    let currentPage = 1;
+    const pagination = document.getElementById('pagination');
+    let objFilter = {};
+
+    // SỬ dụng cho chức năng tìm kiếm
+    async function handleFilter(e) {
+        let url = "/v1/api/users?";
+        objFilter["username"] = document.getElementById("f-username").value || null;
+        objFilter["fullName"] = document.getElementById("f-fullName").value || null;
+        objFilter["status"] = document.getElementById("f-status").value || null;
+        objFilter["createdByName"] = document.getElementById("f-created-by").value || null;
+        objFilter["email"] = document.getElementById("f-email").value || null;
+        objFilter["phone"] = document.getElementById("f-phone").value || null;
+        objFilter["fromDate"] = document.getElementById("f-from-date").value || null;
+        objFilter["toDate"] = document.getElementById("f-to-date").value || null;
+
+        for (const [key, value] of Object.entries(objFilter))
+            url = addQuery(url, key, value);
+
+        let pageSize = document.getElementById('f-page-size').value || 10;
+        url += `pageSize=${pageSize}&page=${currentPage}`
+
+        await callApi(url, {method: 'GET'}, (data) => {
+            const tbody = document.getElementById('myTableBody');
+            tbody.innerHTML = data.data.data.map((item, index) => `
+              <tr class="cursor-pointer" onclick="viewDetail('${item.userId}')">
+                <th scope="row">${(currentPage - 1) * pageSize + index + 1}</th>
+                <td><div class="text-truncate">${item.username}</div></td>
+                <td><div class="text-truncate">${item.fullName}</div></td>
+                <td>
+                    <span class="badge rounded-pill ${item.status === 'ACTIVE' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'}">
+                        <i class="bi bi-circle-fill me-1 ${item.status === 'ACTIVE' ? 'text-success' : 'text-warning'}"></i>
+                         ${item.status === 'ACTIVE' ? 'Đang hoạt động' : 'Không hoạt động'}
+                    </span>
+                </td>
+                <td><div class="text-truncate">${item.createdByName ? item.createdByName : "Người dùng tự đăng ký"}</div></td>
+                <td><div class="text-truncate">${item.email}</div></td>
+                <td><div class="text-truncate">${item.phone}</div></td>
+                <td>${viDateTime(item.createdAt)}</td>
+              </tr>
+            `).join('');
+
+            // Tính số page tối đa
+            maxPage = Math.ceil(data.data.total / (document.getElementById('f-page-size').value || 10));
+            if (currentPage === 1)
+                createListPage()
+
+            // hiển thị số bản ghi
+            document.getElementById('count-badge').textContent = data.data.data.length + '/' + data.data.total;
+
+        });
+
+        this.disabled = false;
+    }
+
+    // Khi ấn button tìm kiếm
+    document.getElementById('btnFilter').addEventListener('click', (e) => {
+        e.preventDefault();                // Vì sao: tránh form submit mặc định
+        currentPage = 1;
+        handleFilter();
+    });
+
+    function addQuery(url, field, value) {
+        if (value)
+            return url + field + "=" + value + "&";
+        else
+            return url;
+    }
+</script>
+</html>

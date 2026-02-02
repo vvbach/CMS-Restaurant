@@ -1,0 +1,182 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="view-detail" th:inline="javascript">
+    async function viewDetail(id) {
+        viewUIDetail()
+        let url = "/v1/api/users/" + id
+        await callApi(url, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'},
+        }, (resp) => {
+            const d = resp?.data ?? resp;
+            const imgEl = document.getElementById('detail-image');
+            imgEl.src = d?.avatar;
+            imgEl.alt = fileNameFromPath(d?.avatar) || 'image';
+
+            document.getElementById('detail-id').value = d?.id ?? '';
+            document.getElementById('detail-username').value = d?.username ?? '';
+            document.getElementById('detail-fullName').value = d?.fullName ?? '';
+            document.getElementById('detail-phone').value = d?.phone ?? '';
+            document.getElementById('detail-email').value = d?.email ?? '';
+            document.getElementById('detail-phone').value = d?.phone ?? '';
+            document.getElementById('detail-gender').value = d?.gender;
+            const statusEl = document.getElementById('detail-status');
+            if (d?.status === "ACTIVE")
+                statusEl.innerHTML = `
+                <span class="badge rounded-pill bg-success-subtle text-success">
+                    <i class="bi bi-circle-fill me-1 text-success"></i>
+                     Active
+                </span>
+                `
+            else
+                statusEl.innerHTML = `
+                <span class="badge rounded-pill bg-warning-subtle text-warning">
+                    <i class="bi bi-circle-fill me-1 text-warning"></i>
+                    Inactive
+                </span>
+                `
+
+            document.getElementById('detail-is-delete').value = mapIsDelete(d?.isDelete);
+
+            document.getElementById('inputAuthor').value = d?.createdByName || d?.createdBy || 'Self-registered user';
+            document.getElementById('inputCreateAt').value = viDateTime(d?.createdAt);
+
+            document.getElementById('inputUpdater').value = d?.updatedByName || d?.updatedBy || '-';
+            document.getElementById('inputUpdateAt').value = viDateTime(d?.updatedAt);
+
+            addTimeline(d?.history);
+
+            hideDetailButtons(d?.isDelete === 'YES', d?.status === 'ACTIVE');
+        });
+
+        document.getElementById("detail-roles").innerHTML = ""
+        await callApi(`/v1/api/users/${id}/roles`, {
+            method: "GET",
+            headers: {"Content-Type": "application/json"}
+        }, (res) => {
+            const roles = res?.data;
+            if (!roles || roles.length === 0) {
+                document.getElementById("detail-roles").innerHTML = `<span class="text-dark">This user has no role</span>`
+            }
+
+            for (const role of roles) {
+                document.getElementById("detail-roles").innerHTML += `
+                <span class="badge rounded-pill text-bg-secondary">
+                    ${role.name} - ${role.code}
+                </span>
+            `
+            }
+
+        })
+        this.disabled = false;
+    }
+
+    historyAttExclusion = ["eventDate", "revisionType", "userId"]
+
+    function addTimeline(history) {
+        const accountTimeline = document.getElementById("account-timeline");
+        accountTimeline.innerHTML = "";
+        if (history.length > 0) {
+            // The backend should return the history list in the ascending date order
+            const timelinePieces = [];
+            // The first should always be an insertion
+            timelinePieces.push(createTimelinePiece(
+                history[0].revisionType,
+                history[0].eventDate
+            ));
+
+            let prev = history[0];
+            history.forEach((item, index) => {
+                if (index === 0) return;
+
+                // Find fields changed comparing to the previous
+                const changedAtts = [];
+                for (const prop in item) {
+                    let flag = false;
+                    for (const att of historyAttExclusion) {
+                        if (att === prop) {
+                            flag = true
+                            break;
+                        }
+                    }
+                    if (flag) continue;
+
+                    if (item[prop] !== prev[prop])
+                        changedAtts.push(prop)
+                }
+
+                timelinePieces.push(createTimelinePiece(
+                    item.revisionType,
+                    item.eventDate,
+                    ...changedAtts
+                ));
+
+                prev = item;
+            })
+
+            timelinePieces.reverse();
+            for (const piece of timelinePieces)
+                accountTimeline.appendChild(piece);
+
+        } else {
+            accountTimeline.innerHTML = "<p>This account has no update</p>"
+        }
+    }
+
+    function createTimelinePiece(type, time, ...attributes) {
+        const piece = document.createElement("li");
+        const timelineTime = document.createElement("p")
+        const timelineContent = document.createElement("p")
+
+        piece.classList.add("timeline-piece");
+        timelineTime.classList.add("timeline-time");
+        timelineContent.classList.add("timeline-content");
+
+        timelineTime.innerText = viDateTime(time);
+        if (type === "INSERT") {
+            timelineContent.innerText = "Account created"
+        } else if (type === "UPDATE") {
+            if (attributes.length > 0) {
+                timelineContent.innerText = "Account updated"
+                timelineContent.innerText += attributes[0];
+                for (let i = 1; i < attributes.length; i++) {
+                    timelineContent.innerText += ", " + attributes[i];
+                }
+            } else {
+                timelineContent.innerText = "Account updated without any change"
+            }
+        } else {
+            timelineContent.innerText = "Account deleted"
+        }
+
+        piece.appendChild(timelineTime)
+        piece.appendChild(timelineContent)
+
+        return piece;
+    }
+
+    function hideDetailButtons(isDelete, isActive) {
+        if (isDelete) {
+            document.getElementById('delete-account-btn').classList.add('d-none')
+            document.getElementById('restore-account-btn').classList.remove('d-none')
+            document.getElementById('disable-account-btn').classList.add('d-none')
+            document.getElementById('enable-account-btn').classList.add('d-none')
+            document.getElementById('open-update-modal-btn').classList.add('d-none')
+        } else {
+            document.getElementById('delete-account-btn').classList.remove('d-none')
+            document.getElementById('restore-account-btn').classList.add('d-none')
+            document.getElementById('disable-account-btn').classList.remove('d-none')
+            document.getElementById('enable-account-btn').classList.remove('d-none')
+            document.getElementById('open-update-modal-btn').classList.remove('d-none')
+
+            if (isActive) {
+                document.getElementById('disable-account-btn').classList.remove('d-none')
+                document.getElementById('enable-account-btn').classList.add('d-none')
+            } else {
+                document.getElementById('disable-account-btn').classList.add('d-none')
+                document.getElementById('enable-account-btn').classList.remove('d-none')
+            }
+        }
+    }
+
+</script>
+</html>

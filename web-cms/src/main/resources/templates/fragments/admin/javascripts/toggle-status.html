@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="toggle-status" th:inline="javascript">
+    async function disableAccount() {
+        const userId = document.getElementById("detail-id").value;
+
+        let url = "/v1/api/users/disable/" + userId;
+
+        await callApi(url, {
+            method: 'PUT',
+        }, (res) => {
+            showSuccessDialog(res.message)
+            handleFilter()
+            viewDetail(userId);
+        });
+    }
+
+    async function enableAccount() {
+        const userId = document.getElementById("detail-id").value;
+
+        let url = "/v1/api/users/enable/" + userId;
+
+        await callApi(url, {
+            method: 'PUT',
+        }, (res) => {
+            showSuccessDialog(res.message)
+            handleFilter()
+            viewDetail(userId);
+        });
+    }
+</script>
+</html>

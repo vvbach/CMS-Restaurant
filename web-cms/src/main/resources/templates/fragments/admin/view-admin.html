@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<main th:fragment="view-admin" id="main" class="main">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12" id="list-data">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="card-title">Danh sách tài khoản</div>
+                            <button id="openModalNewBtn" class="btn btn-icon me-1"
+                                    data-bs-toggle="modal" data-bs-target="#popup-new">
+                                <i class="ri-play-list-add-line fs-5"></i>
+                            </button>
+                        </div>
+                        <div class="tab-content" id="myTabjustifiedContent">
+                            <div th:replace="~{/fragments/admin/table-filter :: table-filter}"></div>
+                            <div th:replace="~{/fragments/admin/account-table :: account-table}"></div>
+                        </div><!-- End Default Tabs -->
+                        <div th:replace="~{/fragments/admin/account-pagination :: account-pagination}"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Hiển thị màn hình thông tin chi tiết -->
+            <div th:replace="~{/fragments/admin/account-detail :: account-detail}"></div>
+        </div>
+    </section>
+    <!-- popup hiển thị để cập nhật thông tin-->
+    <div th:replace="~{/fragments/admin/popups/update-account-popup :: update-account-popup}"></div>
+
+    <!-- popup thêm mới-->
+    <div th:replace="~{/fragments/admin/popups/add-account-popup :: add-account-popup}"></div>
+
+    <!--    Tạo tài khoản  -->
+    <script th:replace="~{/fragments/admin/javascripts/add-account :: add-account}"></script>
+
+    <!-- Thông tin detail -->
+    <script th:replace="~{/fragments/admin/javascripts/view-detail :: view-detail}"></script>
+
+    <!--  Xóa tài khoản  -->
+    <script th:replace="~{/fragments/admin/javascripts/delete-account :: delete-account}"></script>
+
+    <!-- filter -->
+    <script th:replace="~{/fragments/admin/javascripts/filter :: filter}"></script>
+
+    <!--    Toggle user Status  -->
+    <script th:replace="~{/fragments/admin/javascripts/toggle-status :: toggle-status}"></script>
+
+    <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
+
+    <script>
+        (async () => {
+            await window.authReady
+
+            hideAddBtn("USER")
+            hideUpdateBtn("USER")
+            hideDeleteBtn("USER")
+
+            if (!rolesPermissions.hasPermission("USER_UPDATE_STATUS")) {
+                document.getElementById("disable-account-btn").remove()
+                document.getElementById("enable-account-btn").remove()
+            }
+
+            if (!rolesPermissions.hasPermission("USER_RESTORE"))
+                document.getElementById("restore-account-btn").remove()
+
+            handleFilter()
+        })();
+    </script>
+</main>
+</html>

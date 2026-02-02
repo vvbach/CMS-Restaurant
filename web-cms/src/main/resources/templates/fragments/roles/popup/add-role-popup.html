@@ -1,0 +1,330 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="add-role-popup" class="modal fade clearfix" id="popup-new" tabindex="-1"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-content modal-dialog modal-lg">
+        <div class="modal-body">
+            <h2 class="card-title mb-0 me-2">Thêm mới</h2>
+            <form id="form-new" class="row g-3">
+                <div class="col-12">
+                    <label for="input-name-new" class="form-label">Vai trò</label>
+                    <input type="text" name="name" class="form-control" id="input-name-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-name-new">Chưa nhập tên vai trò</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-code-new" class="form-label">Code</label>
+                    <input type="text" name="code" class="form-control" id="input-code-new">
+                    <div class="invalid-feedback" id="invalid-feedback-input-code-new">Chưa nhập Code</div>
+                </div>
+                <div class="col-12">
+                    <label for="input-description-new" class="form-label">Mô tả</label>
+                    <textarea name="description" class="form-control" id="input-description-new"></textarea>
+                    <div class="invalid-feedback" id="invalid-feedback-input-description-new">Chưa nhập Mô tả</div>
+                </div>
+                <div class="col-12" id="addPermissionsPickerContainer">
+                    <label class="form-label">Quyền</label>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex mb-2">
+                                <input id="permSearch" class="form-control me-2"
+                                       placeholder="Tìm permission theo tên hoặc code">
+                                <button id="permReloadBtn" type="button" class="btn btn-outline-secondary"
+                                        title="Tải lại permissions">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>
+                            </div>
+
+                            <div id="permissionsGroups" class="accordion" role="tablist">
+                                <!-- Nội dung các group (cha -> con) sẽ được render ở đây -->
+                                <div id="permissionsSpinner" class="text-center text-muted small py-3">Đang tải
+                                    quyền...
+                                </div>
+                            </div>
+
+                            <div class="mt-3 d-flex justify-content-between align-items-center">
+                                <div class="small text-muted">Chọn quyền</div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="permSelectAll">
+                                    <label class="form-check-label small" for="permSelectAll">Chọn tất cả</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hidden input dùng để lấy giá trị permission khi tạo role mới -->
+                    <!-- Giá trị lưu dạng: "1,2,3" (comma-separated). Nếu backend muốn mảng JSON, parse trước khi gửi. -->
+                    <input type="hidden" id="permissionIdsInput" name="permission_ids" value="">
+                </div>
+                <div class="text-center">
+                    <button id="btn-new-role" class="btn btn-primary" type="button" data-bs-dismiss="modal">Thêm
+                        mới
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            const groupsEl = document.getElementById('permissionsGroups');
+            const spinnerEl = document.getElementById('permissionsSpinner');
+            const permSearch = document.getElementById('permSearch');
+            const permReloadBtn = document.getElementById('permReloadBtn');
+            const selectAllCb = document.getElementById('permSelectAll');
+            const permissionIdsInput = document.getElementById('permissionIdsInput');
+
+            let allPerms = [];     // cache: mảng permissions raw từ server
+            let parents = [];      // level 1
+            let childrenMap = {};  // map parentId -> [childPerms]
+
+            // Utility: escape
+            function esc(s) {
+                return String(s || '').replace(/[&<>"']/g, ch => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[ch]));
+            }
+
+            // Lấy danh sách permissions từ API
+            function loadPermissions(onDone) {
+                groupsEl.innerHTML = '<div id="permissionsSpinner" class="text-center text-muted small py-3">Đang tải permissions...</div>';
+                callApi('/v1/api/permissions', {method: 'GET'}, function (resp) {
+                    // resp có thể là mảng hoặc { data: [...] }
+                    const data = Array.isArray(resp) ? resp : (resp && Array.isArray(resp.data) ? resp.data : []);
+                    allPerms = data.slice(); // copy
+                    normalizeAndRender();
+                    if (typeof onDone === 'function') onDone();
+                });
+            }
+
+            // Phân nhóm theo level và parentPermission
+            function normalizeAndRender() {
+                parents = allPerms.filter(p => Number(p.level) === 1);
+                const children = allPerms.filter(p => Number(p.level) === 2);
+                childrenMap = {};
+                children.forEach(c => {
+                    const pid = c.parentPermission == null ? 'null' : String(c.parentPermission);
+                    if (!childrenMap[pid]) childrenMap[pid] = [];
+                    childrenMap[pid].push(c);
+                });
+                renderGroups(parents, childrenMap);
+                updateSelectAllState();
+            }
+
+            // Render UI: mỗi parent thành 1 accordion item (hoặc đơn giản 1 card)
+            function renderGroups(parents, childrenMap) {
+                groupsEl.innerHTML = '';
+                if (!parents.length && Object.keys(childrenMap).length === 0) {
+                    groupsEl.innerHTML = '<div class="text-center text-muted small py-3">Không có permission</div>';
+                    return;
+                }
+
+                parents.forEach((p, idx) => {
+                    const groupId = `perm-group-${p.id || idx}`;
+                    const card = document.createElement('div');
+                    card.className = 'card mb-2';
+                    card.innerHTML = `
+                    <div class="card-body p-2 d-flex align-items-start">
+                      <div class="form-check me-3">
+                        <input class="form-check-input parent-perm-checkbox" type="checkbox" id="parent-${groupId}" data-perm-id="${esc(p.id)}">
+                      </div>
+                      <div class="flex-grow-1">
+                        <div class="fw-bold">${esc(p.name)}</div>
+                        <div class="small text-muted">${esc(p.code || '')}</div>
+                        <div class="mt-2 child-list" id="child-list-${groupId}"></div>
+                      </div>
+                    </div>
+                  `;
+                    groupsEl.appendChild(card);
+
+                    // render children (nếu có)
+                    const childListEl = card.querySelector(`#child-list-${groupId}`);
+                    const chs = childrenMap[String(p.id)] || [];
+                    if (chs.length) {
+                        chs.forEach(ch => {
+                            const item = document.createElement('div');
+                            item.className = 'form-check';
+                            item.innerHTML = `
+                            <input class="form-check-input perm-checkbox me-2" type="checkbox" id="perm-${p.id}-${ch.id}" data-perm-id="${esc(ch.id)}" data-parent-id="${esc(p.id)}">
+                            <label class="form-check-label" for="perm-${p.id}-${ch.id}">
+                              <span class="fw-medium">${esc(ch.name)}</span>
+                              <div class="small text-muted">${esc(ch.code || '')}</div>
+                            </label>
+                          `;
+                            childListEl.appendChild(item);
+                        });
+                    } else {
+                        // Nếu không có children: hiển thị 1 dòng mô tả (cấp cha cũng là permission có thể chọn)
+                        const single = document.createElement('div');
+                        single.className = 'form-check mt-2';
+                        single.innerHTML = `
+          <input class="form-check-input perm-checkbox me-2" type="checkbox" id="perm-${p.id}-self" data-perm-id="${esc(p.id)}" data-parent-id="">
+          <label class="form-check-label" for="perm-${p.id}-self">${esc(p.name)} <div class="small text-muted">${esc(p.code || '')}</div></label>
+        `;
+                        childListEl.appendChild(single);
+                    }
+                });
+
+                // Add any level-2 permissions whose parent is missing from parents (edge-case)
+                const orphanKeys = Object.keys(childrenMap).filter(k => k !== 'null' && !parents.some(p => String(p.id) === k));
+                orphanKeys.forEach(k => {
+                    const chs = childrenMap[k] || [];
+                    chs.forEach(ch => {
+                        const item = document.createElement('div');
+                        item.className = 'card mb-2';
+                        item.innerHTML = `
+                          <div class="card-body p-2">
+                            <div class="form-check">
+                              <input class="form-check-input perm-checkbox me-2" type="checkbox" id="perm-orphan-${ch.id}" data-perm-id="${esc(ch.id)}" data-parent-id="">
+                              <label class="form-check-label" for="perm-orphan-${ch.id}">
+                                <span class="fw-medium">${esc(ch.name)}</span>
+                                <div class="small text-muted">${esc(ch.code || '')}</div>
+                              </label>
+                            </div>
+                          </div>
+                        `;
+                        groupsEl.appendChild(item);
+                    });
+                });
+
+                // gắn listener cho các checkbox vừa render
+                attachCheckboxHandlers();
+            }
+
+            // Gắn sự kiện cho checkbox: parent and children
+            function attachCheckboxHandlers() {
+                // parent checkboxes
+                const parentCbs = groupsEl.querySelectorAll('.parent-perm-checkbox');
+                parentCbs.forEach(cb => {
+                    cb.addEventListener('change', (e) => {
+                        const pid = cb.getAttribute('data-perm-id');
+                        // all child checkboxes with data-parent-id = pid
+                        const childCbs = groupsEl.querySelectorAll(`.perm-checkbox[data-parent-id="${pid}"]`);
+                        if (childCbs.length) {
+                            childCbs.forEach(ch => {
+                                ch.checked = cb.checked;
+                            });
+                        } else {
+                            // nếu parent cũng là permission (no children), ensure its own perm-checkbox exists and sync
+                            const self = groupsEl.querySelector(`.perm-checkbox[data-perm-id="${pid}"]`);
+                            if (self) self.checked = cb.checked;
+                        }
+                        updateParentIndeterminate(pid);
+                        updateHiddenInputFromUI();
+                        updateSelectAllState();
+                    });
+                });
+
+                // child checkboxes
+                const childCbs = groupsEl.querySelectorAll('.perm-checkbox');
+                childCbs.forEach(ch => {
+                    ch.addEventListener('change', (e) => {
+                        const parentId = ch.getAttribute('data-parent-id');
+                        if (parentId) {
+                            updateParentIndeterminate(parentId);
+                        } else {
+                            // nếu checkbox độc lập, cũng cần update tương ứng parent checkbox nếu tồn tại
+                            // nothing
+                        }
+                        updateHiddenInputFromUI();
+                        updateSelectAllState();
+                    });
+                });
+            }
+
+            // Cập nhật thuộc tính indeterminate/checked cho parent dựa trên trạng thái con
+            function updateParentIndeterminate(parentId) {
+                const parentCb = groupsEl.querySelector(`.parent-perm-checkbox[data-perm-id="${parentId}"]`);
+                const childCbs = groupsEl.querySelectorAll(`.perm-checkbox[data-parent-id="${parentId}"]`);
+                if (!parentCb) return;
+                if (!childCbs.length) {
+                    // nếu không có con, parent là checkbox độc lập => không set indeterminate
+                    return;
+                }
+                const checkedCount = Array.from(childCbs).filter(c => c.checked).length;
+                if (checkedCount === 0) {
+                    parentCb.checked = false;
+                    parentCb.indeterminate = false;
+                } else if (checkedCount === childCbs.length) {
+                    parentCb.checked = true;
+                    parentCb.indeterminate = false;
+                } else {
+                    parentCb.checked = false;
+                    parentCb.indeterminate = true;
+                }
+            }
+
+            // Lấy tất cả permission id được check trong UI và cập nhật hidden input (comma-separated)
+            function updateHiddenInputFromUI() {
+                const checked = Array.from(groupsEl.querySelectorAll('.perm-checkbox:checked'))
+                    .map(cb => String(cb.getAttribute('data-perm-id')));
+                // một số parent (cấp 1) có checkbox riêng (class parent-perm-checkbox), include cả checkbox parent nếu level 1 và không có child
+                const checkedParents = Array.from(groupsEl.querySelectorAll('.parent-perm-checkbox:checked'))
+                    .map(cb => String(cb.getAttribute('data-perm-id')));
+                // Merge unique
+                const merged = Array.from(new Set([...checkedParents, ...checked]));
+                permissionIdsInput.value = merged.join(',');
+            }
+
+            // Select all toggle
+            selectAllCb.addEventListener('change', () => {
+                const allCbs = groupsEl.querySelectorAll('.parent-perm-checkbox, .perm-checkbox');
+                allCbs.forEach(cb => cb.checked = selectAllCb.checked);
+                // reset indeterminate
+                groupsEl.querySelectorAll('.parent-perm-checkbox').forEach(cb => cb.indeterminate = false);
+                updateHiddenInputFromUI();
+            });
+
+            function updateSelectAllState() {
+                const allInputs = groupsEl.querySelectorAll('.parent-perm-checkbox, .perm-checkbox');
+                if (!allInputs.length) {
+                    selectAllCb.checked = false;
+                    selectAllCb.indeterminate = false;
+                    return;
+                }
+                const checkedCount = Array.from(allInputs).filter(i => i.checked).length;
+                if (checkedCount === 0) {
+                    selectAllCb.checked = false;
+                    selectAllCb.indeterminate = false;
+                } else if (checkedCount === allInputs.length) {
+                    selectAllCb.checked = true;
+                    selectAllCb.indeterminate = false;
+                } else {
+                    selectAllCb.checked = false;
+                    selectAllCb.indeterminate = true;
+                }
+            }
+
+            // Search filter
+            permSearch.addEventListener('input', () => {
+                const q = permSearch.value.trim().toLowerCase();
+                if (!q) {
+                    groupsEl.querySelectorAll('.card, .card .form-check, .card .form-check-label').forEach(el => el.style.display = '');
+                    return;
+                }
+                // hide groups where neither parent nor any child match
+                const cards = groupsEl.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(q) ? '' : 'none';
+                });
+            });
+
+            permReloadBtn.addEventListener('click', () => {
+                loadPermissions(() => {
+                    // nothing else
+                });
+            });
+
+            // Nếu muốn tự động load khi script chạy:
+            loadPermissions();
+
+        });
+    </script>
+
+</div>
+</html>

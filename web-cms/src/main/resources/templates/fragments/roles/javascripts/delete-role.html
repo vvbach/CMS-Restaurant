@@ -1,0 +1,17 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="delete-role" th:inline="javascript">
+    async function deleteRole() {
+        const userId = document.getElementById("detail-id").value;
+
+        let url = "/v1/api/roles/" + userId;
+
+        await callApi(url, {
+            method: 'DELETE',
+        }, (res) => {
+            showSuccessDialog(res.data.message)
+            handleFilter()
+            viewDetail(userId);
+        });
+    }
+</script>
+</html>

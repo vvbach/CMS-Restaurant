@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<aside th:fragment="nav(viewName)" id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+        <!-- Start Account Nav -->
+        <li class="nav-item">
+            <a href="/admin" class="nav-link" th:classappend="${viewName} != 'view-admin' ? 'collapsed' : ''">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Account</span>
+            </a>
+        </li>
+        <!-- End Account Nav -->
+        <!-- Start Role Nav -->
+        <li id="roleNavItem" class="nav-item">
+            <a href="/roles" class="nav-link" th:classappend="${viewName} != 'view-roles' ? 'collapsed' : ''">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Role</span>
+            </a>
+        </li>
+        <!-- End Role Nav -->
+        <!-- Start Home Nav -->
+        <li id="layoutPageNavItem" class="nav-item">
+            <a class="nav-link" th:classappend="${viewName.startsWith('layout-page')} ? '' : 'collapsed'"
+               data-bs-toggle="collapse" data-bs-target="#layout-page-nav">
+                <i class="bi bi-journal-text"></i>
+                <span>Main Layout</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="layout-page-nav" class="nav-content collapse "
+                th:classappend="${viewName.startsWith('layout-page')} ? 'show' : ''" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/layout-page/social-link"
+                       th:classappend="${viewName} == 'layout-page-social-link' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Social Link</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/layout-page/logo-page"
+                       th:classappend="${viewName} == 'layout-page-logo-page' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Logo Web</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/layout-page/admin-unit"
+                       th:classappend="${viewName} == 'layout-page-admin-unit' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Admin Unit</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/layout-page/motto"
+                       th:classappend="${viewName} == 'layout-page-motto' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Motto</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li id="categoryPageNavItem" class="nav-item">
+            <a href="/category-page" class="nav-link"
+               th:classappend="${viewName} != 'category-page' ? 'collapsed' : ''">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Category</span>
+            </a>
+        </li>
+        <li id="homePageNavItem" class="nav-item">
+            <a class="nav-link" th:classappend="${viewName.startsWith('home-page')} ? '' : 'collapsed'"
+               data-bs-toggle="collapse" data-bs-target="#home-page-nav">
+                <i class="bi bi-journal-text"></i>
+                <span>Home Page</span>
+                <i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+            <ul id="home-page-nav" class="nav-content collapse "
+                th:classappend="${viewName.startsWith('home-page')} ? 'show' : ''" data-bs-parent="#sidebar-nav">
+                <li>
+                    <a href="/home-page/home-main-banner"
+                       th:classappend="${viewName} == 'home-page-home-main-banner' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Main Banner</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/home-page/featured-category"
+                       th:classappend="${viewName} == 'home-page-featured-category' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Featured Category</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/home-page/home-best-food"
+                       th:classappend="${viewName} == 'home-page-home-best-food' ? 'active' : ''">
+                        <i class="bi bi-circle"></i><span>Best Food</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <!-- Start Product Nav -->
+        <li id="productNavItem" class="nav-item">
+            <a href="/product" class="nav-link" th:classappend="${viewName} != 'product' ? 'collapsed' : ''">
+                <i class="bi bi-substack"></i>
+                <span>Product</span>
+            </a>
+        </li>
+        <!-- End Product Nav -->
+        <!-- Start Category Nav -->
+        <li id="categoryNavItem" class="nav-item">
+            <a href="/category" class="nav-link" th:classappend="${viewName} != 'category' ? 'collapsed' : ''">
+                <i class="bi bi-substack"></i>
+                <span>Category</span>
+            </a>
+        </li>
+        <!-- End Category Nav -->
+        <!-- Start About Nav -->
+        <li id="aboutPageNavItem" class="nav-item">
+            <a href="/about" class="nav-link" th:classappend="${viewName} != 'about' ? 'collapsed' : ''">
+                <i class="bi bi-info-square"></i>
+                <span>About Page</span>
+            </a>
+        </li>
+        <!-- End About Nav -->
+        <!-- Start Contact Nav -->
+        <li id="contactPageNavItem" class="nav-item">
+            <a href="/contact" class="nav-link" th:classappend="${viewName} != 'contact' ? 'collapsed' : ''">
+                <i class="bi bi-envelope"></i>
+                <span>Contact Page</span>
+            </a>
+        </li>
+        <!-- End Contact Nav -->
+        <!-- Start Media Nav -->
+        <li class="nav-item">
+            <a href="/web/image-web" class="nav-link" th:classappend="${viewName} != 'image-web' ? 'collapsed' : ''">
+                <i class="bi bi-image-fill"></i>
+                <span>Image Library</span>
+            </a>
+        </li>
+        <!-- End Media Nav -->
+        <li class="nav-item">
+            <a href="/send-email" class="nav-link" th:classappend="${viewName} != 'send-email' ? 'collapsed' : ''">
+                <i class="bi bi-mailbox-flag"></i>
+                <span>Email Sending</span>
+            </a>
+        </li>
+    </ul>
+</aside>
+
+</html>

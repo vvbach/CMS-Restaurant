@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="load-profile-detail" th:inline="javascript">
+    const profileTextFields = ['fullName', 'gender', 'phone', 'email']
+
+    document.addEventListener("DOMContentLoaded", loadProfile)
+
+    async function loadProfile() {
+        const url = "/v1/api/users/current"
+        await callApi(url, {
+            method: 'GET',
+            headers: {'Content-Type': 'application/json'}
+        }, (data) => {
+            loadProfileAvatar(data.data.avatar);
+            loadFullNameTitle(data.data.fullName);
+            loadStatus(data.data.status);
+            loadProfileTextFields(profileTextFields, data.data);
+
+            insertProfileDetailIntoUpdate(data.data);
+        });
+    }
+
+    function loadProfileAvatar(avatar) {
+        if (avatar) {
+            document.getElementById('profile-avatar').src = avatar;
+        }
+    }
+
+    function loadProfileTextFields(fields, data) {
+        for (const field of fields)
+            document.getElementById(`profile-${field}`).innerText = data[field];
+    }
+
+    function loadStatus(status) {
+        document.getElementById('profile-status').innerHTML = `
+            <span class="badge rounded-pill ${status === 'ACTIVE' ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning'}">
+                <i class="bi bi-circle-fill me-1 ${status === 'ACTIVE' ? 'text-success' : 'text-warning'}"></i>
+                 ${status === 'ACTIVE' ? 'Đang hoạt động' : 'Không hoạt động'}
+            </span>
+            `
+    }
+
+    function loadFullNameTitle(fullName) {
+        document.getElementById('profile-fullName-title').innerText = fullName;
+    }
+
+    function insertProfileDetailIntoUpdate(data) {
+        for (const field of profileTextFields) {
+            document.getElementById(`update-${field}`).value = data[field]
+        }
+
+        document.getElementById('update-avatar-view').src = data.avatar;
+    }
+</script>
+</html>

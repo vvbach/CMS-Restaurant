@@ -1,0 +1,107 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="account-detail" class="col-lg-4 d-none" id="detail">
+    <div class="card accordion-item">
+        <div class="card-body">
+            <div class="col d-flex align-items-center justify-content-between">
+                <h2 class="card-title mb-0 me-2">Thông tin chi tiết</h2>
+                <div class="d-flex justify-content-end">
+                    <button id="open-update-modal-btn" class="btn btn-outline-info btn-icon btn-sm me-1"
+                            data-bs-toggle="modal" data-bs-target="#popup-update">
+                        <i class="ri-pencil-fill fs-5"></i>
+                    </button>
+                    <button id="restore-account-btn" class="btn btn-outline-success btn-icon btn-sm me-1"
+                            data-bs-toggle="modal" data-bs-target="#restore-account-popup">
+                        <i class="bi bi-arrow-clockwise fs-5"></i>
+                    </button>
+                    <button id="delete-account-btn" class="btn btn-outline-danger btn-icon btn-sm me-1"
+                            data-bs-toggle="modal" data-bs-target="#delete-account-popup">
+                        <i class="ri-delete-bin-fill fs-5"></i>
+                    </button>
+                    <button id="disable-account-btn" class="btn btn-outline-warning btn-icon btn-sm me-1"
+                            onclick="disableAccount()">
+                        <i class="bi bi-ban fs-5"></i>
+                    </button>
+                    <button id="enable-account-btn" class="btn btn-outline-success btn-icon btn-sm me-1"
+                            onclick="enableAccount()">
+                        <i class="bi bi-check-circle fs-5"></i>
+                    </button>
+                    <button data-bs-toggle="modal" class="btn btn-outline-secondary btn-icon btn-sm"
+                            onclick="viewOrHiddenDetail()">
+                        <i class="bi bi-arrow-bar-right fs-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style=" overflow-y: auto; border: 1px solid #ccc; padding: 10px; height: 80vh">
+                <div class="row g-3" id="view-detail">
+                    <div>
+                        <label for="detail-id" class="d-none"></label>
+                        <input type="text" class="form-control" id="detail-id" hidden="hidden" disabled/>
+                    </div>
+                    <img src="" id="detail-image" class="card-img-top" alt="">
+                    <div class="col-12">
+                        <label for="detail-username" class="form-label">Tài khoản</label>
+                        <input type="text" class="form-control" id="detail-username" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-roles" class="form-label">Vai trò</label>
+                        <div id="detail-roles"></div>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-fullName" class="form-label">Họ và tên</label>
+                        <input type="text" class="form-control" id="detail-fullName" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="detail-phone" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="detail-email" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-gender" class="form-label">Giới tính</label>
+                        <input type="text" class="form-control" id="detail-gender" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <p class="form-label">Trạng thái</p>
+                        <div id="detail-status"></div>
+                    </div>
+                    <div class="col-12">
+                        <label for="detail-is-delete" class="form-label">Trạng thái xóa</label>
+                        <input type="text" class="form-control" id="detail-is-delete" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAuthor" class="form-label">Người tạo</label>
+                        <input type="text" class="form-control" id="inputAuthor" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputCreateAt" class="form-label">Ngày tạo</label>
+                        <input type="text" class="form-control" id="inputCreateAt" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputUpdater" class="form-label">Người update gần nhất</label>
+                        <input type="text" class="form-control" id="inputUpdater" disabled/>
+                    </div>
+                    <div class="col-12">
+                        <label for="inputUpdateAt" class="form-label">Ngày update gần nhất</label>
+                        <input type="text" class="form-control" id="inputUpdateAt" disabled/>
+                    </div>
+                </div>
+                <!-- Lịch sử cập nhật -->
+                <div class="timeline-container mt-4">
+                    <div class="timeline-wrapper">
+                        <h3>Lịch sử cập nhật</h3>
+                        <ul id="account-timeline" class="timeline-sessions ps-0"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    Popup xác nhận xóa  -->
+    <div th:replace="~{/fragments/components/confirm-delete-popup :: confirm-delete-popup(
+    name = 'người dùng', popupId = 'delete-account-popup', onclick = 'deleteAccount()')}"></div>
+    <!--    Popup xác nhận khôi phục  -->
+    <div th:replace="~{/fragments/admin/popups/restore-account-popup :: restore-account-popup}"></div>
+</div>
+</html>

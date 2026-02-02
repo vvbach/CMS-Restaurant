@@ -1,0 +1,153 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<main th:fragment="register">
+    <div class="container">
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="#" class="logo d-flex align-items-center w-auto">
+                                <img th:src="@{/img/logo.png}" alt="">
+                                <span class="d-none d-lg-block">BếpĂnVTIT</span>
+                            </a>
+                        </div><!-- End Logo -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">Tạo tài khoản</h5>
+                                    <p class="text-center small">Hãy nhập thông tin cá nhân để tạo tài khoản</p>
+                                </div>
+                                <form id="register-form" class="row g-3 needs-validation" novalidate>
+                                    <div class="col-12">
+                                        <label for="register-fullName" class="form-label">Họ và tên</label>
+                                        <input type="text" name="fullName" class="form-control" id="register-fullName"
+                                               required>
+                                        <div class="invalid-feedback">Hãy nhập họ và tên của bạn!</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-email" class="form-label">Email</label>
+                                        <input type="email" name="email" class="form-control" id="register-email"
+                                               required>
+                                        <div class="invalid-feedback">Hãy nhập email của bạn!</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-phone" class="form-label">Số điện thoại</label>
+                                        <input type="text" name="phone" class="form-control" id="register-phone"
+                                               required>
+                                        <div class="invalid-feedback">Hãy nhập số điện thoại của bạn!</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-gender" class="form-label">Giới tính</label>
+                                        <select id="register-gender" name="gender" class="form-select">
+                                            <option value="">Chọn giới tính</option>
+                                            <option value="MALE">Nam</option>
+                                            <option value="FEMALE">Nữ</option>
+                                            <option value="OTHER">Khác</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-username" class="form-label">Tài khoản</label>
+                                        <div class="input-group has-validation">
+                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                            <input type="text" name="username" class="form-control"
+                                                   id="register-username" required>
+                                            <div class="invalid-feedback">Hãy nhập tài khoản.</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-password" class="form-label">Mật khẩu</label>
+                                        <input type="password" name="password" class="form-control"
+                                               id="register-password" required>
+                                        <div class="invalid-feedback">Hãy nhập mật khẩu!</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="register-retypedPassword" class="form-label">Nhập lại mật
+                                            khẩu</label>
+                                        <input type="password" class="form-control" id="register-retypedPassword"
+                                               required>
+                                        <div class="invalid-feedback">Hãy nhập lại mật khẩu!</div>
+                                    </div>
+                                    <div class="col-12">
+                                        <p id="register-feedback" class="text-danger d-none"></p>
+                                    </div>
+                                    <div class="col-12">
+                                        <button id="register-btn" class="btn btn-primary w-100" type="submit">Tạo tài
+                                            khoản
+                                        </button>
+                                    </div>
+                                    <div class="col-12">
+                                        <p class="small mb-0">Đã có tài khoản? <a href="/login">Đăng nhập ngay</a></p>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script th:inline="javascript">
+        document.getElementById('register-retypedPassword').addEventListener('input', (e) => {
+            if (e.target.value.trim() === "")
+                return;
+
+            const password = document.getElementById('register-password').value
+            const feedback = document.getElementById('register-feedback')
+            if (e.target.value !== password) {
+                feedback.innerText = 'Mật khẩu không trùng khớp'
+                feedback.classList.remove('d-none')
+            } else {
+                feedback.classList.add('d-none')
+            }
+        })
+
+        document.getElementById('register-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const inputFields = ['username', 'fullName', 'gender', 'email', 'phone'];
+            for (const inputField of inputFields)
+                updateInputValidationUI(inputField)
+
+            const form = document.getElementById('register-form');
+            this.disabled = true;
+
+            // Lấy dữ liệu form
+            let fetchBody = {}
+            const formData = new FormData(form);
+            formData.forEach((value, key) => fetchBody[key] = value);
+
+            if (fetchBody['password'] !== document.getElementById('register-retypedPassword').value) {
+                const feedback = document.getElementById('register-feedback')
+                feedback.innerText = 'Mật khẩu không trùng khớp'
+                feedback.classList.remove('d-none')
+                return;
+            }
+
+            try {
+                const data = await callApi('/v1/api/public/register', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify(fetchBody)
+                    }
+                    , (data) => {
+                        showSuccessDialog(data.message)
+                        window.location.replace("/login")
+                    });
+            } catch (err) {
+                // đã show toast lỗi trong callApi; vẫn có thể xử lý thêm ở đây nếu cần
+                console.error(err);
+            } finally {
+
+            }
+
+            // Cập nhật giao diện input nếu người dùng chưa nhập field
+            function updateInputValidationUI(field) {
+                if (!document.getElementById(`register-${field}`).value.trim()) {
+                    document.getElementById(`invalid-feedback-input-${field}-new`).classList.remove("invalid-feedback");
+                    document.getElementById(`invalid-feedback-input-${field}-new`).classList.add("text-danger");
+                }
+            }
+        });
+    </script>
+</main>
+</html>

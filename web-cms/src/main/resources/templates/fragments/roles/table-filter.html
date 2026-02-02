@@ -1,0 +1,66 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="table-filter" class="container py-4">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle mb-0">
+            <!-- Hàng tiêu đề -->
+            <thead class="table-success">
+            <tr>
+                <th scope="col">Mô tả</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Người tạo</th>
+                <th scope="col" style="min-width:260px;">Ngày tạo (Từ ngày
+                    tới ngày)
+                </th>
+            </tr>
+            </thead>
+            <!-- Hàng filter (đúng chuẩn: form nằm trong th, không bọc th) -->
+            <thead class="thead-filters">
+            <tr>
+                <th>
+                    <label for="f-description"></label>
+                    <input type="text" id="f-description" class="form-control form-control-sm"
+                           placeholder="Mô tả"/>
+                </th>
+                <!-- Hoạt động: dùng select is-delete theo yêu cầu (giữ nguyên id) -->
+                <th>
+                    <label for="f-is-delete"></label>
+                    <select id="f-is-delete" class="form-select form-select-sm">
+                        <option value="">Tất cả</option>
+                        <option value="NO">Đang hoạt động</option>
+                        <option value="YES">Không hoạt động</option>
+                    </select>
+                </th>
+
+                <!-- Mô tả -->
+                <th>
+                    <label for="f-created-by"></label>
+                    <input type="text" id="f-created-by" class="form-control form-control-sm"
+                           placeholder="Người tạo"/>
+                </th>
+                <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
+                <th>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <input type="date" id="f-from-date"
+                                   class="form-control form-control-sm"
+                                   placeholder="Từ ngày"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="date" id="f-to-date"
+                                   class="form-control form-control-sm"
+                                   placeholder="Đến ngày"/>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <!-- Nút hành động (tùy chọn) -->
+    <div class="d-flex gap-2 justify-content-end border-start border-end border-bottom p-2">
+        <button id="btnFilter" class="btn btn-sm btn-primary">Tìm kiếm</button>
+    </div>
+</div>
+</div>
+</html>

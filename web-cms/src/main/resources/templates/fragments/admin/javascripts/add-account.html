@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="add-account" th:inline="javascript">
+    document.getElementById('btn-new-account').addEventListener('click', async (e) => {
+        // e.preventDefault();
+        const inputFields = ['username', 'fullName', 'gender', 'email', 'phone'];
+        for (const inputField of inputFields)
+            updateInputValidationUI(inputField)
+
+        const form = document.getElementById('form-new');
+        this.disabled = true;
+
+        // Lấy dữ liệu form
+        let fetchBody = {}
+        const formData = new FormData(form);
+        formData.forEach((value, key) => fetchBody[key] = value);
+        try {
+            const data = await callApi('/v1/api/users/create', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(fetchBody)
+                }
+                , (data) => {
+                    showSuccessDialog(data.message)
+                    handleFilter()
+                    viewDetail(document.getElementById("detail-id").value);
+                });
+        } catch (err) {
+            // đã show toast lỗi trong utils; vẫn có thể xử lý thêm ở đây nếu cần
+            console.error(err);
+        } finally {
+
+        }
+        this.disabled = false;
+
+        // Cập nhật giao diện input nếu người dùng chưa nhập field
+        function updateInputValidationUI(field) {
+            if (!document.getElementById(`input-${field}-new`).value.trim()) {
+                document.getElementById(`invalid-feedback-input-${field}-new`).classList.remove("invalid-feedback");
+                document.getElementById(`invalid-feedback-input-${field}-new`).classList.add("text-danger");
+            }
+        }
+    });
+</script>
+</html>

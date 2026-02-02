@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="account-pagination"
+     class="d-flex justify-content-between align-items-center flex-wrap gap-3 p-2  rounded bg-light">
+    <!-- Bộ chọn số lượng -->
+    <div class="d-flex align-items-center gap-2">
+        <label for="f-page-size" class="d-none"></label>
+        <select id="f-page-size" class="form-select form-select-sm w-auto">
+            <option value="10" selected>10 bản ghi</option>
+            <option value="20">20 bản ghi</option>
+            <option value="50">50 bản ghi</option>
+        </select>
+        <div id="text-muted" class="d-inline-flex align-items-center gap-2">
+            <i class="bi bi-list-check text-body-secondary"></i>
+            <span class="badge rounded-pill text-bg-primary" id="count-badge">0</span>
+            <span class="text-body-secondary" id="count-label">bản ghi</span>
+        </div>
+    </div>
+
+    <!-- Phân trang -->
+    <nav>
+        <ul class="pagination mb-0" id="pagination">
+            <li class="page-item">
+                <a class="page-link" id="btn-pag-prev" data-action="prev">Previous</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" id="btn-pag-next" data-action="next" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</html>

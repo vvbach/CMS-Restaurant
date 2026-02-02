@@ -1,0 +1,18 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="confirm-delete-popup(name, popupId, onclick)"
+     class="modal modal-sm fade clearfix" th:id="${popupId}" tabindex="-1"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" th:text="${'Bạn có chắc chắn muốn xóa ' + name + ' này không?'}"></h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" th:attr="onclick=|${onclick}|">Xóa</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="profile-update-tab" class="tab-pane fade show active profile-edit pt-3" id="profile-edit">
+    <form>
+        <div class="row mb-3">
+            <label class="col-md-4 col-lg-3 col-form-label">Avatar</label>
+            <div class="col-md-8 col-lg-9">
+                <div class="hero">
+                    <img id="update-avatar-view" alt="avatar" src="">
+                    <div class="overlay"></div>
+                    <div class="tools">
+                        <label class="btn btn-sm btn-soft">
+                            <i class="bi bi-camera me-1"></i> Tải ảnh
+                            <input id="update-avatar" type="file"/>
+                        </label>
+                    </div>
+                    <div class="drop-indicator"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="update-fullName" class="col-md-4 col-lg-3 col-form-label">Họ và tên</label>
+            <div class="col-md-8 col-lg-9">
+                <input name="fullName" type="text" class="form-control" id="update-fullName">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="update-gender" class="col-md-4 col-lg-3 col-form-label">Giới tính</label>
+            <div class="col-md-8 col-lg-9">
+                <select id="update-gender" name="gender" class="form-select">
+                    <option value="">Chọn giới tính</option>
+                    <option value="MALE">Nam</option>
+                    <option value="FEMALE">Nữ</option>
+                    <option value="OTHER">Khác</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="row mb-3">
+            <label for="update-phone" class="col-md-4 col-lg-3 col-form-label">Số điện thoại</label>
+            <div class="col-md-8 col-lg-9">
+                <input name="phone" type="text" class="form-control" id="update-phone">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="update-email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+            <div class="col-md-8 col-lg-9">
+                <input name="email" type="email" class="form-control" id="update-email">
+            </div>
+        </div>
+        <div class="text-center">
+            <button id="update-profile-btn" type="submit" class="btn btn-primary">Lưu thay đổi</button>
+        </div>
+    </form>
+    <script th:replace="~{/fragments/profile/javascripts/update-profile :: update-profile}"></script>
+</div>
+</html>

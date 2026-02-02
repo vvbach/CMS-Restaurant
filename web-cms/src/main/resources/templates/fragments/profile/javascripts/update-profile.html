@@ -1,0 +1,65 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<script th:fragment="update-profile" th:inline="javascript">
+    (function () {
+        'use strict'
+
+        const MAX_SIZE_MB = 5;
+        const ALLOWED = ['image/jpeg', 'image/png'];
+        document.getElementById('update-avatar').addEventListener('change', (e) => {
+            const f = e.target.files?.[0];
+            applyFile(f);
+            e.target.value = URL.createObjectURL(f);
+        });
+
+        function applyFile(file) {
+            if (!file) return;
+            if (!ALLOWED.includes(file.type)) {
+                showToast('❗ Định dạng không hỗ trợ. Chọn JPG/PNG');
+                return;
+            }
+            if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                showToast(`❗ Ảnh quá lớn (>${MAX_SIZE_MB}MB).`);
+                return;
+            }
+            document.getElementById('update-avatar-view').src = URL.createObjectURL(file);
+        }
+
+        document.getElementById('update-profile-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            e.disabled = true;
+
+            const fileInput = document.getElementById('update-avatar');
+            // Lấy dữ liệu form
+            const formData = new FormData();
+
+            let payload = {}
+            const formFields = ['fullName', 'phone', 'email', 'gender'];
+            for (const field of formFields) {
+                payload[field] = document.getElementById(`update-${field}`).value;
+            }
+            const blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
+            formData.append('payload', blob);
+
+            if (fileInput.files || fileInput.files.length !== 0) {
+                formData.append('file', fileInput.files[0]);
+            }
+
+            try {
+                let url = '/v1/api/users/current';
+                await callApi(url, {
+                        method: 'PUT',
+                        body: formData
+                    }
+                    , (data) => {
+                        showSuccessDialog(data.message)
+                        loadProfile();
+                    });
+            } catch (err) {
+                // đã show toast lỗi trong callApi; vẫn có thể xử lý thêm ở đây nếu cần
+                console.error(err);
+            }
+            e.disabled = false;
+        })
+    })();
+</script>
+</html>

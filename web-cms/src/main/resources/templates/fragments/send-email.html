@@ -1,0 +1,43 @@
+<main th:fragment="main" id="main" class="main" xmlns="http://www.w3.org/1999/html">
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-8" id="list-data">
+                <div class="card">
+                    <div class="card-body" style="height: 90vh;" >
+                        <!-- Email To -->
+                        <div class="col-12 mb-3" style="position: relative;">
+                            <label for="emailTo" class="form-label">To</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="emailTo"
+                                   name="to"
+                                   required
+                                   placeholder="Enter recipient email(s), separated by commas"
+                                   autocomplete="off">
+                            <div id="emailSuggestions" class="suggestions-box"></div>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="col-12 mb-3">
+                            <label for="emailSubject" class="form-label">Subject</label>
+                            <input type="text" class="form-control" id="emailSubject" name="subject" required placeholder="Email subject">
+                        </div>
+
+                        <!-- Message -->
+                        <div class="col-12 mb-3">
+                            <label for="emailMessage" class="form-label">Message</label>
+                            <textarea class="form-control" id="emailMessage" name="message" rows="5" required placeholder="Your message"></textarea>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" id="sendEmailBtn">Send Email</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script th:src="@{/js/send-email.js}" defer></script>
+</main>

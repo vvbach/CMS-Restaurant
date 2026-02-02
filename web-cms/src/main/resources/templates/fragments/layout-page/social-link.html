@@ -1,0 +1,502 @@
+<main th:fragment="main" id="main" class="main" xmlns="http://www.w3.org/1999/html">
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-8" id="list-data">
+                <div class="card">
+                    <div class="card-body" style="height: 90vh;" >
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="card-title">Danh sách mạng xã hội</div>
+                            <button id="openModalNewBtn" class="btn btn-icon me-1" >
+                                <i class="ri-play-list-add-line fs-5"></i>
+                            </button>
+                        </div>
+                        <div class="tab-content" id="myTabjustifiedContent">
+                            <div class="container py-4">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover align-middle mb-0">
+                                        <!-- Hàng tiêu đề -->
+                                        <thead class="table-success">
+                                        <tr>
+                                            <th scope="col">Hoạt động</th>
+                                            <th scope="col">Mô tả</th>
+                                            <th scope="col" class="nowrap">Trạng thái</th>
+                                            <th scope="col" class="nowrap">Người tạo</th>
+                                            <th scope="col" class="nowrap" style="min-width:260px;">Ngày tạo (Từ ngày tới ngày)</th>
+                                        </tr>
+                                        </thead>
+
+                                        <!-- Hàng filter -->
+                                        <thead class="thead-filters">
+                                        <tr>
+                                            <!-- Hoạt động: dùng select is-delete theo yêu cầu (giữ nguyên id) -->
+                                            <th>
+                                                <select id="f-is-delete" class="form-select form-select-sm">
+                                                    <option value="">Tất cả</option>
+                                                    <option value="1">Đã xoá</option>
+                                                    <option value="0">Đang sử dụng</option>
+                                                </select>
+                                            </th>
+
+                                            <!-- Mô tả -->
+                                            <th>
+                                                <input type="text" id="f-description" class="form-control form-control-sm" placeholder="Nhập tên văn phòng" />
+                                            </th>
+
+                                            <th>
+                                                <select id="f-s-status" class="form-select form-select-sm">
+                                                    <option value="">Tất cả</option>
+                                                    <option value="Draft">Nháp</option>
+                                                    <option value="Rejected">Từ chối</option>
+                                                    <option value="PendingApproval">Chờ duyệt</option>
+                                                    <option value="Approved">Đã phê duyệt</option>
+                                                    <option value="Publish">Đã xuất bản</option>
+                                                    <option value="Unpublish">Đã huỷ Xuất bản</option>
+                                                </select>
+                                            </th>
+
+                                            <!-- Người tạo -->
+                                            <th>
+                                                <input type="text" id="f-create_by" class="form-control form-control-sm" placeholder="Tên người tạo" />
+                                            </th>
+
+                                            <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
+                                            <th>
+                                                <div class="row g-2">
+                                                    <div class="col-6">
+                                                        <input type="date" id="f-from-date" class="form-control form-control-sm" placeholder="Từ ngày" />
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <input type="date" id="f-to-date" class="form-control form-control-sm" placeholder="Đến ngày" />
+                                                    </div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+
+                                <!-- Nút hành động -->
+                                <div class="d-flex gap-2 justify-content-end border-start border-end border-bottom p-2">
+                                    <button id="btnFilter" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade show active" id="home-justified" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="card">
+                                    <div class="card-body" style="max-height: 50vh; overflow-y: auto;">
+                                        <table class="table table-bordered table-striped">
+                                            <thead class="table-success">
+                                            <tr>
+                                                <th scope="col">STT</th>
+                                                <th scope="col">Nền tảng</th>
+                                                <th scope="col">Hoạt động</th>
+                                                <th scope="col">Trạng thái</th>
+                                                <th scope="col">Người tạo</th>
+                                                <th scope="col">Ngày tạo</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="myTableBody">
+
+                                            </tbody>
+                                        </table>
+                                        <!-- End Bordered Table -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- End Default Tabs -->
+
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 py-2  rounded bg-light">
+
+                            <!-- Bộ chọn số lượng -->
+                            <div class="d-flex align-items-center gap-2">
+                                <select id="f-page-size" class="form-select form-select-sm w-auto">
+                                    <option value="10">10 bản ghi</option>
+                                    <option value="20">20 bản ghi</option>
+                                    <option value="50" selected>50 bản ghi</option>
+                                    <option value="100">100 bản ghi</option>
+                                </select>
+                                <div id="text-muted" class="d-inline-flex align-items-center gap-2">
+                                    <i class="bi bi-list-check text-body-secondary"></i>
+                                    <span class="badge rounded-pill text-bg-primary" id="count-badge">0</span>
+                                    <span class="text-body-secondary" id="count-label">bản ghi</span>
+                                </div>
+                            </div>
+
+                            <!-- Phân trang -->
+                            <nav>
+                                <ul class="pagination mb-0" id="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" id="btn-pag-prev" data-action="prev">Previous</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" id="btn-pag-next" data-action="next" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Hiển thị màn hình thông tin chi tiết -->
+            <div class="col-lg-4" id="detail">
+                <div class="card accordion-item">
+                    <div class="card-body">
+                        <div class="col d-flex align-items-center justify-content-between">
+                            <h2 class="card-title mb-0 me-2">Thông tin chi tiết</h2>
+                            <div class="d-flex">
+                                <button id="openModalBtn" class="btn btn-icon me-1">
+                                    <i class="ri-pencil-fill fs-5"></i>
+                                </button>
+                                <button id="openModalHistoryBtn" class="btn btn-icon me-1" >
+                                    <i class="bi bi-clock-history fs-5"></i>
+                                </button>
+                                <button id="openModalDeleteBtn" class="btn btn-icon me-1" >
+                                    <i class="ri-delete-bin-fill fs-5"></i>
+                                </button>
+                                <button data-bs-toggle="modal" class="btn btn-icon" onclick="viewOrHiddenDetail()" >
+                                    <i class="bi bi-arrow-bar-right fs-5"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div style=" overflow-y: auto; border: 1px solid #ccc; padding: 10px; height: 80vh">
+                            <div class="row g-3" id="view-detail">
+                                <input type="text" class="form-control" id="detail-id" hidden="hidden" disabled value="" />
+                                <img src="" id="detail-icon-img" class="card-img-top" alt="">
+                                <div class="col-12">
+                                    <label for="detail-url" class="form-label">Url</label>
+                                    <input type="text" class="form-control" id="detail-url" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="detail-platform" class="form-label">Nền tảng</label>
+                                    <input class="form-control" id="detail-platform" disabled placeholder="" maxlength="500">
+                                </div>
+                                <div class="col-12">
+                                    <label for="detail-status" class="form-label">Trạng thái</label>
+                                    <input type="text" class="form-control" id="detail-status" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="detail-is-delete" class="form-label">Trạng thái xóa</label>
+                                    <input type="text" class="form-control" id="detail-is-delete" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputAuthor" class="form-label">Người tạo</label>
+                                    <input type="text" class="form-control" id="inputAuthor" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputCreateAt" class="form-label">Ngày tạo</label>
+                                    <input type="text" class="form-control" id="inputCreateAt" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputUpdater" class="form-label">Người update gần nhất</label>
+                                    <input type="text" class="form-control" id="inputUpdater" disabled value="" />
+                                </div>
+                                <div class="col-12">
+                                    <label for="inputUpdateAt" class="form-label">Ngày update gần nhất</label>
+                                    <input type="text" class="form-control" id="inputUpdateAt" disabled value="" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- popup hiển thị để cập nhật thông tin-->
+    <div class="modal fade" id="popup-update" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <!-- Header -->
+                <div class="modal-header px-4 flex-column align-items-stretch">
+                    <!-- Hàng 1: btnChange bên trái, các phần còn lại bên phải -->
+                    <div class="d-flex justify-content-between align-items-center flex-wrap w-100 mb-2">
+                        <!-- Bên trái: btnChange -->
+                        <div class="dropdown">
+                            <button id="btnChange" value="" class="btn btn-outline-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Thay đổi trạng thái
+                            </button>
+                            <ul class="dropdown-menu shadow" id="detail-list-status">
+                            </ul>
+                        </div>
+
+                        <!-- Bên phải: trạng thái + lưu -->
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <span id="headerState" class="badge text-bg-secondary state-badge">UNPUBLISHED</span>
+
+                            <button id="btnSaveChange" class="btn btn-danger btn-outline-warning btn-sm" aria-expanded="true">
+                                Lưu trạng thái
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Hàng 2: lý do từ chối -->
+                    <div class="mb-3 w-100 d-none" id="reason" >
+                        <label class="form-label">Lý do từ chối</label>
+                        <textarea class="form-control readonly" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body px-4 pb-4">
+                    <!-- Stepper -->
+                    <div class="steps" id="steps">
+                        <div class="connector"></div>
+                        <div class="progressed" id="progressed"></div>
+                        <div class="list">
+                            <div class="step" data-index="1"><span class="dot"></span><span class="label">DRAFT/REJECT</span></div>
+                            <div class="step" data-index="2"><span class="dot"></span><span class="label">PENDING_APPROVAL</span></div>
+                            <div class="step" data-index="3"><span class="dot"></span><span class="label">APPROVED</span></div>
+                            <div class="step" data-index="4"><span class="dot"></span><span class="label">PUBLISHED</span></div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div class="section-title">Chi tiết nội dung đầy đủ</div>
+
+                    <!-- Image selection from library -->
+                    <div id="detail-img" class="hero">
+                        <img id="detail-img-update"  alt="" src="">
+                        <div class="overlay"></div>
+
+                        <div class="tools">
+                            <button class="btn btn-soft btn-sm" onclick="openImageLibrary()">
+                                <i class="bi bi-images me-1"></i> Chọn ảnh từ thư viện
+                            </button>
+                        </div>
+
+                        <div class="hero-text">
+                            <div class="d-flex align-items-center gap-2">
+                                <span class="badge text-bg-warning" id="detail-txt-status"><i class="bi bi-pencil-square me-1"></i></span>
+                                <span class="badge text-bg-success" id="detail-txt-delete"><i class="bi bi-check2-circle me-1"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="drop-indicator"></div>
+                    </div>
+
+                    <div class="mb-3" id="detail-url-update">
+                        <label class="form-label">URL</label>
+                        <input type="text" class="form-control" id="edit-url" placeholder="Nhập URL" />
+                    </div>
+
+                    <div class="mb-3" id="detail-platform-update">
+                        <label class="form-label">Nền tảng</label>
+                        <input class="form-control" id="edit-platform" placeholder="Nhập nền tảng">
+                    </div>
+
+                    <div class="mb-3" id="detail-reason-delete">
+                        <label class="form-label">Lý do xoá</label>
+                        <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
+                    </div>
+
+                    <div class="mb-3" id="detail-reason-reject">
+                        <label class="form-label">Lý do từ chối duyệt</label>
+                        <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
+                    </div>
+
+                    <div class="mb-3" id="detail-reason-unpublish">
+                        <label class="form-label">Lý do huỷ xuất bản</label>
+                        <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
+                    </div>
+
+                    <!-- Grid fields -->
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Trạng thái</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-flag"></i></span>
+                                <input id="fldTrangThai" type="text" class="form-control readonly" value="" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Người tạo</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><span class="avatar"></span></span>
+                                <input type="text" class="form-control readonly" id="created-user" readonly>
+                                <input type="text" class="form-control readonly d-none" id="id-row-edit" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ngày tạo</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
+                                <input type="text" class="form-control readonly" id="created-at" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Người update gần nhất</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-check"></i></span>
+                                <input type="text" class="form-control readonly" id="updated-user" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ngày update gần nhất</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
+                                <input type="text" class="form-control readonly" id="updated-at" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="modal-footer px-4">
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Đóng</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="bt-update-detail"><i class="bi bi-check2"></i> Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toasts -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+        <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body" id="toastMsg">Đã cập nhật trạng thái.</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Đóng"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- popup thêm mới-->
+    <div class="modal fade clearfix" id="popup-new" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-content modal-dialog modal-lg">
+            <div class="modal-body">
+                <h2 class="card-title mb-0 me-2">Thêm mới thông tin liên hệ</h2>
+                <form id="form-new" class="row g-3">
+                    <div class="col-12">
+                        <label for="input-url-new" class="form-label">URL</label>
+                        <input name="address" class="form-control" id="input-url-new" required>
+                        <div class="invalid-feedback" id="invalid-feedback-input-url-new">Chưa nhập url</div>
+                    </div>
+                    <div class="col-12">
+                        <label for="input-platform-new" class="form-label">Nền tảng</label>
+                        <input type="text" name="text" class="form-control" id="input-platform-new" required>
+                        <div class="invalid-feedback" id="invalid-feedback-input-platform-new">Chưa nhập tên nền tảng</div>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">Logo</label>
+                        <button type="button" class="btn btn-outline-secondary w-100" onclick="openImageLibrary()">
+                            <i class="bi bi-images me-2"></i>Chọn ảnh từ thư viện
+                        </button>
+                        <img id="input-image-new" src="" alt="">
+                    </div>
+                    <div class="text-center">
+                        <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Library Selection Modal -->
+    <div class="modal fade" id="imageLibraryModal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageLibraryLabel">Chọn ảnh từ thư viện</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="imageLibraryGrid">
+                        <!-- Images will be loaded here from API -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-primary" id="selectImageBtn" disabled>Chọn ảnh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal xác nhận xóa -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa thông tin liên hệ này?</p>
+                    <div class="mb-0">
+                        <label for="deleteReasonDetail" class="form-label">
+                            Mô tả chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
+                        </label>
+                        <textarea id="deleteReasonDetail" class="form-control" rows="3"
+                                  minlength="1" maxlength="500" required
+                                  placeholder="Nhập lý do chi tiết..."></textarea>
+                        <div class="d-flex justify-content-end mt-1">
+                            <small class="text-muted"><span id="deleteReasonCount">0</span>/500</small>
+                        </div>
+                        <div class="invalid-feedback">Vui lòng không để trống.</div>
+                    </div>
+                </div>
+                <input type="text" hidden="hidden" readonly disabled id="id-confirm-delete" />
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
+                        Xóa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/layout/social-link/popup.js}" defer></script>
+    <script th:src="@{/js/layout/social-link/filter.js}" defer></script>
+    <script th:src="@{/js/layout/social-link/detail.js}" defer></script>
+
+    <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
+    <script th:src="@{/js/page-function/image-lib.js}"></script>
+    <script th:src="@{/js/page-function/set-status-popup.js}"></script>
+    <script th:src="@{/js/page-function/add.js}"></script>
+    <script th:src="@{/js/page-function/change-status.js}"></script>
+    <script th:src="@{/js/page-function/update.js}"></script>
+    <script th:src="@{/js/page-function/delete.js}"></script>
+    <script>
+        (async () => {
+            await window.authReady;
+            handleFilter();
+            hideAddBtn("UI")
+            hideUpdateBtn("UI")
+            hideDeleteBtn("UI")
+        })();
+
+        const apiUrl = '/v1/api/social-link/';
+
+        document.getElementById('btnSaveChange').addEventListener('click',
+            saveStatusChange(apiUrl)
+        );
+
+        document.getElementById('btn-new').addEventListener('click',
+            addItem({
+                apiEndpoint: '/v1/api/social-link',
+                fields: [
+                    {key: 'iconUrl', elementId: 'input-image-new', type: 'image'},
+                    {key: 'platform', elementId: 'input-platform-new'},
+                    {key: 'url', elementId: 'input-url-new'}
+                ]
+            })
+        );
+
+        document.getElementById('bt-update-detail').addEventListener('click',
+            updateItem({
+                apiEndpoint: apiUrl,
+                fields: [
+                    {key: 'iconUrl', elementId: 'detail-img-update', type: 'image'},
+                    {key: 'platform', elementId: 'edit-platform', type: 'text'},
+                    {key: 'url', elementId: 'edit-url', type: 'text'}
+                ]
+            }));
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', deleteItem(apiUrl));
+
+    </script>
+
+</main>

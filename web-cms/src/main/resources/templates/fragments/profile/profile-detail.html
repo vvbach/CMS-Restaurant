@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="profile-detail" class="card">
+    <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+        <img id="profile-avatar" src="" alt="Avatar" class="img-thumbnail">
+        <h2 id="profile-fullName-title"></h2>
+        <div class="profile-overview container-fluid" id="profile-overview">
+            <h5 class="card-title">Chi tiết trang cá nhân</h5>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 label">Trạng thái</div>
+                <div class="col-lg-8 col-md-8" id="profile-status"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 label">Họ và tên</div>
+                <div class="col-lg-8 col-md-8" id="profile-fullName"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 label">Giới tính</div>
+                <div class="col-lg-8 col-md-8" id="profile-gender"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 label">Số điện thoại</div>
+                <div class="col-lg-8 col-md-8" id="profile-phone"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 label">Email</div>
+                <div class="col-lg-8 col-md-8" id="profile-email"></div>
+            </div>
+        </div>
+    </div>
+    <script th:replace="~{/fragments/profile/javascripts/load-profile-detail :: load-profile-detail}"></script>
+</div>
+</html>

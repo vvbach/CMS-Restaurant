@@ -1,0 +1,659 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+<div th:fragment="update-account-popup" class="modal fade" id="popup-update" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header px-4">
+                <div class="section-title m-0">Cập nhật người dùng</div>
+            </div>
+            <!-- Body -->
+            <div class="modal-body px-4 pb-4">
+                <div id="detail-img" class="hero">
+                    <img id="detail-img-view" alt="avatar" src="">
+                    <div class="overlay"></div>
+
+                    <div class="tools">
+                        <label class="btn btn-sm btn-soft">
+                            <i class="bi bi-camera me-1"></i> Tải ảnh
+                            <input id="detail-img-input" type="file"/>
+                        </label>
+                    </div>
+
+                    <div class="drop-indicator"></div>
+                </div>
+
+                <!-- Grid fields -->
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="input-fullName-update" class="form-label">Họ và tên</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person-badge-fill"></i></span>
+                            <input type="text" name="fullName" class="form-control" id="input-fullName-update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="input-gender-update" class="form-label">Giới tính</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
+                            <select id="input-gender-update" name="gender" class="form-select">
+                                <option value="">Chọn giới tính</option>
+                                <option value="MALE">Nam</option>
+                                <option value="FEMALE">Nữ</option>
+                                <option value="OTHER">Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="input-phone-update" class="form-label">Số điện thoại</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                            <input type="text" name="phone" class="form-control" id="input-phone-update">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="input-email-update" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input type="text" name="email" class="form-control" id="input-email-update">
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 row mt-3 align-items-center">
+                        <label for="input-roles-update" class="form-label">Vai trò</label>
+
+                        <div class="col-md-6 d-flex gap-2">
+                            <!-- nút mở modal chọn vai trò -->
+                            <button type="button" class="btn btn-primary" id="openRoleModalBtn">
+                                <i class="bi bi-person-lines-fill me-1"></i> Chọn vai trò
+                            </button>
+
+                            <!-- nút lưu trực tiếp (gọi API cập nhật vai trò cho user hiện tại) -->
+                            <button type="button" class="btn btn-success" id="saveRolesDirectBtn">
+                                <i class="bi bi-save me-1"></i> Lưu vai trò
+                            </button>
+
+                            <!-- trạng thái nhỏ hiển thị tình trạng (ví dụ: đang gửi, thành công) -->
+                            <div id="roleActionStatus" class="text-muted small align-self-center ms-2"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <!-- hiển thị token vai trò hiện tại -->
+                            <div class="input-group">
+                                <input id="input-roles-update" class="form-control d-none" readonly>
+                                <div id="tokenContainer" class="mb-0 d-flex flex-wrap"></div>
+                                <input type="hidden" name="role_ids" id="roleIdsInput" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer -->
+            <div class="modal-footer px-4">
+                <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i
+                        class="bi bi-x-circle"></i> Đóng
+                </button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-update-detail">
+                    <i class="bi bi-check2"></i> Lưu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chọn vai trò (dùng style Bootstrap nhưng không dùng JS của Bootstrap) -->
+    <div id="rolesModal" class="vanilla-modal" role="dialog" aria-modal="true" aria-hidden="true"
+         aria-labelledby="rolesModalLabel">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rolesModalLabel">Chọn vai trò</h5>
+                    <button type="button" class="btn-close" aria-label="Đóng" id="modalCloseBtn"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3 d-flex">
+                        <button id="reloadRolesBtn" type="button" class="btn btn-outline-secondary"
+                                title="Tải lại vai trò">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                    </div>
+
+                    <!-- danh sách roles sẽ được render động -->
+                    <div id="rolesList" class="list-group">
+                        <!-- nội dung sẽ được tạo bởi JS -->
+                        <div id="rolesListSpinner" class="text-center text-muted small py-3">Đang tải vai trò...</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="clearSelection" type="button" class="btn btn-outline-secondary">Xóa chọn</button>
+                    <button id="saveRoles" type="button" class="btn btn-primary">Áp dụng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* modal tự triển khai (CSS-only) */
+        .vanilla-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1055;
+            overflow: hidden;
+            outline: 0;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .vanilla-modal.show {
+            display: flex;
+        }
+
+        .vanilla-modal .modal-dialog {
+            max-width: 720px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .vanilla-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 1050;
+            background-color: rgba(0, 0, 0, .45);
+            -webkit-backdrop-filter: blur(0px);
+            backdrop-filter: blur(0px);
+        }
+
+        .no-scroll {
+            overflow: hidden;
+        }
+
+        .role-token {
+            cursor: default;
+            margin-right: .25rem;
+            margin-bottom: .25rem;
+        }
+
+        .role-token .btn-close {
+            font-size: .7rem;
+            margin-left: .25rem;
+            opacity: .9;
+        }
+
+        /* make roles list items look nicer when dynamically added */
+        .list-group-item .role-meta {
+            font-size: .9rem;
+            color: #6c757d;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        (function () {
+            // Các phần tử
+            const openBtn = document.getElementById('openRoleModalBtn');
+            const modalEl = document.getElementById('rolesModal');
+            const closeBtn = document.getElementById('modalCloseBtn');
+            const saveBtn = document.getElementById('saveRoles'); // Áp dụng (lưu selection vào UI)
+            const clearBtn = document.getElementById('clearSelection');
+            const reloadBtn = document.getElementById('reloadRolesBtn');
+            const tokenContainer = document.getElementById('tokenContainer');
+            const roleIdsInput = document.getElementById('roleIdsInput');
+            const rolesDisplay = document.getElementById('input-roles-update');
+            const rolesList = document.getElementById('rolesList');
+            const saveRolesDirectBtn = document.getElementById('saveRolesDirectBtn');
+            const roleActionStatus = document.getElementById('roleActionStatus');
+            let backdropEl = null;
+            let lastActiveElement = null;
+            let loadedRoles = []; // cache roles từ server (mảng các {id, name, code})
+
+            /* ---------- Helpers cho hidden input và token UI ---------- */
+            function getSelectedIdsFromHidden() {
+                const v = roleIdsInput.value.trim();
+                return v ? v.split(',').filter(s => s !== '') : [];
+            }
+
+            function setSelectedIdsHidden(ids) {
+                roleIdsInput.value = ids.join(',');
+            }
+
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, ch => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[ch]));
+            }
+
+            function renderTokens(idsMap) {
+                tokenContainer.innerHTML = '';
+                const ids = Object.keys(idsMap);
+                ids.forEach(id => {
+                    const name = idsMap[id];
+                    const wrap = document.createElement('div');
+                    wrap.className = 'badge bg-secondary role-token d-inline-flex align-items-center';
+                    wrap.setAttribute('data-role-id', id);
+                    wrap.innerHTML = `<span class="me-2">${escapeHtml(name)}</span>
+                          <button type="button" class="btn-close btn-close-white btn-sm" aria-label="Gỡ"></button>`;
+                    tokenContainer.appendChild(wrap);
+                });
+                // cập nhật trường hiển thị dạng chuỗi (ẩn)
+                rolesDisplay.value = ids.length ? ids.map(id => idsMap[id]).join(', ') : '';
+            }
+
+            function buildSelectedMapFromCheckboxes() {
+                const checked = rolesList.querySelectorAll('.role-checkbox:checked');
+                const map = {};
+                checked.forEach(cb => {
+                    map[cb.dataset.roleId] = cb.dataset.roleName;
+                });
+                return map;
+            }
+
+            // Xử lý click vào nút xóa token
+            tokenContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-close')) {
+                    const token = e.target.closest('.role-token');
+                    const rid = token.getAttribute('data-role-id');
+                    token.remove();
+                    const ids = getSelectedIdsFromHidden().filter(x => x !== rid);
+                    setSelectedIdsHidden(ids);
+                    const cb = rolesList.querySelector(`.role-checkbox[data-role-id="${rid}"]`);
+                    if (cb) cb.checked = false;
+                    const updatedMap = {};
+                    ids.forEach(id => {
+                        const cb2 = rolesList.querySelector(`.role-checkbox[data-role-id="${id}"]`);
+                        updatedMap[id] = cb2 ? cb2.dataset.roleName : 'Unknown';
+                    });
+                    renderTokens(updatedMap);
+                }
+            });
+
+            /* ---------- Modal: mở / đóng (vanilla JS) ---------- */
+            function openModal() {
+                lastActiveElement = document.activeElement;
+
+                // đồng bộ checkbox theo hidden input
+                const selectedIds = new Set(getSelectedIdsFromHidden());
+                rolesList.querySelectorAll('.role-checkbox').forEach(cb => {
+                    cb.checked = selectedIds.has(cb.dataset.roleId);
+                });
+
+                modalEl.classList.add('show');
+                modalEl.setAttribute('aria-hidden', 'false');
+
+                backdropEl = document.createElement('div');
+                backdropEl.className = 'vanilla-backdrop';
+                document.body.appendChild(backdropEl);
+
+                document.body.classList.add('no-scroll');
+                focusFirstInModal();
+
+                document.addEventListener('keydown', onKeyDown);
+                backdropEl.addEventListener('click', onBackdropClick);
+            }
+
+            function closeModal() {
+                modalEl.classList.remove('show');
+                modalEl.setAttribute('aria-hidden', 'true');
+
+                if (backdropEl) {
+                    backdropEl.remove();
+                    backdropEl = null;
+                }
+                document.body.classList.remove('no-scroll');
+                if (lastActiveElement) lastActiveElement.focus();
+                document.removeEventListener('keydown', onKeyDown);
+            }
+
+            function focusFirstInModal() {
+                const focusable = modalEl.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+                if (focusable.length) focusable[0].focus(); else modalEl.focus();
+            }
+
+            function trapFocus(e) {
+                const focusable = Array.from(modalEl.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'))
+                    .filter(el => el.offsetParent !== null);
+                if (!focusable.length) return;
+                const first = focusable[0], last = focusable[focusable.length - 1];
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        }
+                    } else {
+                        if (document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                }
+            }
+
+            function onKeyDown(e) {
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeModal();
+                } else if (e.key === 'Tab') {
+                    trapFocus(e);
+                }
+            }
+
+            function onBackdropClick() {
+                closeModal();
+            }
+
+            openBtn.addEventListener('click', () => {
+                // khi mở modal, tải danh sách roles mới nhất từ server
+                loadRoles(() => {
+                    // đồng bộ checkbox theo hidden (sau khi roles đã load)
+                    const selectedIds = new Set(getSelectedIdsFromHidden());
+                    rolesList.querySelectorAll('.role-checkbox').forEach(cb => cb.checked = selectedIds.has(cb.dataset.roleId));
+                    openModal();
+                });
+            });
+            closeBtn.addEventListener('click', closeModal);
+
+            /* ---------- Load roles từ server bằng callApi ---------- */
+            function setRolesListLoading(isLoading) {
+                const spinner = document.getElementById('rolesListSpinner');
+                if (!spinner) return;
+                spinner.style.display = isLoading ? 'block' : 'none';
+            }
+
+            function loadRoles(onDone) {
+                // hiển thị spinner
+                rolesList.innerHTML = '<div id="rolesListSpinner" class="text-center text-muted small py-3">Đang tải vai trò...</div>';
+                // Gọi API GET /v1/api/roles
+                callApi('/v1/api/roles', {method: 'GET'}, function (response) {
+                    // response mong đợi là mảng các { id, name, code }
+                    loadedRoles = Array.isArray(response.data) ? response.data : [];
+                    renderRolesList(loadedRoles);
+                    if (typeof onDone === 'function') onDone();
+                });
+            }
+
+            function renderRolesList(roles) {
+                if (!Array.isArray(roles) || roles.length === 0) {
+                    rolesList.innerHTML = '<div class="text-center text-muted small py-3">Không có vai trò nào</div>';
+                    return;
+                }
+
+                // tạo HTML cho mỗi role (KHÔNG hiển thị id ở bên phải)
+                rolesList.innerHTML = '';
+                roles.forEach(r => {
+                    const label = document.createElement('label');
+                    label.className = 'list-group-item d-flex align-items-center';
+                    label.style.cursor = 'pointer';
+
+                    const left = document.createElement('div');
+                    left.className = 'd-flex align-items-center';
+
+                    const cb = document.createElement('input');
+                    cb.type = 'checkbox';
+                    cb.className = 'form-check-input me-2 role-checkbox';
+                    cb.setAttribute('data-role-id', String(r.id));
+                    cb.setAttribute('data-role-name', r.name);
+
+                    const textWrap = document.createElement('div');
+                    const title = document.createElement('div');
+                    title.className = 'fw-bold';
+                    title.textContent = r.name;
+                    const meta = document.createElement('small');
+                    meta.className = 'role-meta text-muted';
+                    meta.textContent = r.code || '';
+
+                    textWrap.appendChild(title);
+                    textWrap.appendChild(meta);
+
+                    left.appendChild(cb);
+                    left.appendChild(textWrap);
+
+                    label.appendChild(left);
+
+                    rolesList.appendChild(label);
+                });
+
+                // sau khi render, nếu đã có roleIds trong hidden => tick các checkbox tương ứng
+                const selected = new Set(getSelectedIdsFromHidden());
+                rolesList.querySelectorAll('.role-checkbox').forEach(cb => {
+                    cb.checked = selected.has(cb.dataset.roleId);
+                });
+            }
+
+
+            // Reload nút
+            reloadBtn.addEventListener('click', () => {
+                loadRoles(function () {
+                    roleActionStatus.textContent = 'Đã tải lại vai trò';
+                    setTimeout(() => roleActionStatus.textContent = '', 1500);
+                });
+            });
+
+            /* ---------- Các hành động trong modal ---------- */
+            saveBtn.addEventListener('click', () => {
+                const map = buildSelectedMapFromCheckboxes();
+                const ids = Object.keys(map);
+                setSelectedIdsHidden(ids);
+                renderTokens(map);
+                closeModal();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                rolesList.querySelectorAll('.role-checkbox').forEach(cb => cb.checked = false);
+            });
+
+            /* ---------- Nút Lưu trực tiếp: gửi roleIds tới server để cập nhật role cho user ---------- */
+            saveRolesDirectBtn.addEventListener('click', () => {
+                roleActionStatus.textContent = 'Đang gửi...';
+                // lấy userId từ element có id "detail-id"
+                const userIdEl = document.getElementById('detail-id');
+                const userId = userIdEl ? (userIdEl.value || userIdEl.textContent || userIdEl.dataset?.id) : null;
+                if (!userId) {
+                    roleActionStatus.textContent = '';
+                    return;
+                }
+
+                // ưu tiên lấy ids từ hidden input, nếu không có thì lấy từ checkbox
+                let ids = getSelectedIdsFromHidden();
+                if (!ids.length) {
+                    // fall back: lấy các checkbox đang checked (nếu modal đã mở)
+                    ids = Array.from(document.querySelectorAll('.role-checkbox:checked')).map(cb => cb.dataset.roleId);
+                }
+
+                // chuẩn bị payload
+                const payload = {roleIds: ids};
+
+                // gọi API cập nhật: /v1/api/{userId}/update-roles
+                const url = `/v1/api/users/${userId}/update-roles`;
+                callApi(url, {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                }, function (resp) {
+                    // onSuccess
+                    roleActionStatus.textContent = 'Cập nhật vai trò thành công';
+                    // cập nhật UI tokens nếu cần
+                    const map = {};
+                    ids.forEach(id => {
+                        // tìm tên role trong loadedRoles
+                        const r = loadedRoles.find(rr => String(rr.id) === String(id));
+                        map[id] = r ? r.name : 'Unknown';
+                    });
+                    setSelectedIdsHidden(ids);
+                    renderTokens(map);
+
+                    setTimeout(() => roleActionStatus.textContent = '', 2000);
+                });
+            });
+
+            /* ---------- Khởi tạo token từ hidden nếu đã có giá trị ---------- */
+            (function initFromHidden() {
+                const ids = getSelectedIdsFromHidden();
+                if (!ids.length) return;
+                // nếu chưa load roles, ta vẫn có thể render tên "Unknown" — nhưng cố gắng map bằng loadedRoles nếu có
+                const map = {};
+                ids.forEach(id => {
+                    const r = loadedRoles.find(rr => String(rr.id) === String(id));
+                    map[id] = r ? r.name : 'Unknown';
+                });
+                renderTokens(map);
+            })();
+
+            const MAX_SIZE_MB = 5;
+            const ALLOWED = ['image/jpeg', 'image/png'];
+            document.getElementById('detail-img-input').addEventListener('change', (e) => {
+                const f = e.target.files?.[0];
+                applyFile(f);
+                e.target.value = URL.createObjectURL(f);
+            });
+
+            function applyFile(file) {
+                if (!file) return;
+                if (!ALLOWED.includes(file.type)) {
+                    showToast('❗ Định dạng không hỗ trợ. Chọn JPG/PNG');
+                    return;
+                }
+                if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                    showToast(`❗ Ảnh quá lớn (>${MAX_SIZE_MB}MB).`);
+                    return;
+                }
+                document.getElementById('detail-img-view').src = URL.createObjectURL(file);
+            }
+
+            // Hàm tải các role đã gán cho 1 user và đồng bộ UI
+            function loadUserAssignedRoles(userId, onDone) {
+                if (!userId) {
+                    if (typeof onDone === 'function') onDone([]);
+                    return;
+                }
+
+                // Xóa selection hiện tại trước khi load user-specific roles
+                setSelectedIdsHidden([]);
+                renderTokens({}); // xóa token hiển thị
+
+                // Gọi API lấy roles của user
+                callApi(`/v1/api/users/${userId}/roles`, {method: 'GET'}, function (response) {
+                    // response có thể là resp.data or resp
+                    const data = response?.data ?? [];
+
+                    // Chuẩn hóa thành mảng id strings
+                    let assignedIds = [];
+                    assignedIds = data.map(item => String(item.roleId));
+
+                    // Đảm bảo rolesList đã render (loadRoles phải được gọi trước khi hàm này)
+                    // Tick các checkbox tương ứng (nếu checkbox exist)
+                    rolesList.querySelectorAll('.role-checkbox').forEach(cb => {
+                        cb.checked = assignedIds.includes(cb.dataset.roleId);
+                    });
+
+                    // Cập nhật hidden input + token UI (map id -> name bằng loadedRoles nếu có)
+                    setSelectedIdsHidden(assignedIds);
+                    const map = {};
+                    assignedIds.forEach(id => {
+                        const r = (Array.isArray(loadedRoles) ? loadedRoles.find(rr => String(rr.id) === String(id)) : null);
+                        console.log(r)
+                        map[id] = r ? r.name : 'Unknown';
+                    });
+                    renderTokens(map);
+
+                    if (typeof onDone === 'function') onDone(assignedIds);
+                });
+            }
+
+            // Insert detail into update form
+            document.getElementById('open-update-modal-btn').addEventListener('click', () => {
+                const updateTextFields = ['fullName', 'phone', 'email'];
+
+                // xóa selection + token trước khi load (đảm bảo bắt đầu "sạch")
+                setSelectedIdsHidden([]);
+                renderTokens({});
+                roleActionStatus.textContent = 'Đang tải vai trò...';
+
+                // load danh sách tất cả roles, sau đó load roles của user và mở modal
+                loadRoles(() => {
+                    loadUserAssignedRoles(document.getElementById('detail-id').value, () => {
+                        roleActionStatus.textContent = '';
+                    });
+                });
+
+                for (const field of updateTextFields)
+                    insertDetailIntoUpdateInput(field);
+
+                insertDetailIntoUpdateInputWithMap('gender', (value) => {
+                    value = value.toLowerCase().trim()
+                    if (value === 'nam') return 'MALE'
+                    if (value === 'nữ') return 'FEMALE'
+                    if (value === 'khác') return 'OTHER'
+                });
+
+                insertImageDetailIntoUpdateInput('image');
+            })
+
+            document.getElementById('btn-update-detail').addEventListener('click', async (e) => {
+                e.preventDefault();
+                e.disabled = true;
+
+                const fileInput = document.getElementById('detail-img-input');
+                // Lấy dữ liệu form
+                const formData = new FormData();
+
+                let payload = {}
+                const formFields = ['fullName', 'phone', 'email', 'gender'];
+                for (const field of formFields) {
+                    payload[field] = document.getElementById(`input-${field}-update`).value;
+                }
+                const blob = new Blob([JSON.stringify(payload)], {type: 'application/json'});
+                formData.append('payload', blob);
+
+                if (fileInput.files || fileInput.files.length !== 0) {
+                    formData.append('file', fileInput.files[0]);
+                }
+
+                const accountId = document.getElementById('detail-id').value
+
+                try {
+                    let url = '/v1/api/users/' + accountId;
+                    await callApi(url, {
+                            method: 'PUT',
+                            body: formData
+                        }
+                        , (data) => {
+                            showSuccessDialog(data.message)
+                            handleFilter();
+                            viewDetail(accountId);
+                        });
+                } catch (err) {
+                    // đã show toast lỗi trong utils; vẫn có thể xử lý thêm ở đây nếu cần
+                    console.error(err);
+                } finally {
+                    closeAllModals();
+                }
+                e.disabled = false;
+            })
+
+            // Insert item detail into an update text detail
+            function insertDetailIntoUpdateInput(field) {
+                const detailEl = document.getElementById(`detail-${field}`);
+                const updateInputEL = document.getElementById(`input-${field}-update`)
+                updateInputEL.value = detailEl.value;
+            }
+
+            // Insert item detail into an update select detail, map is a function to transform the detail value
+            function insertDetailIntoUpdateInputWithMap(field, map) {
+                const detailEl = document.getElementById(`detail-${field}`);
+                const updateInputEL = document.getElementById(`input-${field}-update`)
+                updateInputEL.value = map(detailEl.value);
+            }
+
+            function insertImageDetailIntoUpdateInput(field) {
+                const detailImg = document.getElementById(`detail-${field}`);
+                const updateImg = document.getElementById(`detail-img-view`)
+                updateImg.src = detailImg.src;
+            }
+        })();
+    </script>
+</div>
+</html>
