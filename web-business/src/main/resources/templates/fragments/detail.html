@@ -1,0 +1,44 @@
+<div th:fragment="detail">
+    <div class="container py-5">
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+        <div id="productDetail" class="row" style="display: none;">
+            <!-- Image -->
+            <div class="col-md-6">
+                <img id="foodImage" class="img-fluid rounded shadow-sm" alt="Food Image">
+            </div>
+
+            <!-- Details -->
+            <div class="col-md-6">
+                <div id="discountBadge"
+                     style="display:none;background:#ff5252;color:#fff;padding:4px 10px;border-radius:12px;font-size:0.9rem;margin-bottom:10px;">
+                    <span id="discountValue"></span>%
+                </div>
+
+                <h2 id="foodName"></h2>
+                <p id="foodDescription" class="text-muted"></p>
+
+                <div id="priceSection" class="mb-3">
+                    <h4 id="discountedPrice" class="text-primary"></h4>
+                    <p><del id="originalPrice" class="text-muted"></del></p>
+                </div>
+
+                <!-- Quantity selector -->
+                <div class="d-flex align-items-center mb-3">
+                    <button id="decreaseQty" class="btn btn-outline-secondary btn-sm">-</button>
+                    <span id="quantityValue" class="mx-3 fw-bold">1</span>
+                    <button id="increaseQty" class="btn btn-outline-primary btn-sm">+</button>
+                </div>
+
+                <!-- Add to cart -->
+                <button id="addToCartBtn" class="btn btn-success mt-2">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/detail.js}"></script>
+</div>

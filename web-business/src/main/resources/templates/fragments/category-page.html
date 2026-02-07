@@ -1,0 +1,55 @@
+<div th:fragment="category-page">
+  <!-- ##### Hero Area Start ##### -->
+  <section class="hero-area">
+    <div class="hero-slides owl-carousel">
+      <!-- Single Hero Slide Inserted Dynamically -->
+    </div>
+  </section>
+  <!-- ##### Hero Area End ##### -->
+
+  <section class="about-area section-padding-80">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="section-heading">
+            <h3 id="about-category-title"></h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <h6 id="about-category-subtitle" class="sub-heading pb-5"></h6>
+
+          <p id="about-category-description" class="text-center"></p>
+        </div>
+      </div>
+
+      <div id="statistic-container" class="row align-items-center mt-70">
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ##### Best Food Area Start ##### -->
+  <section class="best-food-area">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div class="section-heading">
+            <h3>Món ăn nổi bật</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Best Food Inserted Dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <script th:src="@{/js/category-page/about-category.js}"></script>
+  <script th:src="@{/js/category-page/main-banner.js}"></script>
+  <script th:src="@{/js/category-page/best-food.js}"></script>
+  <script th:src="@{/js/category-page/category-statistic.js}"></script>
+</div>

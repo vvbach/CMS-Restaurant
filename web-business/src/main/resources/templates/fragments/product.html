@@ -1,0 +1,36 @@
+<div th:fragment="product">
+    <div class="container my-5">
+
+        <!-- Filters -->
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-2">
+                <select id="categoryFilter" class="form-select"></select>
+            </div>
+            <div class="col-md-3">
+                <input type="number" id="minPrice" min="0" class="form-control" placeholder="Min Price">
+            </div>
+            <div class="col-md-3">
+                <input type="number" id="maxPrice" min="0" class="form-control" placeholder="Max Price">
+            </div>
+            <div class="col-md-3">
+                <input type="text" id="searchBox" class="form-control" placeholder="Search foods...">
+            </div>
+            <div class="col-md-1">
+                <button id="filterBtn" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </div>
+
+
+
+        <!-- Products Grid -->
+        <div class="row" id="foodGrid">
+            <!-- Food cards will be rendered here -->
+        </div>
+
+        <nav>
+            <ul class="pagination justify-content-center mt-4" id="pagination"></ul>
+        </nav>
+    </div>
+
+    <script th:src="@{/js/product.js}"></script>
+</div>

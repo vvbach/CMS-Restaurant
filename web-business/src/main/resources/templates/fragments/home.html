@@ -1,0 +1,41 @@
+<div th:fragment="home">
+    <!-- ##### Hero Area Start ##### -->
+    <section class="hero-area">
+        <div class="hero-slides owl-carousel">
+            <!-- Single Hero Slide Inserted Dynamically -->
+        </div>
+    </section>
+    <!-- ##### Hero Area End ##### -->
+
+    <!-- ##### Top Category Area Start ##### -->
+    <section class="top-category-area section-padding-80-0">
+        <div class="container">
+            <div class="row">
+                <!-- Category Inserted Dynamically -->
+            </div>
+        </div>
+    </section>
+    <!-- ##### Top Category Area End ##### -->
+
+    <!-- ##### Best Food Area Start ##### -->
+    <section class="best-food-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <h3>Món ăn nổi bật</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Best Food Inserted Dynamically -->
+            </div>
+        </div>
+    </section>
+    <!-- ##### Best Receipe Area End ##### -->
+
+    <script th:src="@{/js/home/home-main-banner.js}"></script>
+    <script th:src="@{/js/home/featured-category.js}"></script>
+    <script th:src="@{/js/home/home-best-food.js}"></script>
+</div>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+
+<div th:fragment="contact">
+    <!-- ##### Contact Information Area Start ##### -->
+    <div class="contact-information-area section-padding-80">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Text -->
+                <div class="col-12 col-lg-5">
+                    <div class="contact-text">
+                        <p></p>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-3">
+                    <!-- Single Contact Information -->
+                    <div class="contact-address mb-30">
+                        <h6>Address:</h6>
+                        <p></p>
+                    </div>
+                    <!-- Single Contact Information -->
+                    <div class="contact-phone mb-30">
+                        <h6>Phone:</h6>
+                        <p></p>
+                    </div>
+                    <!-- Single Contact Information -->
+                    <div class="contact-email mb-30">
+                        <h6>Email:</h6>
+                        <p></p>
+                    </div>
+                </div>
+
+                <!-- Newsletter Area -->
+                <div class="col-12 col-lg-4">
+                    <div class="newsletter-form bg-img bg-overlay">
+                        <form action="#" method="post">
+                            <input type="email" name="email" placeholder="Subscribe to newsletter">
+                            <button type="submit" class="btn delicious-btn w-100">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Contact Information Area End ##### -->
+
+    <!-- ##### Contact Form Area Start ##### -->
+    <div class="contact-area section-padding-0-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading">
+                        <h3>Get In Touch</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="contact-form-area">
+                        <form action="#" method="post">
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+                                    <input type="text" class="form-control" id="name" placeholder="Name">
+                                </div>
+                                <div class="col-12 col-lg-6">
+                                    <input type="email" class="form-control" id="email" placeholder="E-mail">
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                </div>
+                                <div class="col-12">
+                                    <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button class="btn delicious-btn mt-30" type="submit">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/contact.js}"></script>
+</div>

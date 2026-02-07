@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vn">
+
+<div th:fragment="about">
+  <!-- ##### Breadcumb Area Start ##### -->
+  <div class="breadcumb-area bg-img bg-overlay" style="background-image: url(img/bg-img/breadcumb1.jpg);">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12">
+          <div class="breadcumb-text text-center">
+<!--            <h2 th:text="${aboutPage.data.title}">About us</h2>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Breadcumb Area End ##### -->
+
+  <!-- ##### About Area Start ##### -->
+  <section class="about-area section-padding-80">
+    <div class="container">
+<!--      <div th:text="${aboutPage.data.text}"></div>-->
+    </div>
+  </section>
+  <!-- ##### About Area End ##### -->
+
+  <!-- ##### Contact Area Start ##### -->
+  <div class="contact-area section-padding-0-80">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <img id="contact-area-banner" class="mb-70" src="" alt="">
+          <div class="section-heading">
+            <h3>Contact Us</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="contact-form-area">
+            <form action="#" method="post">
+              <div class="row">
+                <div class="col-12 col-lg-6">
+                  <input type="text" class="form-control" id="name" placeholder="Name">
+                </div>
+                <div class="col-12 col-lg-6">
+                  <input type="email" class="form-control" id="email" placeholder="E-mail">
+                </div>
+                <div class="col-12">
+                  <input type="text" class="form-control" id="subject" placeholder="Subject">
+                </div>
+                <div class="col-12">
+                  <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                </div>
+                <div class="col-12 text-center">
+                  <button class="btn delicious-btn mt-30" type="submit">Send</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ##### Contact Area End ##### -->
+
+  <script th:src="@{/js/about.js}"></script>
+</div>
