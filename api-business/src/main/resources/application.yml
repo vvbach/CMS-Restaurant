@@ -39,6 +39,50 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  kafka:
+    bootstrap-servers: vvbach-linux:29092
+    listener:
+      ack-mode: record
+      concurrency: 3
+      retry:
+        max-attempts: 3
+        initial-interval: 1000
+        multiplier: 2.0
+        max-interval: 10000
+    consumer:
+      group-id: my-group
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      max-poll-records: 1
+
+      # Bắt buộc dùng ErrorHandlingDeserializer để bắt Serialization/Deserialization lỗi
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+        spring.json.ignore.unknown: true
+        spring.json.use.type.headers: true
+        spring.json.trusted.packages: "*"
+    producer:
+      acks: 1
+      retries: 3
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        # Giữ nguyên mặc định: thêm type headers để consumer nhận diện lớp
+        spring.json.add.type.headers: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    csrf:
+      enabled: false
+    enabled: true
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+
 minio:
   url: http://vvbach-linux:9000
   access-key: minioadmin
