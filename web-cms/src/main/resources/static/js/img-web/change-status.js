@@ -4,16 +4,16 @@ document.getElementById('btnSaveChange').addEventListener('click',async (e) => {
     let objChange = {};
     let url = "/v1/api/image-web/" + document.getElementById('id-row-edit').value;
     console.log(document.getElementById('headerState').textContent);
-    if (document.getElementById('headerState').textContent === 'PendingApproval') {
+    if (document.getElementById('headerState').textContent === 'Pending Approval') {
         url = url + "/pending-approval";
     } else if (document.getElementById('headerState').textContent === 'Approved') {
         url = url + "/approve";
-    } else if (document.getElementById('headerState').textContent === 'Publish') {
+    } else if (document.getElementById('headerState').textContent === 'Published') {
         url = url + "/publish";
     } else if (document.getElementById('headerState').textContent === 'Rejected') {
         url = url + "/reject";
         objChange['reasonRejection'] = document.getElementById('reason').textContent; ;
-    } else if (document.getElementById('headerState').textContent === 'Unpublish') {
+    } else if (document.getElementById('headerState').textContent === 'Unpublished') {
         url = url + "/unpublish";
         objChange['reason'] = document.getElementById('reason').textContent;
     } else if (document.getElementById('headerState').textContent === 'Draft') {

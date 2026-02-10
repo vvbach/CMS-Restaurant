@@ -17,7 +17,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
 
             setStatus(d, "UI");
 
-            document.getElementById('openFoodLibraryBtn').disabled = d.status !== 'Draft';
+            document.getElementById('openFoodLibraryBtn').disabled = d.status !== 'DRAFT';
 
             if (d.foodId) {
                 const food = await callApi("/v1/api/food/" + d.foodId, {method: 'GET'})

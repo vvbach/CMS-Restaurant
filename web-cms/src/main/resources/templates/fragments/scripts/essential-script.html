@@ -230,19 +230,9 @@
 
 
     const fileNameFromPath = (p) => (p ? p.split('/').pop() : '-');
-    const viDateTime = (iso) => {
-        if (!iso) return '-';
-        const d = new Date(iso * 1000);
-        if (isNaN(d)) return '-';
-        return d.toLocaleString('vi-VN', {
-            timeZone: 'Asia/Bangkok', hour12: false,
-            year: 'numeric', month: '2-digit', day: '2-digit',
-            hour: '2-digit', minute: '2-digit'
-        });
-    };
 
 
-    function viewUIDetail() {
+    function showDetailPanel() {
         if (document.getElementById("detail").classList.contains('d-none')) {
             document.getElementById("detail").classList.remove('d-none')
             document.getElementById("list-data").classList.remove("col-lg-12");
@@ -250,16 +240,10 @@
         }
     }
 
-    function viewOrHiddenDetail() {
-        if (document.getElementById("detail").classList.contains('d-none')) {
-            document.getElementById("detail").classList.remove('d-none')
-            document.getElementById("list-data").classList.remove("col-lg-12");
-            document.getElementById("list-data").classList.add("col-lg-8");
-        } else {
-            document.getElementById("detail").classList.add('d-none')
-            document.getElementById("list-data").classList.add("col-lg-12");
-            document.getElementById("list-data").classList.remove("col-lg-8");
-        }
+    function hideDetailPanel() {
+        document.getElementById("detail").classList.add('d-none')
+        document.getElementById("list-data").classList.add("col-lg-12");
+        document.getElementById("list-data").classList.remove("col-lg-8");
     }
 
     function formatDate(dateString) {

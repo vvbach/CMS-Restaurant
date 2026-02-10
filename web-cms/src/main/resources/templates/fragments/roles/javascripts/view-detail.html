@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vn">
 <script th:fragment="view-detail" th:inline="javascript">
     async function viewDetail(id) {
-        viewUIDetail()
+        showDetailPanel()
         let url = `/v1/api/roles/${id}/detail`
         await callApi(url, {
             method: 'GET',
@@ -16,9 +16,9 @@
             document.getElementById('detail-is-default').value = d?.default ?? '';
             document.getElementById('detail-is-delete').value = mapIsDelete(d?.isDelete);
             document.getElementById('inputAuthor').value = d?.createdByName || d?.createdBy || '-';
-            document.getElementById('inputCreateAt').value = viDateTime(d?.createdAt);
+            document.getElementById('inputCreateAt').value = formatDate(d?.createdAt);
             document.getElementById('inputUpdater').value = d?.updatedByName || d?.updatedBy || '-';
-            document.getElementById('inputUpdateAt').value = viDateTime(d?.updatedAt);
+            document.getElementById('inputUpdateAt').value = formatDate(d?.updatedAt);
             const permissions = d?.permissions ?? []
             document.getElementById("detail-permissions").innerHTML = ""
             for (const permission of permissions) {

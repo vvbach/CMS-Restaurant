@@ -39,7 +39,7 @@
                 <td><div class="text-truncate">${item.createdByName ? item.createdByName : "Người dùng tự đăng ký"}</div></td>
                 <td><div class="text-truncate">${item.email}</div></td>
                 <td><div class="text-truncate">${item.phone}</div></td>
-                <td>${viDateTime(item.createdAt)}</td>
+                <td>${formatDate(item.createdAt)}</td>
               </tr>
             `).join('');
 

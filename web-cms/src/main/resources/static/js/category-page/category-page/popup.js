@@ -17,7 +17,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
 
             setStatus(d, "UI");
 
-            document.getElementById("editCategoryBtn").disabled = d?.status !== 'Draft'
+            document.getElementById("editCategoryBtn").disabled = d?.status !== 'DRAFT'
 
             if (d.categoryId) {
                 const category = await callApi("/v1/api/category/" + d.categoryId, {method: 'GET'})

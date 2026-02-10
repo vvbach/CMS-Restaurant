@@ -4,7 +4,7 @@ function setStatus(d, permissionType){
     // xóa hết dữ liệu
     document.getElementById('detail-list-status').innerHTML = '';
 
-    if (d?.status === 'Draft') {
+    if (d?.status === 'DRAFT') {
         hideDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
@@ -14,7 +14,7 @@ function setStatus(d, permissionType){
             document.getElementById('btnSaveChange').remove();
         }
     }
-    else if (d?.status === 'Rejected') {
+    else if (d?.status === 'REJECTED') {
         showDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
         updateReason( d?.reasonRejection,'#detail-reason-reject')
@@ -25,29 +25,29 @@ function setStatus(d, permissionType){
             document.getElementById('btnSaveChange').remove();
         }
     }
-    else if (d?.status === 'PendingApproval') {
+    else if (d?.status === 'PENDING_APPROVAL') {
         hideDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
-            `<li><button class="dropdown-item" data-action="Rejected"><b>Từ chối</b></button></li>
-                            <li><button class="dropdown-item" data-action="Approved">Duyệt</button></li>`) ;
+            `<li><button class="dropdown-item" data-action="Reject"><b>Từ chối</b></button></li>
+                  <li><button class="dropdown-item" data-action="Approve">Duyệt</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "PENDING_APPROVE")) {
             document.getElementById('btnChange').remove();
             document.getElementById('btnSaveChange').remove();
         }
     }
-    else if (d?.status === 'Approved') {
+    else if (d?.status === 'APPROVED') {
         hideDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
-            `<li><button class="dropdown-item" data-action="Rejected"><b>Từ chối</b></button></li>
-                            <li><button class="dropdown-item" data-action="Publish">Xuất bản</button></li>`) ;
+            `<li><button class="dropdown-item" data-action="Reject"><b>Từ chối</b></button></li>
+                  <li><button class="dropdown-item" data-action="Publish">Xuất bản</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "APPROVE")) {
             document.getElementById('btnChange').remove();
             document.getElementById('btnSaveChange').remove();
         }
     }
-    else if (d?.status === 'Publish') {
+    else if (d?.status === 'PUBLISHED') {
         hideDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
@@ -57,13 +57,13 @@ function setStatus(d, permissionType){
             document.getElementById('btnSaveChange').remove();
         }
     }
-    else if (d?.status === 'Unpublish') {
+    else if (d?.status === 'UNPUBLISHED') {
         hideDiv('detail-reason-reject');
         showDiv('detail-reason-unpublish');
         updateReason( d?.reasonUnpublish,'#detail-reason-unpublish')
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Publish">Xuất bản</button></li>
-                            <li><button class="dropdown-item" data-action="Draft">Nháp</button></li>`) ;
+                  <li><button class="dropdown-item" data-action="Draft">Nháp</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "UNPUBLISH")) {
             document.getElementById('btnChange').remove();
             document.getElementById('btnSaveChange').remove();
@@ -77,14 +77,14 @@ function setStatus(d, permissionType){
         hideDiv('detail-reason-delete')
     }
 
-    document.getElementById('fldTrangThai').value = mapStatus(d?.status);
+    document.getElementById('statusField').value = mapStatus(d?.status);
     document.getElementById('headerState').textContent = mapStatus(d?.status);
     document.getElementById('detail-txt-status').textContent = mapStatus(d?.status);
     document.getElementById('detail-txt-delete').textContent = mapIsDelete(d?.isDelete);
     document.getElementById('created-user').value = d?.createdByName;
-    document.getElementById('created-at').value =viDateTime(d?.createdAt);
+    document.getElementById('created-at').value =formatDate(d?.createdAt);
     document.getElementById('updated-user').value = d?.updatedByName
-    document.getElementById('updated-at').value = viDateTime(d?.updatedAt);
+    document.getElementById('updated-at').value = formatDate(d?.updatedAt);
     document.getElementById('id-row-edit').value = d?.id;
 }
 

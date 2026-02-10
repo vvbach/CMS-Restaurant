@@ -28,7 +28,7 @@ async function handleFilter() {
                     <td>${item.isDelete === 'NO' ? 'Bình thường' : 'Đã Xoá'}</td>
                     <td>${mapStatus(item.status)}</td>
                     <td>${item.createdByName}</td>
-                    <td>${viDateTime(item.createdAt)}</td>
+                    <td>${formatDate(item.createdAt)}</td>
                 </tr>
             `).join('');
 

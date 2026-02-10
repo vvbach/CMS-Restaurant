@@ -1,5 +1,5 @@
 async function viewDetail(id) {
-    viewUIDetail()
+    showDetailPanel()
     let url = "/v1/api/social-link/" + id
     await callApi(url, {
         method: 'GET',
@@ -14,11 +14,11 @@ async function viewDetail(id) {
         document.getElementById('detail-status').value = mapStatus(d?.status);
         document.getElementById('detail-is-delete').value = mapIsDelete(d?.isDelete);
         document.getElementById('inputAuthor').value = d?.createdByName ?? d?.createdBy ?? '-';
-        document.getElementById('inputCreateAt').value = viDateTime(d?.createdAt);
+        document.getElementById('inputCreateAt').value = formatDate(d?.createdAt);
         document.getElementById('inputUpdater').value = d?.updatedByName ?? d?.updatedBy ?? '-';
-        document.getElementById('inputUpdateAt').value = viDateTime(d?.updatedAt);
+        document.getElementById('inputUpdateAt').value = formatDate(d?.updatedAt);
 
-        if (d?.status === 'Draft') {
+        if (d?.status === 'DRAFT') {
             document.getElementById('bt-update-detail').classList.remove('d-none')
         } else {
             document.getElementById('bt-update-detail').classList.add('d-none')

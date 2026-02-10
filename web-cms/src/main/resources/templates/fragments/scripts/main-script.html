@@ -117,11 +117,11 @@
             },
             PendingApproval: {
                 step: 2,
-                header: {text: 'PendingApproval', cls: 'text-bg-primary'},
+                header: {text: 'Pending Approval', cls: 'text-bg-primary'},
                 field: 'Gửi duyệt',
                 toast: 'Đã gửi duyệt.'
             },
-            Approved: {
+            Approve: {
                 step: 3,
                 header: {text: 'Approved', cls: 'text-bg-info'},
                 field: 'Đã duyệt',
@@ -129,11 +129,11 @@
             },
             Publish: {
                 step: 4,
-                header: {text: 'Publish', cls: 'text-bg-success'},
+                header: {text: 'Published', cls: 'text-bg-success'},
                 field: 'Xuất bản',
                 toast: 'Nội dung đã xuất bản!'
             },
-            Rejected: {
+            Reject: {
                 step: 1,
                 header: {text: 'Rejected', cls: 'text-bg-danger'},
                 field: 'Bị từ chối',
@@ -141,7 +141,7 @@
             },
             Unpublish: {
                 step: 3,
-                header: {text: 'Unpublish', cls: 'text-bg-warning'},
+                header: {text: 'Unpublished', cls: 'text-bg-warning'},
                 field: 'Gỡ xuống',
                 toast: 'Đã gỡ xuống (unpublish).'
             }
@@ -176,10 +176,10 @@
 
             setProgress(conf.step);
             updateHeader(conf.header);
-            document.getElementById('fldTrangThai').value = conf.field;
+            document.getElementById('statusField').value = conf.field;
 
             if (conf.header.text === 'Rejected'
-                || conf.header.text === 'Unpublish') {
+                || conf.header.text === 'Unpublished') {
                 document.getElementById('reason').classList.remove("d-none");
             } else {
                 document.getElementById('reason').classList.add("d-none");

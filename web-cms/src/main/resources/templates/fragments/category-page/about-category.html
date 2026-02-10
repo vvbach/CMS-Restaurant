@@ -175,7 +175,7 @@
                                 <button id="openModalDeleteBtn" class="btn btn-icon me-1">
                                     <i class="ri-delete-bin-fill fs-5"></i>
                                 </button>
-                                <button data-bs-toggle="modal" class="btn btn-icon" onclick="viewOrHiddenDetail()">
+                                <button data-bs-toggle="modal" class="btn btn-icon" onclick="hideDetailPanel()">
                                     <i class="bi bi-arrow-bar-right fs-5"></i>
                                 </button>
                             </div>
@@ -327,10 +327,10 @@
                     <!-- Grid fields -->
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="fldTrangThai" class="form-label">Trạng thái</label>
+                            <label for="statusField" class="form-label">Trạng thái</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-flag"></i></span>
-                                <input id="fldTrangThai" type="text" class="form-control readonly" value="" readonly>
+                                <input id="statusField" type="text" class="form-control readonly" value="" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
