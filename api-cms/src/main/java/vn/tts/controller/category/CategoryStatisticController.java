@@ -99,7 +99,7 @@ public class CategoryStatisticController {
         return ResponseBase.success(categoryStatisticService.filter(payload, categoryPageId, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi Category Statistic")
+    @Operation(summary = "Reject bản ghi Category Statistic")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -126,7 +126,7 @@ public class CategoryStatisticController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin thống kê danh mục")
+    @Operation(summary = "Publish thông tin thống kê danh mục")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -134,7 +134,7 @@ public class CategoryStatisticController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin thống kê danh mục")
+    @Operation(summary = "Unpublish thông tin thống kê danh mục")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

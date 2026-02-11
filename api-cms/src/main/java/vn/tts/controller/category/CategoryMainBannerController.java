@@ -99,7 +99,7 @@ public class CategoryMainBannerController {
         return ResponseBase.success(categoryMainBannerService.filter(payload, categoryPageId, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi banner chính trang category")
+    @Operation(summary = "Reject bản ghi banner chính trang category")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -126,7 +126,7 @@ public class CategoryMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin banner chính trang category")
+    @Operation(summary = "Publish thông tin banner chính trang category")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -134,7 +134,7 @@ public class CategoryMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin banner chính trang category")
+    @Operation(summary = "Unpublish thông tin banner chính trang category")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

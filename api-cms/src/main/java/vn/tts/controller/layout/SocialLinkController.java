@@ -91,7 +91,7 @@ public class SocialLinkController {
         return ResponseBase.success(socialLinkService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi mạng xã hội")
+    @Operation(summary = "Reject bản ghi mạng xã hội")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class SocialLinkController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin mạng xã hội")
+    @Operation(summary = "Publish thông tin mạng xã hội")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class SocialLinkController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin mạng xã hội")
+    @Operation(summary = "Unpublish thông tin mạng xã hội")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

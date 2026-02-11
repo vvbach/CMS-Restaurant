@@ -92,7 +92,7 @@ public class ContactInfoController {
         return ResponseBase.success(contactInfoService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi liên hệ")
+    @Operation(summary = "Reject bản ghi liên hệ")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -119,7 +119,7 @@ public class ContactInfoController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin liên hệ")
+    @Operation(summary = "Publish thông tin liên hệ")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -127,7 +127,7 @@ public class ContactInfoController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin liên hệ")
+    @Operation(summary = "Unpublish thông tin liên hệ")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

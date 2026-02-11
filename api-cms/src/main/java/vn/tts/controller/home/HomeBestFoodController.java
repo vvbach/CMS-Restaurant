@@ -91,7 +91,7 @@ public class HomeBestFoodController {
         return ResponseBase.success(homeBestFoodService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi Best Food trang Home")
+    @Operation(summary = "Reject bản ghi Best Food trang Home")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class HomeBestFoodController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin Best Recipe trang Home")
+    @Operation(summary = "Publish thông tin Best Recipe trang Home")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class HomeBestFoodController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin Best Recipe trang Home")
+    @Operation(summary = "Unpublish thông tin Best Recipe trang Home")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

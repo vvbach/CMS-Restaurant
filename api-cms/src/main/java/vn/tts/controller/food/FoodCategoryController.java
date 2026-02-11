@@ -84,7 +84,7 @@ public class FoodCategoryController {
         return ResponseBase.success(foodCategoryService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối danh mục món ăn")
+    @Operation(summary = "Reject danh mục món ăn")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('PRODUCT_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody RejectPayload payload) {
@@ -108,7 +108,7 @@ public class FoodCategoryController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản danh mục món ăn")
+    @Operation(summary = "Publish danh mục món ăn")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('PRODUCT_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) {

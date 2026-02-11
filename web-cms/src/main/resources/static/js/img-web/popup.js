@@ -23,7 +23,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
                 hideDiv('detail-reason-unpublish');
                 document.querySelector('#detail-descs textarea').removeAttribute("disabled")
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="PendingApproval">Chờ phê duyệt</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
 
             }
             else if (d?.status === 'REJECTED') {
@@ -31,35 +31,35 @@ document.getElementById('openModalBtn').addEventListener('click', async function
                 hideDiv('detail-reason-unpublish');
                 updateRejectReason( d?.reasonRejection,'#detail-reason-reject')
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="PendingApproval">Chờ phê duyệt</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
             }
             else if (d?.status === 'PENDING_APPROVAL') {
                 hideDiv('detail-reason-reject');
                 hideDiv('detail-reason-unpublish');
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="Rejected"><b>Từ chối</b></button></li>
-                            <li><button class="dropdown-item" data-action="Approve">Duyệt</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="Rejected"><b>Reject</b></button></li>
+                            <li><button class="dropdown-item" data-action="Approve">Approve</button></li>`) ;
             }
             else if (d?.status === 'APPROVED') {
                 hideDiv('detail-reason-reject');
                 hideDiv('detail-reason-unpublish');
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="Rejected"><b>Từ chối</b></button></li>
-                            <li><button class="dropdown-item" data-action="Publish">Xuất bản</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="Rejected"><b>Reject</b></button></li>
+                            <li><button class="dropdown-item" data-action="Publish">Publish</button></li>`) ;
             }
             else if (d?.status === 'PUBLISHED') {
                 hideDiv('detail-reason-reject');
                 hideDiv('detail-reason-unpublish');
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="Unpublish">Huỷ xuất bản</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="Unpublish">Unpublish</button></li>`) ;
             }
             else if (d?.status === 'UNPUBLISHED') {
                 hideDiv('detail-reason-reject');
                 showDiv('detail-reason-unpublish');
                 updateRejectReason( d?.reasonUnPublish,'#detail-reason-unpublish')
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
-                    `<li><button class="dropdown-item" data-action="Publish">Xuất bản</button></li>
-                            <li><button class="dropdown-item" data-action="Draft">Nháp</button></li>`) ;
+                    `<li><button class="dropdown-item" data-action="Publish">Publish</button></li>
+                            <li><button class="dropdown-item" data-action="Draft">Draft</button></li>`) ;
             }
 
             if (d?.isDelete === 'YES') {

@@ -18,12 +18,12 @@
         const mapIsDelete = (v) => v === 'YES' ? 'Đã xóa' : v === 'NO' ? 'Đang sử dụng' : '-';
 
         const mapStatus = (s) => ({
-            Draft: 'Nháp',
-            Publish: 'Đã xuất bản',
-            Unpublish: 'Đã huỷ Xuất bản',
-            Rejected: 'Từ chối',
-            PendingApproval: 'Chờ duyệt',
-            Approved: 'Đã phê duyệt',
+            DRAFT: 'Draft',
+            PUBLISHED: 'Đã xuất bản',
+            UNPUBLISHED: 'Đã huỷ Publish',
+            REJECTED: 'Reject',
+            PENDING_APPROVAL: 'Chờ duyệt',
+            APPROVED: 'Đã phê duyệt',
         }[s] ?? (s || '-'));
 
         const mapGender = (s) => ({
@@ -112,38 +112,38 @@
             Draft: {
                 step: 1,
                 header: {text: 'Draft', cls: 'text-bg-secondary'},
-                field: 'Nháp',
-                toast: 'Đã chuyển về bản nháp.'
+                field: 'Draft',
+                toast: 'Reverted to draft'
             },
             PendingApproval: {
                 step: 2,
                 header: {text: 'Pending Approval', cls: 'text-bg-primary'},
-                field: 'Gửi duyệt',
-                toast: 'Đã gửi duyệt.'
+                field: 'Pending Approval',
+                toast: 'Sent for approval.'
             },
             Approve: {
                 step: 3,
                 header: {text: 'Approved', cls: 'text-bg-info'},
-                field: 'Đã duyệt',
-                toast: 'Đã duyệt nội dung.'
+                field: 'Approved',
+                toast: 'Approved successfully.'
             },
             Publish: {
                 step: 4,
                 header: {text: 'Published', cls: 'text-bg-success'},
-                field: 'Xuất bản',
-                toast: 'Nội dung đã xuất bản!'
+                field: 'Published',
+                toast: 'Published successfully.'
             },
             Reject: {
                 step: 1,
                 header: {text: 'Rejected', cls: 'text-bg-danger'},
-                field: 'Bị từ chối',
-                toast: 'Yêu cầu đã bị từ chối.'
+                field: 'Rejected',
+                toast: 'Rejected'
             },
             Unpublish: {
                 step: 3,
                 header: {text: 'Unpublished', cls: 'text-bg-warning'},
-                field: 'Gỡ xuống',
-                toast: 'Đã gỡ xuống (unpublish).'
+                field: 'Unpublished',
+                toast: 'Unpublished successfully.'
             }
         };
 
@@ -178,8 +178,7 @@
             updateHeader(conf.header);
             document.getElementById('statusField').value = conf.field;
 
-            if (conf.header.text === 'Rejected'
-                || conf.header.text === 'Unpublished') {
+            if (conf.header.text === 'Rejected' || conf.header.text === 'Unpublished') {
                 document.getElementById('reason').classList.remove("d-none");
             } else {
                 document.getElementById('reason').classList.add("d-none");

@@ -17,11 +17,11 @@
                                         <!-- Hàng tiêu đề -->
                                         <thead class="table-success">
                                         <tr>
-                                            <th scope="col">Hoạt động</th>
-                                            <th scope="col">Mô tả</th>
-                                            <th scope="col" class="nowrap">Trạng thái</th>
-                                            <th scope="col" class="nowrap">Người tạo</th>
-                                            <th scope="col" class="nowrap" style="min-width:260px;">Ngày tạo (Từ ngày tới ngày)</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col" class="nowrap">Status</th>
+                                            <th scope="col" class="nowrap">Creator</th>
+                                            <th scope="col" class="nowrap" style="min-width:260px;">Creation Date (From Date to Date)</th>
                                         </tr>
                                         </thead>
 
@@ -32,9 +32,9 @@
                                             <!-- Hoạt động: dùng select is-delete theo yêu cầu (giữ nguyên id) -->
                                             <th>
                                                 <select id="f-is-delete" class="form-select form-select-sm">
-                                                    <option value="">Tất cả</option>
-                                                    <option value="1">Đã xoá</option>
-                                                    <option value="0">Đang sử dụng</option>
+                                                    <option value="">All</option>
+                                                    <option value="1">Deleted</option>
+                                                    <option value="0">Active</option>
                                                 </select>
                                             </th>
 
@@ -45,25 +45,25 @@
                                             <th>
                                                 <select id="f-s-status" class="form-select form-select-sm">
                                                     <option value="">Tất cả</option>
-                                                    <option value="Draft">Nháp</option>
-                                                    <option value="Reject">Từ chối</option>
+                                                    <option value="Draft">Draft</option>
+                                                    <option value="Reject">Reject</option>
                                                     <option value="PendingApproval">Chờ duyệt</option>
                                                     <option value="Approved">Đã phê duyệt</option>
                                                     <option value="Publish">Đã xuất bản</option>
-                                                    <option value="Unpublish">Đã huỷ Xuất bản</option>
+                                                    <option value="Unpublish">Đã huỷ Publish</option>
                                                 </select>
                                             </th>
 
                                             <!-- Người tạo -->
                                             <th>
-                                                <input type="text" id="f-create_by" class="form-control form-control-sm" placeholder="Tên người tạo" />
+                                                <input type="text" id="f-create_by" class="form-control form-control-sm" placeholder="Creator's name" />
                                             </th>
 
                                             <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
                                             <th>
                                                 <div class="row g-2">
                                                     <div class="col-6">
-                                                        <input type="date" id="f-from-date" class="form-control form-control-sm" placeholder="Từ ngày" />
+                                                        <input type="date" id="f-from-date" class="form-control form-control-sm" placeholder="From date" />
                                                     </div>
                                                     <div class="col-6">
                                                         <input type="date" id="f-to-date" class="form-control form-control-sm" placeholder="Đến ngày" />
@@ -77,7 +77,7 @@
 
                                 <!-- Nút hành động (tùy chọn) -->
                                 <div class="d-flex gap-2 justify-content-end border-start border-end border-bottom p-2">
-                                    <button id="btnFilter" class="btn btn-sm btn-primary">Tìm kiếm</button>
+                                    <button id="btnFilter" class="btn btn-sm btn-primary">Search</button>
                                 </div>
                             </div>
 
@@ -88,8 +88,8 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Mô tả</th>
-                                                <th scope="col">Hoạt động</th>
+                                                <th scope="col">Description</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Trạng thái</th>
                                                 <th scope="col">Người tạo</th>
                                                 <th scope="col">Ngày tạo</th>

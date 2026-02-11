@@ -91,7 +91,7 @@ public class CategoryPageController {
         return ResponseBase.success(categoryPageService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi category page")
+    @Operation(summary = "Reject bản ghi category page")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class CategoryPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin category page")
+    @Operation(summary = "Publish thông tin category page")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class CategoryPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin category page")
+    @Operation(summary = "Unpublish thông tin category page")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

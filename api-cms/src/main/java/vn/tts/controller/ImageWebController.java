@@ -107,7 +107,7 @@ public class ImageWebController {
         return ResponseBase.success(imageWebService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bài viết ")
+    @Operation(summary = "Reject bài viết ")
     @PostMapping("/{id}/reject")
     public ResponseEntity<ResponseBase<Void>> reject(
             @PathVariable UUID id,
@@ -131,14 +131,14 @@ public class ImageWebController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản ảnh ")
+    @Operation(summary = "Publish ảnh ")
     @PostMapping("/{id}/publish")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
         imageWebService.publish(id);
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản ")
+    @Operation(summary = "Unpublish ")
     @PostMapping("/{id}/unpublish")
     public ResponseEntity<ResponseBase<Void>> unpublish(
             @PathVariable UUID id,

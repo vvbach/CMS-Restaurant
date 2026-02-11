@@ -91,7 +91,7 @@ public class HomeMainBannerController {
         return ResponseBase.success(homeMainBannerService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi banner chính trang home")
+    @Operation(summary = "Reject bản ghi banner chính trang home")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class HomeMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin banner chính trang home")
+    @Operation(summary = "Publish thông tin banner chính trang home")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class HomeMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin banner chính trang home")
+    @Operation(summary = "Unpublish thông tin banner chính trang home")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

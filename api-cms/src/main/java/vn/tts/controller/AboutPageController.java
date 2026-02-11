@@ -84,7 +84,7 @@ public class AboutPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Từ chối about banner article")
+    @Operation(summary = "Reject about banner article")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody RejectPayload payload) {
@@ -108,7 +108,7 @@ public class AboutPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản about banner article")
+    @Operation(summary = "Publish about banner article")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) {

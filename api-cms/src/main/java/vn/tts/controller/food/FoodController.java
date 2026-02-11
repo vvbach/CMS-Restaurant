@@ -99,7 +99,7 @@ public class FoodController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Từ chối món ăn")
+    @Operation(summary = "Reject món ăn")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('PRODUCT_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody RejectPayload payload) {
@@ -123,7 +123,7 @@ public class FoodController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản món ăn")
+    @Operation(summary = "Publish món ăn")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('PRODUCT_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) {

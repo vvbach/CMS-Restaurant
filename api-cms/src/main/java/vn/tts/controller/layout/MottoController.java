@@ -91,7 +91,7 @@ public class MottoController {
         return ResponseBase.success(mottoService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi tiêu ngữ")
+    @Operation(summary = "Reject bản ghi tiêu ngữ")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class MottoController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin tiêu ngữ")
+    @Operation(summary = "Publish thông tin tiêu ngữ")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class MottoController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin tiêu ngữ")
+    @Operation(summary = "Unpublish thông tin tiêu ngữ")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

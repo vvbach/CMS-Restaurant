@@ -99,7 +99,7 @@ public class AboutCategoryController {
         return ResponseBase.success(categoryBestFoodService.filter(payload, categoryPageId, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi About Category")
+    @Operation(summary = "Reject bản ghi About Category")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -126,7 +126,7 @@ public class AboutCategoryController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin About Category")
+    @Operation(summary = "Publish thông tin About Category")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -134,7 +134,7 @@ public class AboutCategoryController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin About Category")
+    @Operation(summary = "Unpublish thông tin About Category")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

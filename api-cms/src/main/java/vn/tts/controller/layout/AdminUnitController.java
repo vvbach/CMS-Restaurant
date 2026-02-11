@@ -91,7 +91,7 @@ public class AdminUnitController {
         return ResponseBase.success(adminUnitService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi đơn vị quản lý")
+    @Operation(summary = "Reject bản ghi đơn vị quản lý")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class AdminUnitController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin đơn vị quản lý")
+    @Operation(summary = "Publish thông tin đơn vị quản lý")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class AdminUnitController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin đơn vị quản lý")
+    @Operation(summary = "Unpublish thông tin đơn vị quản lý")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(

@@ -91,7 +91,7 @@ public class LogoPageController {
         return ResponseBase.success(logoPageService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Từ chối bản ghi logo page")
+    @Operation(summary = "Reject bản ghi logo page")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class LogoPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Xuất bản thông tin logo page")
+    @Operation(summary = "Publish thông tin logo page")
     @PostMapping("/{id}/publish")
     @PreAuthorize("hasAuthority('UI_PUBLISH')")
     public ResponseEntity<ResponseBase<Void>> publish(@PathVariable UUID id) throws Exception {
@@ -126,7 +126,7 @@ public class LogoPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Huỷ xuất bản thông tin logo page")
+    @Operation(summary = "Unpublish thông tin logo page")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
     public ResponseEntity<ResponseBase<Void>> unpublish(
