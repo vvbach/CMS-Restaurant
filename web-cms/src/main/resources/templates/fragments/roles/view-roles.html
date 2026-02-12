@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="card-title">Danh sách Vai trò</div>
+                            <div class="card-title">Danh sách Role</div>
                             <button id="openModalNewBtn" class="btn btn-icon me-1"
                                     data-bs-toggle="modal" data-bs-target="#popup-new">
                                 <i class="ri-play-list-add-line fs-5"></i>
@@ -45,11 +45,13 @@
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            hideAddBtn("ROLE")
-            hideUpdateBtn("ROLE")
-            hideDeleteBtn("ROLE")
-        })
+        (async () => {
+            await window.authReady;
+            handleFilter();
+            hideAddBtn("UI")
+            hideUpdateBtn("UI")
+            hideDeleteBtn("UI")
+        })();
     </script>
 </main>
 </html>

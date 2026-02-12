@@ -99,7 +99,7 @@ public class CategoryStatisticController {
         return ResponseBase.success(categoryStatisticService.filter(payload, categoryPageId, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi Category Statistic")
+    @Operation(summary = "Reject records Category Statistic")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class CategoryStatisticController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi Category Statistic")
+    @Operation(summary = "Phê duyệt records Category Statistic")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

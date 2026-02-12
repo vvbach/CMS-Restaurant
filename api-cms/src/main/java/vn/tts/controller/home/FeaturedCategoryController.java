@@ -91,7 +91,7 @@ public class FeaturedCategoryController {
         return ResponseBase.success(featuredCategoryService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi Featured Category")
+    @Operation(summary = "Reject records Featured Category")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class FeaturedCategoryController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi Featured Category")
+    @Operation(summary = "Phê duyệt records Featured Category")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

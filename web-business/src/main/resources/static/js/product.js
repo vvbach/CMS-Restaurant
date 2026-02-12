@@ -107,7 +107,7 @@ function loadCategories() {
                 if (!select) return resolve();
 
                 // clear existing (keep first option)
-                select.innerHTML = `<option value="">Tất cả danh mục</option>`;
+                select.innerHTML = `<option value="">All danh mục</option>`;
 
                 if (!data || !data.data || data.data.length === 0) {
                     // still reinit niceSelect so UI is consistent

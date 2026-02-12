@@ -15,21 +15,21 @@
 
     <script th:replace="~{/fragments/scripts/essential-script :: essential-script}"></script>
     <script>
-        const mapIsDelete = (v) => v === 'YES' ? 'Đã xóa' : v === 'NO' ? 'Đang sử dụng' : '-';
+        const mapIsDelete = (v) => v === 'YES' ? 'Deleted' : v === 'NO' ? 'Active' : '-';
 
         const mapStatus = (s) => ({
             DRAFT: 'Draft',
-            PUBLISHED: 'Đã xuất bản',
-            UNPUBLISHED: 'Đã huỷ Publish',
-            REJECTED: 'Reject',
-            PENDING_APPROVAL: 'Chờ duyệt',
-            APPROVED: 'Đã phê duyệt',
+            PUBLISHED: 'Published',
+            UNPUBLISHED: 'Unpublished',
+            REJECTED: 'Rejected',
+            PENDING_APPROVAL: 'Pending For Approval',
+            APPROVED: 'Approved',
         }[s] ?? (s || '-'));
 
         const mapGender = (s) => ({
-            MALE: 'Nam',
-            FEMALE: 'Nữ',
-            OTHER: 'Khác'
+            MALE: 'Male',
+            FEMALE: 'Female',
+            OTHER: 'Other'
         }[s] ?? (s || '-'))
 
         function setPage(page) {

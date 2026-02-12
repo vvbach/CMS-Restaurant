@@ -91,7 +91,7 @@ public class HomeBestFoodController {
         return ResponseBase.success(homeBestFoodService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi Best Food trang Home")
+    @Operation(summary = "Reject records Best Food trang Home")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class HomeBestFoodController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi Best Food trang Home")
+    @Operation(summary = "Phê duyệt records Best Food trang Home")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

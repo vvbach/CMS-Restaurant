@@ -8,6 +8,6 @@ import vn.tts.model.payload.FilterPayload;
 @Getter
 @Setter
 public class FoodFilterPayload extends FilterPayload {
-    @Schema(description = "Mô tả với 500 ký tự ", example = "Test")
+    @Schema(description = "Description với 500 ký tự ", example = "Test")
     private String categoryName;
 }

@@ -13,6 +13,6 @@ import java.io.Serializable;
 public class DeletePayload implements Serializable {
     @NotBlank(message = "{validate.reason.delete.blank}")
     @Length(max = 500, message = "{validate.reason.delete.blank.length}")
-    @Schema(description = "Ly do xóa không quá 500 ký tự", example = "Mô tả test lí do xóa")
+    @Schema(description = "Ly do xóa không quá 500 ký tự", example = "Description test lí do xóa")
     private String reason;
 }

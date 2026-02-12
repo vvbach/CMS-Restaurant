@@ -39,7 +39,7 @@ async function handleFilter(e) {
             createListPage();
         }
 
-        // hiển thị số bản ghi
+        // hiển thị số records
         document.getElementById('count-badge').textContent = data.data.data.length + '/' + data.data.total;
 
     });

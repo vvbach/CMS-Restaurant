@@ -113,7 +113,7 @@
             }
 
             const apiMessage = (data && (data.message || (data.data && data.data.message) || data.error))
-                || 'Lỗi không xác định từ server.';
+                || 'Unknown error from server.';
 
             // 403: forbidden — just flash message and throw (no refresh, no retry)
             if (response.status === 403) {

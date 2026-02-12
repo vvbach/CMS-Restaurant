@@ -91,7 +91,7 @@ public class SocialLinkController {
         return ResponseBase.success(socialLinkService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi mạng xã hội")
+    @Operation(summary = "Reject records mạng xã hội")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class SocialLinkController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi mạng xã hội")
+    @Operation(summary = "Phê duyệt records mạng xã hội")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

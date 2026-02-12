@@ -91,7 +91,7 @@ public class LogoPageController {
         return ResponseBase.success(logoPageService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi logo page")
+    @Operation(summary = "Reject records logo page")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class LogoPageController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi logo page")
+    @Operation(summary = "Phê duyệt records logo page")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

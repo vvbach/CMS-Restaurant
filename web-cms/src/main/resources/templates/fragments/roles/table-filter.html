@@ -6,11 +6,9 @@
             <thead class="table-success">
             <tr>
                 <th scope="col">Description</th>
-                <th scope="col">Trạng thái</th>
-                <th scope="col">Người tạo</th>
-                <th scope="col" style="min-width:260px;">Ngày tạo (Từ ngày
-                    tới ngày)
-                </th>
+                <th scope="col">Active Status</th>
+                <th scope="col">Creator</th>
+                <th scope="col" style="min-width:260px;">Creation Date</th>
             </tr>
             </thead>
             <!-- Hàng filter (đúng chuẩn: form nằm trong th, không bọc th) -->
@@ -19,36 +17,36 @@
                 <th>
                     <label for="f-description"></label>
                     <input type="text" id="f-description" class="form-control form-control-sm"
-                           placeholder="Mô tả"/>
+                           placeholder="Description"/>
                 </th>
                 <!-- Hoạt động: dùng select is-delete theo yêu cầu (giữ nguyên id) -->
                 <th>
                     <label for="f-is-delete"></label>
                     <select id="f-is-delete" class="form-select form-select-sm">
-                        <option value="">Tất cả</option>
-                        <option value="NO">Đang hoạt động</option>
-                        <option value="YES">Không hoạt động</option>
+                        <option value="">All</option>
+                        <option value="NO">Active</option>
+                        <option value="YES">Inactive</option>
                     </select>
                 </th>
 
-                <!-- Mô tả -->
+                <!-- Description -->
                 <th>
                     <label for="f-created-by"></label>
                     <input type="text" id="f-created-by" class="form-control form-control-sm"
-                           placeholder="Người tạo"/>
+                           placeholder="Creator"/>
                 </th>
-                <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
+                <!-- Creation Date: 2 input cùng hàng, chia 50/50 -->
                 <th>
                     <div class="row g-2">
                         <div class="col-6">
                             <input type="date" id="f-from-date"
                                    class="form-control form-control-sm"
-                                   placeholder="Từ ngày"/>
+                                   placeholder="From Date"/>
                         </div>
                         <div class="col-6">
                             <input type="date" id="f-to-date"
                                    class="form-control form-control-sm"
-                                   placeholder="Đến ngày"/>
+                                   placeholder="To Date"/>
                         </div>
                     </div>
                 </th>

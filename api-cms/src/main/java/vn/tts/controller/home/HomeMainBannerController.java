@@ -91,7 +91,7 @@ public class HomeMainBannerController {
         return ResponseBase.success(homeMainBannerService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi banner chính trang home")
+    @Operation(summary = "Reject records banner chính trang home")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class HomeMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi banner chính trang home")
+    @Operation(summary = "Phê duyệt records banner chính trang home")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

@@ -5,7 +5,7 @@
                 <div class="card">
                     <div class="card-body" style="height: 90vh;" >
                         <div class="d-flex justify-content-between align-items-center">
-                            <div class="card-title">Danh sách đơn vị quản trị</div>
+                            <div class="card-title">Admin Unit List</div>
                             <button id="openModalNewBtn" class="btn btn-icon me-1" >
                                 <i class="ri-play-list-add-line fs-5"></i>
                             </button>
@@ -37,9 +37,9 @@
                                                 </select>
                                             </th>
 
-                                            <!-- Mô tả -->
+                                            <!-- Description -->
                                             <th>
-                                                <input type="text" id="f-description" class="form-control form-control-sm" placeholder="Nhập tên văn phòng" />
+                                                <input type="text" id="f-description" class="form-control form-control-sm" placeholder="Description" />
                                             </th>
 
                                             <th>
@@ -54,19 +54,19 @@
                                                 </select>
                                             </th>
 
-                                            <!-- Người tạo -->
+                                            <!-- Creator -->
                                             <th>
                                                 <input type="text" id="f-create_by" class="form-control form-control-sm" placeholder="Creator's name" />
                                             </th>
 
-                                            <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
+                                            <!-- Creation Date: 2 input cùng hàng, chia 50/50 -->
                                             <th>
                                                 <div class="row g-2">
                                                     <div class="col-6">
                                                         <input type="date" id="f-from-date" class="form-control form-control-sm" placeholder="From date" />
                                                     </div>
                                                     <div class="col-6">
-                                                        <input type="date" id="f-to-date" class="form-control form-control-sm" placeholder="Đến ngày" />
+                                                        <input type="date" id="f-to-date" class="form-control form-control-sm" placeholder="To date" />
                                                     </div>
                                                 </div>
                                             </th>
@@ -88,11 +88,11 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tên đơn vị</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Trạng thái</th>
-                                                <th scope="col">Người tạo</th>
-                                                <th scope="col">Ngày tạo</th>
+                                                <th scope="col">Admin Unit Name</th>
+                                                <th scope="col">Active Status</th>
+                                                <th scope="col">Content Status</th>
+                                                <th scope="col">Creator</th>
+                                                <th scope="col">Creation Date</th>
                                             </tr>
                                             </thead>
                                             <tbody id="myTableBody">
@@ -111,15 +111,15 @@
                             <!-- Bộ chọn số lượng -->
                             <div class="d-flex align-items-center gap-2">
                                 <select id="f-page-size" class="form-select form-select-sm w-auto">
-                                    <option value="10">10 bản ghi</option>
-                                    <option value="20">20 bản ghi</option>
-                                    <option value="50" selected>50 bản ghi</option>
-                                    <option value="100">100 bản ghi</option>
+                                    <option value="10">10 records</option>
+                                    <option value="20">20 records</option>
+                                    <option value="50" selected>50 records</option>
+                                    <option value="100">100 records</option>
                                 </select>
                                 <div id="text-muted" class="d-inline-flex align-items-center gap-2">
                                     <i class="bi bi-list-check text-body-secondary"></i>
                                     <span class="badge rounded-pill text-bg-primary" id="count-badge">0</span>
-                                    <span class="text-body-secondary" id="count-label">bản ghi</span>
+                                    <span class="text-body-secondary" id="count-label">records</span>
                                 </div>
                             </div>
 
@@ -143,7 +143,7 @@
                 <div class="card accordion-item">
                     <div class="card-body">
                         <div class="col d-flex align-items-center justify-content-between">
-                            <h2 class="card-title mb-0 me-2">Thông tin chi tiết</h2>
+                            <h2 class="card-title mb-0 me-2">Detail</h2>
                             <div class="d-flex">
                                 <button id="openModalBtn" class="btn btn-icon me-1">
                                     <i class="ri-pencil-fill fs-5"></i>
@@ -169,27 +169,27 @@
                                     <input type="text" class="form-control" id="detail-name" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-status" class="form-label">Trạng thái</label>
+                                    <label for="detail-status" class="form-label">Content Status</label>
                                     <input type="text" class="form-control" id="detail-status" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-is-delete" class="form-label">Trạng thái xóa</label>
+                                    <label for="detail-is-delete" class="form-label">Active Status</label>
                                     <input type="text" class="form-control" id="detail-is-delete" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputAuthor" class="form-label">Người tạo</label>
+                                    <label for="inputAuthor" class="form-label">Creator</label>
                                     <input type="text" class="form-control" id="inputAuthor" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputCreateAt" class="form-label">Ngày tạo</label>
+                                    <label for="inputCreateAt" class="form-label">Creation Date</label>
                                     <input type="text" class="form-control" id="inputCreateAt" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputUpdater" class="form-label">Người update gần nhất</label>
+                                    <label for="inputUpdater" class="form-label">Recent Updater</label>
                                     <input type="text" class="form-control" id="inputUpdater" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputUpdateAt" class="form-label">Ngày update gần nhất</label>
+                                    <label for="inputUpdateAt" class="form-label">Recent Update's Date</label>
                                     <input type="text" class="form-control" id="inputUpdateAt" disabled value="" />
                                 </div>
                             </div>
@@ -295,14 +295,14 @@
                     <!-- Grid fields -->
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Trạng thái</label>
+                            <label class="form-label">Content Status</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-flag"></i></span>
                                 <input id="statusField" type="text" class="form-control readonly" value="" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Người tạo</label>
+                            <label class="form-label">Creator</label>
                             <div class="input-group">
                                 <span class="input-group-text"><span class="avatar"></span></span>
                                 <input type="text" class="form-control readonly" id="created-user" readonly>
@@ -310,21 +310,21 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Ngày tạo</label>
+                            <label class="form-label">Creation Date</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                                 <input type="text" class="form-control readonly" id="created-at" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Người update gần nhất</label>
+                            <label class="form-label">Recent Updater</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person-check"></i></span>
                                 <input type="text" class="form-control readonly" id="updated-user" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Ngày update gần nhất</label>
+                            <label class="form-label">Recent Update's Date</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
                                 <input type="text" class="form-control readonly" id="updated-at" readonly>
@@ -335,7 +335,7 @@
 
                 <!-- Footer -->
                 <div class="modal-footer px-4">
-                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Đóng</button>
+                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Close</button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="bt-update-detail"><i class="bi bi-check2"></i> Lưu</button>
                 </div>
             </div>
@@ -347,7 +347,7 @@
         <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
                 <div class="toast-body" id="toastMsg">Đã cập nhật trạng thái.</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Đóng"></button>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -372,7 +372,7 @@
                     </div>
                     <div class="text-center">
                         <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -393,7 +393,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="selectImageBtn" disabled>Chọn ảnh</button>
                 </div>
             </div>
@@ -406,13 +406,13 @@
             <div class="modal-content">
                 <div class="modal-header border-0">
                     <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa thông tin liên hệ này?</p>
                     <div class="mb-0">
                         <label for="deleteReasonDetail" class="form-label">
-                            Mô tả chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
+                            Description chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
                         </label>
                         <textarea id="deleteReasonDetail" class="form-control" rows="3"
                                   minlength="1" maxlength="500" required

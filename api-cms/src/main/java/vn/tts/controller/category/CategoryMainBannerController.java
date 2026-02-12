@@ -99,7 +99,7 @@ public class CategoryMainBannerController {
         return ResponseBase.success(categoryMainBannerService.filter(payload, categoryPageId, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi banner chính trang category")
+    @Operation(summary = "Reject records banner chính trang category")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -118,7 +118,7 @@ public class CategoryMainBannerController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi banner chính trang category")
+    @Operation(summary = "Phê duyệt records banner chính trang category")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

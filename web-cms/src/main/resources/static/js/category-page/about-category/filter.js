@@ -25,7 +25,7 @@ async function handleFilter() {
                 <tr class="cursor-pointer" onclick="viewDetail('${item.id}')">
                     <th scope="row">${index + 1}</th>
                     <td><div class="text-truncate" style="min-width: 100px; max-width: 200px;" data-bs-toggle="tooltip">${item.title}</div></td>
-                    <td>${item.isDelete === 'NO' ? 'Bình thường' : 'Đã Xoá'}</td>
+                    <td>${item.isDelete === 'NO' ? 'Active' : 'Deleted'}</td>
                     <td>${mapStatus(item.status)}</td>
                     <td>${item.createdByName}</td>
                     <td>${formatDate(item.createdAt)}</td>
@@ -38,7 +38,7 @@ async function handleFilter() {
             createListPage()
         }
 
-        // hiển thị số bản ghi
+        // hiển thị số records
         document.getElementById('count-badge').textContent = data.data.data.length + '/' + data.data.total;
 
     });

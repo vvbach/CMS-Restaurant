@@ -91,7 +91,7 @@ public class MottoController {
         return ResponseBase.success(mottoService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi tiêu ngữ")
+    @Operation(summary = "Reject records tiêu ngữ")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class MottoController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi tiêu ngữ")
+    @Operation(summary = "Phê duyệt records tiêu ngữ")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

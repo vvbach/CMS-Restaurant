@@ -91,7 +91,7 @@ public class AdminUnitController {
         return ResponseBase.success(adminUnitService.filter(payload, page, pageSize));
     }
 
-    @Operation(summary = "Reject bản ghi đơn vị quản lý")
+    @Operation(summary = "Reject records đơn vị quản lý")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
     public ResponseEntity<ResponseBase<Void>> reject(
@@ -110,7 +110,7 @@ public class AdminUnitController {
         return ResponseBase.success(null);
     }
 
-    @Operation(summary = "Phê duyệt bản ghi đơn vị quản lý")
+    @Operation(summary = "Phê duyệt records đơn vị quản lý")
     @PostMapping("/{id}/approve")
     @PreAuthorize("hasAuthority('UI_APPROVE')")
     public ResponseEntity<ResponseBase<Void>> approve(@PathVariable UUID id) throws Exception {

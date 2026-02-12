@@ -16,7 +16,7 @@ public class ImageWebPayload implements Serializable {
 
     @NotBlank(message = "{validate.image.description.blank}")
     @Length(max = 500, message = "{validate.image.description.length}")
-    @Schema(description = "Mô tả image với 500 ký tự ", example = "Mô tả test")
+    @Schema(description = "Description image với 500 ký tự ", example = "Description test")
     private String description;
 
 }

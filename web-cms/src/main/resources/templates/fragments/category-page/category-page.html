@@ -21,7 +21,7 @@
                                             <th scope="col">Description</th>
                                             <th scope="col" class="nowrap">Status</th>
                                             <th scope="col" class="nowrap">Creator</th>
-                                            <th scope="col" class="nowrap" style="min-width:260px;">Ngày tạo (Từ ngày
+                                            <th scope="col" class="nowrap" style="min-width:260px;">Creation Date (From Date
                                                 tới ngày)
                                             </th>
                                         </tr>
@@ -40,48 +40,48 @@
                                                 </select>
                                             </th>
 
-                                            <!-- Mô tả -->
+                                            <!-- Description -->
                                             <th>
                                                 <label class="d-none" for="f-description"></label>
                                                 <input type="text" id="f-description"
                                                        class="form-control form-control-sm"
-                                                       placeholder="Nhập tên"/>
+                                                       placeholder="Category Name"/>
                                             </th>
 
                                             <th>
                                                 <label class="d-none" for="f-s-status"></label>
                                                 <select id="f-s-status" class="form-select form-select-sm">
-                                                    <option value="">Tất cả</option>
+                                                    <option value="">All</option>
                                                     <option value="Draft">Draft</option>
                                                     <option value="Rejected">Reject</option>
-                                                    <option value="PendingApproval">Chờ duyệt</option>
-                                                    <option value="Approved">Đã phê duyệt</option>
-                                                    <option value="Publish">Đã xuất bản</option>
-                                                    <option value="Unpublish">Đã huỷ Publish</option>
+                                                    <option value="PendingApproval">Pending Approval</option>
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="Publish">Published</option>
+                                                    <option value="Unpublish">Unpublished</option>
                                                 </select>
                                             </th>
 
-                                            <!-- Người tạo -->
+                                            <!-- Creator -->
                                             <th>
                                                 <label class="d-none" for="f-create_by"></label>
                                                 <input type="text" id="f-create_by" class="form-control form-control-sm"
-                                                       placeholder="Tên người tạo"/>
+                                                       placeholder="Creator's name"/>
                                             </th>
 
-                                            <!-- Ngày tạo: 2 input cùng hàng, chia 50/50 -->
+                                            <!-- Creation Date: 2 input cùng hàng, chia 50/50 -->
                                             <th>
                                                 <div class="row g-2">
                                                     <div class="col-6">
                                                         <label for="f-from-date" class="d-none"></label>
                                                         <input type="date" id="f-from-date"
                                                                class="form-control form-control-sm"
-                                                               placeholder="Từ ngày"/>
+                                                               placeholder="From Date"/>
                                                     </div>
                                                     <div class="col-6">
                                                         <label for="f-to-date" class="d-none"></label>
                                                         <input type="date" id="f-to-date"
                                                                class="form-control form-control-sm"
-                                                               placeholder="Đến ngày"/>
+                                                               placeholder="To Date"/>
                                                     </div>
                                                 </div>
                                             </th>
@@ -105,10 +105,10 @@
                                             <tr>
                                                 <th scope="col">STT</th>
                                                 <th scope="col">Danh mục</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Trạng thái</th>
-                                                <th scope="col">Người tạo</th>
-                                                <th scope="col">Ngày tạo</th>
+                                                <th scope="col">Active Status</th>
+                                                <th scope="col">Content Status</th>
+                                                <th scope="col">Creator</th>
+                                                <th scope="col">Creation Date</th>
                                             </tr>
                                             </thead>
                                             <tbody id="myTableBody">
@@ -126,15 +126,15 @@
                             <div class="d-flex align-items-center gap-2">
                                 <label for="f-page-size" class="d-none"></label>
                                 <select id="f-page-size" class="form-select form-select-sm w-auto">
-                                    <option value="10" selected>10 bản ghi</option>
-                                    <option value="20">20 bản ghi</option>
-                                    <option value="50">50 bản ghi</option>
-                                    <option value="100">100 bản ghi</option>
+                                    <option value="10" selected>10 records</option>
+                                    <option value="20">20 records</option>
+                                    <option value="50">50 records</option>
+                                    <option value="100">100 records</option>
                                 </select>
                                 <div id="text-muted" class="d-inline-flex align-items-center gap-2">
                                     <i class="bi bi-list-check text-body-secondary"></i>
                                     <span class="badge rounded-pill text-bg-primary" id="count-badge">0</span>
-                                    <span class="text-body-secondary" id="count-label">bản ghi</span>
+                                    <span class="text-body-secondary" id="count-label">records</span>
                                 </div>
                             </div>
 
@@ -159,7 +159,7 @@
                     <div class="card-body">
                         <div class="col d-flex align-items-center justify-content-between">
                             <h2 class="card-titl
-                            e mb-0 me-2">Thông tin chi tiết</h2>
+                            e mb-0 me-2">Detail</h2>
                             <div class="d-flex">
                                 <button id="openNavigationModalBtn" class="btn btn-icon me-1"
                                         data-bs-toggle="modal" data-bs-target="#navigationModal">
@@ -191,32 +191,32 @@
                                     <input type="text" class="form-control" id="detail-category" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-description" class="form-label">Mô tả</label>
+                                    <label for="detail-description" class="form-label">Description</label>
                                     <textarea class="form-control" id="detail-description" disabled>
                                     </textarea>
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-status" class="form-label">Trạng thái</label>
+                                    <label for="detail-status" class="form-label">Content Status</label>
                                     <input type="text" class="form-control" id="detail-status" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-is-delete" class="form-label">Trạng thái xóa</label>
+                                    <label for="detail-is-delete" class="form-label">Active Status</label>
                                     <input type="text" class="form-control" id="detail-is-delete" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputAuthor" class="form-label">Người tạo</label>
+                                    <label for="inputAuthor" class="form-label">Creator</label>
                                     <input type="text" class="form-control" id="inputAuthor" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputCreateAt" class="form-label">Ngày tạo</label>
+                                    <label for="inputCreateAt" class="form-label">Creation Date</label>
                                     <input type="text" class="form-control" id="inputCreateAt" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputUpdater" class="form-label">Người update gần nhất</label>
+                                    <label for="inputUpdater" class="form-label">Recent Updater</label>
                                     <input type="text" class="form-control" id="inputUpdater" disabled value=""/>
                                 </div>
                                 <div class="col-12">
-                                    <label for="inputUpdateAt" class="form-label">Ngày update gần nhất</label>
+                                    <label for="inputUpdateAt" class="form-label">Recent Update's Date</label>
                                     <input type="text" class="form-control" id="inputUpdateAt" disabled value=""/>
                                 </div>
                             </div>
@@ -292,7 +292,7 @@
                         </div>
                     </div>
                     <div class="mb-3 col-12" id="detail-description-update">
-                        <label for="edit-description" class="form-label">Mô tả</label>
+                        <label for="edit-description" class="form-label">Description</label>
                         <input type="text" class="form-control" id="edit-description" placeholder="Nhập mô tả"/>
                     </div>
                     <div class="col-12">
@@ -326,14 +326,14 @@
                     <!-- Grid fields -->
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label for="statusField" class="form-label">Trạng thái</label>
+                            <label for="statusField" class="form-label">Content Status</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-flag"></i></span>
                                 <input id="statusField" type="text" class="form-control readonly" value="" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Người tạo</label>
+                            <label class="form-label">Creator</label>
                             <div class="input-group">
                                 <span class="input-group-text"><span class="avatar"></span></span>
                                 <label for="created-user" class="d-none"></label>
@@ -343,7 +343,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Ngày tạo</label>
+                            <label class="form-label">Creation Date</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-calendar-event"></i></span>
                                 <label for="created-at" class="d-none"></label>
@@ -351,7 +351,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Người update gần nhất</label>
+                            <label class="form-label">Recent Updater</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person-check"></i></span>
                                 <label for="updated-user" class="d-none"></label>
@@ -359,7 +359,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Ngày update gần nhất</label>
+                            <label class="form-label">Recent Update's Date</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-clock-history"></i></span>
                                 <label for="updated-at" class="d-none"></label>
@@ -372,7 +372,7 @@
                 <!-- Footer -->
                 <div class="modal-footer px-4">
                     <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i
-                            class="bi bi-x-circle"></i> Đóng
+                            class="bi bi-x-circle"></i> Close
                     </button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-update-detail"><i
                             class="bi bi-check2"></i> Lưu
@@ -389,7 +389,7 @@
             <div class="d-flex">
                 <div class="toast-body" id="toastMsg">Đã cập nhật trạng thái.</div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
-                        aria-label="Đóng"></button>
+                        aria-label="Close"></button>
             </div>
         </div>
     </div>
@@ -401,7 +401,7 @@
                 <h2 class="card-title mb-0 me-2">Thêm mới Trang danh mục</h2>
                 <form id="form-new" class="row g-3">
                     <div class="col-12">
-                        <label for="input-description-new" class="form-label">Mô tả</label>
+                        <label for="input-description-new" class="form-label">Description</label>
                         <textarea name="description" class="form-control"
                                   id="input-description-new" placeholder="Nhập mô tả" required></textarea>
                         <div class="invalid-feedback" id="invalid-feedback-input-description-new">Chưa nhập mô tả</div>
@@ -417,7 +417,7 @@
                     </div>
                     <div class="text-center">
                         <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -439,7 +439,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="selectCategoryBtn" disabled>Chọn Danh mục</button>
                 </div>
             </div>
@@ -453,13 +453,13 @@
             <div class="modal-content">
                 <div class="modal-header border-0">
                     <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa Article này?</p>
                     <div class="mb-0">
                         <label for="deleteReasonDetail" class="form-label">
-                            Mô tả chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
+                            Description chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
                         </label>
                         <textarea id="deleteReasonDetail" class="form-control" rows="3"
                                   minlength="1" maxlength="500" required

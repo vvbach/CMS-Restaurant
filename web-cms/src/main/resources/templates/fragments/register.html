@@ -14,69 +14,68 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="pt-4 pb-2">
-                                    <h5 class="card-title text-center pb-0 fs-4">Tạo tài khoản</h5>
-                                    <p class="text-center small">Hãy nhập thông tin cá nhân để tạo tài khoản</p>
+                                    <h5 class="card-title text-center pb-0 fs-4">Creating Account</h5>
+                                    <p class="text-center small">Personal Information</p>
                                 </div>
                                 <form id="register-form" class="row g-3 needs-validation" novalidate>
                                     <div class="col-12">
-                                        <label for="register-fullName" class="form-label">Họ và tên</label>
+                                        <label for="register-fullName" class="form-label">Name</label>
                                         <input type="text" name="fullName" class="form-control" id="register-fullName"
                                                required>
-                                        <div class="invalid-feedback">Hãy nhập họ và tên của bạn!</div>
+                                        <div class="invalid-feedback">Name is missing</div>
                                     </div>
                                     <div class="col-12">
                                         <label for="register-email" class="form-label">Email</label>
                                         <input type="email" name="email" class="form-control" id="register-email"
                                                required>
-                                        <div class="invalid-feedback">Hãy nhập email của bạn!</div>
+                                        <div class="invalid-feedback">Email is missing</div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="register-phone" class="form-label">Số điện thoại</label>
+                                        <label for="register-phone" class="form-label">Phone Number</label>
                                         <input type="text" name="phone" class="form-control" id="register-phone"
                                                required>
-                                        <div class="invalid-feedback">Hãy nhập số điện thoại của bạn!</div>
+                                        <div class="invalid-feedback">Phone Number is missing</div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="register-gender" class="form-label">Giới tính</label>
+                                        <label for="register-gender" class="form-label">Gender</label>
                                         <select id="register-gender" name="gender" class="form-select">
-                                            <option value="">Chọn giới tính</option>
-                                            <option value="MALE">Nam</option>
-                                            <option value="FEMALE">Nữ</option>
-                                            <option value="OTHER">Khác</option>
+                                            <option value="">Choose Gender</option>
+                                            <option value="MALE">Male</option>
+                                            <option value="FEMALE">Female</option>
+                                            <option value="OTHER">Other</option>
                                         </select>
                                     </div>
                                     <div class="col-12">
-                                        <label for="register-username" class="form-label">Tài khoản</label>
+                                        <label for="register-username" class="form-label">Account</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
                                             <input type="text" name="username" class="form-control"
                                                    id="register-username" required>
-                                            <div class="invalid-feedback">Hãy nhập tài khoản.</div>
+                                            <div class="invalid-feedback">Account username is missing</div>
                                         </div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="register-password" class="form-label">Mật khẩu</label>
+                                        <label for="register-password" class="form-label">Password</label>
                                         <input type="password" name="password" class="form-control"
                                                id="register-password" required>
-                                        <div class="invalid-feedback">Hãy nhập mật khẩu!</div>
+                                        <div class="invalid-feedback">Password is missing</div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="register-retypedPassword" class="form-label">Nhập lại mật
-                                            khẩu</label>
+                                        <label for="register-retypedPassword" class="form-label">Retype Password</label>
                                         <input type="password" class="form-control" id="register-retypedPassword"
                                                required>
-                                        <div class="invalid-feedback">Hãy nhập lại mật khẩu!</div>
+                                        <div class="invalid-feedback">Please retype password</div>
                                     </div>
                                     <div class="col-12">
                                         <p id="register-feedback" class="text-danger d-none"></p>
                                     </div>
                                     <div class="col-12">
-                                        <button id="register-btn" class="btn btn-primary w-100" type="submit">Tạo tài
-                                            khoản
+                                        <button id="register-btn" class="btn btn-primary w-100" type="submit">
+                                            Create account
                                         </button>
                                     </div>
                                     <div class="col-12">
-                                        <p class="small mb-0">Đã có tài khoản? <a href="/login">Đăng nhập ngay</a></p>
+                                        <p class="small mb-0">Already have account ?<a href="/login">Login</a></p>
                                     </div>
                                 </form>
 
