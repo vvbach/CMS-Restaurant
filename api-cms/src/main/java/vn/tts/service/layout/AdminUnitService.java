@@ -130,7 +130,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public AdminUnitResponse update(UUID id, AdminUnitPayload payload) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
 
 
         entity.setName(payload.getName());
@@ -155,7 +155,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void delete(UUID id, DeletePayload payload) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -185,7 +185,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void reject(UUID id, RejectPayload payload) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.article.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.article.status.is.draft.reject");
         publishingUtils.rejectEntity(entity, payload);
 
         publishingUtils.kafkaSendTopic(
@@ -205,7 +205,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void submitForApproval(UUID id) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.draft");
         publishingUtils.pendingApproveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -225,7 +225,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void approve(UUID id) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.article.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.article.status.is.draft.approve");
         publishingUtils.approveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -245,7 +245,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void publish(UUID id) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.article.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.article.status.is.draft.publish");
         publishingUtils.publishEntity(entity);
 
         publishingUtils.kafkaSendTopic(entity, TOPIC_PUBLISH);
@@ -289,7 +289,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
     public void revertToDraft(UUID id) {
         AdminUnitEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.article.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.article.status.is.draft.unpublish.draft");
         publishingUtils.revertToDraftEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -298,7 +298,7 @@ public class AdminUnitService extends BaseService implements PublishableService<
                         .entityType("Admin Unit")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Admin Unit has been moved back to revertToDraft.")
+                        .message("Admin Unit has been moved back to draft.")
                         .build(),
                 TOPIC_NOTIFY
         );

@@ -177,7 +177,7 @@ public class FoodService extends BaseService implements PublishableService<
     public FoodResponse update(UUID id, FoodPayload payload) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.food.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.food.status.is.draft.update");
 
         entity.setName(payload.getName());
         entity.setDescription(payload.getDescription());
@@ -223,7 +223,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void delete(UUID id, DeletePayload payload) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.food.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.food.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -304,7 +304,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void reject(UUID id, RejectPayload payload) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.food.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.food.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -325,7 +325,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void submitForApproval(UUID id) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.food.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.food.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -346,7 +346,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void approve(UUID id) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.food.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.food.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -367,7 +367,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void publish(UUID id) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.food.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.food.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -413,7 +413,7 @@ public class FoodService extends BaseService implements PublishableService<
     public void revertToDraft(UUID id) {
         FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.food.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.food.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 
@@ -423,7 +423,7 @@ public class FoodService extends BaseService implements PublishableService<
                         .entityType("Food")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Food has been updated to revertToDraft state.")
+                        .message("Food has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

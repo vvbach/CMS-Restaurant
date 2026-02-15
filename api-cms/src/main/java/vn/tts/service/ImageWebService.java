@@ -129,7 +129,7 @@ public class ImageWebService extends BaseService implements
     public ImageWebResponse update(UUID id, MultipartFile file, ImageWebPayload payload) throws Exception {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.image.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.image.status.is.draft.update");
 
         entity.setDescription(payload.getDescription());
 
@@ -158,7 +158,7 @@ public class ImageWebService extends BaseService implements
     public void delete(UUID id, DeletePayload payload) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.image.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.image.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -189,7 +189,7 @@ public class ImageWebService extends BaseService implements
     public void reject(UUID id, RejectPayload payload) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.image.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.image.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -210,7 +210,7 @@ public class ImageWebService extends BaseService implements
     public void submitForApproval(UUID id) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.image.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.image.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -231,7 +231,7 @@ public class ImageWebService extends BaseService implements
     public void approve(UUID id) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.image.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.image.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -252,7 +252,7 @@ public class ImageWebService extends BaseService implements
     public void publish(UUID id) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.image.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.image.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -298,7 +298,7 @@ public class ImageWebService extends BaseService implements
     public void revertToDraft(UUID id) {
         ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.image.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.image.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 
@@ -308,7 +308,7 @@ public class ImageWebService extends BaseService implements
                         .entityType("Image")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Image has been updated to revertToDraft state.")
+                        .message("Image has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

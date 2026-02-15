@@ -1,9 +1,9 @@
 document.getElementById('confirmDeleteBtn').addEventListener('click',async (e) => {
     e.disabled = true;
     let requestDelete = {}
-    requestDelete['reasonDelete'] = document.getElementById('deleteReasonDetail').value;
+    requestDelete['deletionReason'] = document.getElementById('deleteReasonDetail').value;
     try {
-        let url = '/v1/api/image-web/delete/' + document.getElementById('id-confirm-delete').value;
+        let url = '/v1/api/image-web' + document.getElementById('id-confirm-delete').value;
         // Ví dụ endpoint giả. Đổi thành API thật của bạn.
         const data = await callApi(url, {
                 method: 'DELETE',

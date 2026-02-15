@@ -18,7 +18,7 @@ function saveStatusChange(baseUrl) {
             url = url + "/unpublish";
             objChange['reason'] = document.getElementById('reason').querySelector('textarea').value;
         } else if (document.getElementById('headerState').textContent === 'Draft') {
-            url = url + "/revertToDraft";
+            url = url + "/draft";
         } else {
             this.disabled = false;
             return;

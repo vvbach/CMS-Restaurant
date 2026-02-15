@@ -130,7 +130,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public ContactInfoResponse update(UUID id, ContactInfoPayload payload) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
 
         entity.setText(payload.getText());
         entity.setImageUrl(payload.getImageUrl());
@@ -159,7 +159,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void delete(UUID id, DeletePayload payload) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -190,7 +190,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void reject(UUID id, RejectPayload payload) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.article.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.article.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
         
@@ -211,7 +211,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void submitForApproval(UUID id) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
         
@@ -232,7 +232,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void approve(UUID id) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.article.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.article.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
         
@@ -253,7 +253,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void publish(UUID id) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.article.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.article.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -299,7 +299,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
     public void revertToDraft(UUID id) {
         ContactInfoEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.article.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.article.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 
@@ -309,7 +309,7 @@ public class ContactInfoService extends BaseService implements PublishableServic
                         .entityType("Contact Info")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Contact Info has been updated to revertToDraft state.")
+                        .message("Contact Info has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

@@ -12,12 +12,12 @@ document.getElementById('btnSaveChange').addEventListener('click',async (e) => {
         url = url + "/publish";
     } else if (document.getElementById('headerState').textContent === 'Rejected') {
         url = url + "/reject";
-        objChange['reasonRejection'] = document.getElementById('reason').textContent; ;
+        objChange['rejectionReason'] = document.getElementById('reason').textContent; ;
     } else if (document.getElementById('headerState').textContent === 'Unpublished') {
         url = url + "/unpublish";
         objChange['reason'] = document.getElementById('reason').textContent;
     } else if (document.getElementById('headerState').textContent === 'Draft') {
-        url = url + "/revertToDraft";
+        url = url + "/draft";
         objChange['reason'] = document.getElementById('reason').textContent;
     } else {
         this.disabled = false;

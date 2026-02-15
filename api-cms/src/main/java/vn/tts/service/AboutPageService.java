@@ -121,7 +121,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public AboutPageResponse update(UUID id, AboutPagePayload payload) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
 
         entity.setTitle(payload.getTitle());
         entity.setText(payload.getText());
@@ -148,7 +148,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void delete(UUID id, DeletePayload payload) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -178,7 +178,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void reject(UUID id, RejectPayload payload) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.article.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.article.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -199,7 +199,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void submitForApproval(UUID id) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -220,7 +220,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void approve(UUID id) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.article.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.article.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -241,7 +241,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void publish(UUID id) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.article.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.article.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -288,7 +288,7 @@ public class AboutPageService extends BaseService implements PublishableService<
     public void revertToDraft(UUID id) {
         AboutPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.article.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.article.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 
@@ -298,7 +298,7 @@ public class AboutPageService extends BaseService implements PublishableService<
                         .entityType("About Page")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("About Page has been updated to revertToDraft state.")
+                        .message("About Page has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

@@ -645,8 +645,8 @@
 .ri-download-cloud-line:before { content: "\ec58"; }
 .ri-download-fill:before { content: "\ec59"; }
 .ri-download-line:before { content: "\ec5a"; }
-.ri-revertToDraft-fill:before { content: "\ec5b"; }
-.ri-revertToDraft-line:before { content: "\ec5c"; }
+.ri-draft-fill:before { content: "\ec5b"; }
+.ri-draft-line:before { content: "\ec5c"; }
 .ri-drag-drop-fill:before { content: "\ec5d"; }
 .ri-drag-drop-line:before { content: "\ec5e"; }
 .ri-drag-move-2-fill:before { content: "\ec5f"; }

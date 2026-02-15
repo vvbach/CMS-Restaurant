@@ -16,7 +16,7 @@ import java.time.Instant;
 public class PublishableHistoryResponse implements Serializable {
     private Instant eventDate;
     private ContentHistoryStatus status;
-    private String reasonDelete;
-    private String reasonRejection;
-    private String reasonUnpublish;
+    private String deletionReason;
+    private String rejectionReason;
+    private String unpublishReason;
 }

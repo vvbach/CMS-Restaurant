@@ -135,7 +135,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public FoodCategoryResponse update(UUID id, FoodCategoryPayload payload) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.food.category.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.food.category.status.is.draft.update");
 
         entity.setName(payload.getName());
         entity.setDescription(payload.getDescription());
@@ -160,7 +160,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void delete(UUID id, DeletePayload payload) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.food.category.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.food.category.status.is.draft.delete");
 
         foodCategoryRelationRepository.deleteAllByFoodCategoryId(entity.getId());
 
@@ -192,7 +192,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void reject(UUID id, RejectPayload payload) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.food.category.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.food.category.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -213,7 +213,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void submitForApproval(UUID id) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.food.category.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.food.category.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -234,7 +234,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void approve(UUID id) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.food.category.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.food.category.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -255,7 +255,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void publish(UUID id) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.food.category.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.food.category.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
         publishingUtils.kafkaSendTopic(entity, TOPIC_PUBLISH);
@@ -299,7 +299,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
     public void revertToDraft(UUID id) {
         FoodCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.food.category.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.food.category.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 
@@ -309,7 +309,7 @@ public class FoodCategoryService extends BaseService implements PublishableServi
                         .entityType("Food Category")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Food Category has been updated to revertToDraft state.")
+                        .message("Food Category has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

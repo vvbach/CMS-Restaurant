@@ -1,6 +1,6 @@
 async function viewDetail(id) {
     showDetailPanel()
-    let url = "/v1/api/image-web/detail/" + id
+    let url = "/v1/api/image-web/" + id
     await callApi(url, {
         method: 'GET',
         headers: {'Content-Type': 'application/json'},

@@ -11,7 +11,7 @@ document.getElementById('bt-update-detail').addEventListener('click',async (e) =
     formdata.append('description', getTextareaValue('detail-descs'));
 
     try {
-        let url = '/v1/api/image-web/update/' + document.getElementById('id-row-edit').value;
+        let url = '/v1/api/image-web' + document.getElementById('id-row-edit').value;
         // Ví dụ endpoint giả. Đổi thành API thật của bạn.
         const data = await callApi(url, {
                 method: 'POST',

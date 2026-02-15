@@ -33,10 +33,10 @@ public class FoodResponse extends PublishableResponse {
                         ContentStatus status, DeleteEnum isDelete,
                         String createdByName, Instant createdAt,
                         String updatedByName, Instant updatedAt,
-                        String reasonDelete, String reasonRejection, String reasonUnpublish) {
+                        String deletionReason, String rejectionReason, String unpublishReason) {
 
         super(status, isDelete, createdByName, createdAt, updatedByName, updatedAt,
-                reasonDelete, reasonRejection, reasonUnpublish);
+                deletionReason, rejectionReason, unpublishReason);
         this.id = id;
         this.name = name;
         this.description = description;

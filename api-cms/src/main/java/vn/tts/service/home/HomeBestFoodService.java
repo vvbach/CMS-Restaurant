@@ -137,7 +137,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
         validateFood(payload.getFoodId());
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
 
         entity.setFoodId(payload.getFoodId());
         entity.setDescription(payload.getDescription());
@@ -163,7 +163,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
     public void delete(UUID id, DeletePayload payload) {
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -193,7 +193,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
     public void reject(UUID id, RejectPayload payload) {
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.article.status.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.article.status.is.draft.reject");
         publishingUtils.rejectEntity(entity, payload);
 
         publishingUtils.kafkaSendTopic(
@@ -213,7 +213,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
     public void submitForApproval(UUID id) {
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.draft");
         publishingUtils.pendingApproveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -233,7 +233,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
     public void approve(UUID id) {
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.article.status.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.article.status.is.draft.approve");
         publishingUtils.approveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -254,7 +254,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
         validateFood(entity.getFoodId());
-        publishingUtils.checkPublish(entity, "validate.article.status.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.article.status.is.draft.publish");
         publishingUtils.publishEntity(entity);
         publishingUtils.kafkaSendTopic(entity, TOPIC_PUBLISH);
 
@@ -296,7 +296,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
     public void revertToDraft(UUID id) {
         HomeBestFoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.article.status.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.article.status.is.draft.unpublish.draft");
         publishingUtils.revertToDraftEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -305,7 +305,7 @@ public class HomeBestFoodService extends BaseService implements PublishableServi
                         .entityType("Home Best Food")
                         .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                         .action("DRAFT")
-                        .message("Home Best Food has been updated to revertToDraft state.")
+                        .message("Home Best Food has been updated to draft state.")
                         .build(),
                 TOPIC_NOTIFY
         );

@@ -140,7 +140,7 @@ public class AboutCategoryService extends BaseService implements
     public AboutCategoryResponse update(UUID id, AboutCategoryUpdatePayload payload) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.revertToDraft.update");
+        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
 
         entity.setTitle(payload.getTitle());
         entity.setSubtitle(payload.getSubtitle());
@@ -164,7 +164,7 @@ public class AboutCategoryService extends BaseService implements
     public void delete(UUID id, DeletePayload payload) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.revertToDraft.delete");
+        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -193,7 +193,7 @@ public class AboutCategoryService extends BaseService implements
     @Transactional
     public void reject(UUID id, RejectPayload payload) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
-        publishingUtils.checkReject(entity, "validate.article.is.revertToDraft.reject");
+        publishingUtils.checkReject(entity, "validate.article.is.draft.reject");
         publishingUtils.rejectEntity(entity, payload);
         
         publishingUtils.kafkaSendTopic(
@@ -212,7 +212,7 @@ public class AboutCategoryService extends BaseService implements
     @Transactional
     public void submitForApproval(UUID id) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
-        publishingUtils.checkPendingApproval(entity, "validate.article.is.revertToDraft");
+        publishingUtils.checkPendingApproval(entity, "validate.article.is.draft");
         publishingUtils.pendingApproveEntity(entity);
         
         publishingUtils.kafkaSendTopic(
@@ -231,7 +231,7 @@ public class AboutCategoryService extends BaseService implements
     @Transactional
     public void approve(UUID id) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
-        publishingUtils.checkApprove(entity, "validate.article.is.revertToDraft.approve");
+        publishingUtils.checkApprove(entity, "validate.article.is.draft.approve");
         publishingUtils.approveEntity(entity);
         
         publishingUtils.kafkaSendTopic(
@@ -250,7 +250,7 @@ public class AboutCategoryService extends BaseService implements
     @Transactional
     public void publish(UUID id) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
-        publishingUtils.checkPublish(entity, "validate.article.is.revertToDraft.publish");
+        publishingUtils.checkPublish(entity, "validate.article.is.draft.publish");
         publishingUtils.publishEntity(entity);
         publishingUtils.kafkaSendTopic(entity, TOPIC_PUBLISH);
         
@@ -290,7 +290,7 @@ public class AboutCategoryService extends BaseService implements
     @Transactional
     public void revertToDraft(UUID id) {
         AboutCategoryEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
-        publishingUtils.checkDraft(entity, "validate.article.is.revertToDraft.unpublish.revertToDraft");
+        publishingUtils.checkDraft(entity, "validate.article.is.draft.unpublish.draft");
         publishingUtils.revertToDraftEntity(entity);
         
         publishingUtils.kafkaSendTopic(
@@ -299,7 +299,7 @@ public class AboutCategoryService extends BaseService implements
                 .entityType("About Category")
                 .email(List.of(getUserDetail().getEmail(), getUserDetailById(entity.getCreatedBy()).getEmail()))
                 .action("DRAFT")
-                .message("About Category has been updated to revertToDraft state.")
+                .message("About Category has been updated to draft state.")
                 .build(),
             TOPIC_NOTIFY
         );

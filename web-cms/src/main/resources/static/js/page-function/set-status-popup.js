@@ -17,7 +17,7 @@ function setStatus(d, permissionType){
     else if (d?.status === 'REJECTED') {
         showDiv('detail-reason-reject');
         hideDiv('detail-reason-unpublish');
-        updateReason( d?.reasonRejection,'#detail-reason-reject')
+        updateReason( d?.rejectionReason,'#detail-reason-reject')
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "REJECT")) {
@@ -60,7 +60,7 @@ function setStatus(d, permissionType){
     else if (d?.status === 'UNPUBLISHED') {
         hideDiv('detail-reason-reject');
         showDiv('detail-reason-unpublish');
-        updateReason( d?.reasonUnpublish,'#detail-reason-unpublish')
+        updateReason( d?.unpublishReason,'#detail-reason-unpublish')
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Publish">Publish</button></li>
                   <li><button class="dropdown-item" data-action="Draft">Draft</button></li>`) ;
@@ -72,7 +72,7 @@ function setStatus(d, permissionType){
 
     if (d?.isDelete === 'YES') {
         showDiv('detail-reason-delete')
-        updateReason( d?.reasonDelete,'#detail-reason-delete')
+        updateReason( d?.deletionReason,'#detail-reason-delete')
     } else {
         hideDiv('detail-reason-delete')
     }

@@ -122,7 +122,7 @@
     };
     const removeDraft = (editor, fire) => {
       const prefix = getAutoSavePrefix(editor);
-      global$2.removeItem(prefix + 'revertToDraft');
+      global$2.removeItem(prefix + 'draft');
       global$2.removeItem(prefix + 'time');
       if (fire !== false) {
         fireRemoveDraft(editor);
@@ -131,7 +131,7 @@
     const storeDraft = editor => {
       const prefix = getAutoSavePrefix(editor);
       if (!isEmpty(editor) && editor.isDirty()) {
-        global$2.setItem(prefix + 'revertToDraft', editor.getContent({
+        global$2.setItem(prefix + 'draft', editor.getContent({
           format: 'raw',
           no_events: true
         }));
@@ -143,7 +143,7 @@
       var _a;
       const prefix = getAutoSavePrefix(editor);
       if (hasDraft(editor)) {
-        editor.setContent((_a = global$2.getItem(prefix + 'revertToDraft')) !== null && _a !== void 0 ? _a : '', { format: 'raw' });
+        editor.setContent((_a = global$2.getItem(prefix + 'draft')) !== null && _a !== void 0 ? _a : '', { format: 'raw' });
         fireRestoreDraft(editor);
       }
     };
@@ -201,14 +201,14 @@
         restoreLastDraft(editor);
       };
       editor.ui.registry.addButton('restorerevertToDraft', {
-        tooltip: 'Restore last revertToDraft',
-        icon: 'restore-revertToDraft',
+        tooltip: 'Restore last draft',
+        icon: 'restore-draft',
         onAction,
         onSetup: makeSetupHandler(editor)
       });
       editor.ui.registry.addMenuItem('restorerevertToDraft', {
-        text: 'Restore last revertToDraft',
-        icon: 'restore-revertToDraft',
+        text: 'Restore last draft',
+        icon: 'restore-draft',
         onAction,
         onSetup: makeSetupHandler(editor)
       });

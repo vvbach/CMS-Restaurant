@@ -2,7 +2,7 @@
 document.getElementById('openModalBtn').addEventListener('click', async function () {
     if (document.getElementById('detail-id').value) {
         let myModal = new bootstrap.Modal(document.getElementById('popup-update'));
-        let url = "/v1/api/image-web/detail/" + document.getElementById('detail-id').value
+        let url = "/v1/api/image-web/" + document.getElementById('detail-id').value
         await callApi(url, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
@@ -29,7 +29,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             else if (d?.status === 'REJECTED') {
                 showDiv('detail-reason-reject');
                 hideDiv('detail-reason-unpublish');
-                updateRejectReason( d?.reasonRejection,'#detail-reason-reject')
+                updateRejectReason( d?.rejectionReason,'#detail-reason-reject')
                 document.getElementById('detail-lst-status').insertAdjacentHTML('beforeend',
                     `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
             }
@@ -64,7 +64,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
 
             if (d?.isDelete === 'YES') {
                 showDiv('detail-reason-delete')
-                updateRejectReason( d?.reasonDelete,'#detail-reason-delete')
+                updateRejectReason( d?.deletionReason,'#detail-reason-delete')
             } else {
                 hideDiv('detail-reason-delete')
             }

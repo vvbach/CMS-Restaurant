@@ -420,37 +420,14 @@
     <script th:src="@{/js/img-web/change-status.js}" async></script>
     <script th:src="@{/js/img-web/update.js}" async></script>
     <script th:src="@{/js/img-web/delete.js}" async></script>
-
-
-
-    <!-- update thông tin  -->
     <script>
-
-        async function viewDataUpate() {
-            let url = "/v1/api/image-web/update/" + document.getElementById('detail-id').value
-            await callApi(url, {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json'},
-            }, (resp) => {
-                const d = resp?.data ?? resp;
-                const imgEl = document.getElementById('detail-image');
-                imgEl.src = d?.pathImage;
-                imgEl.alt = fileNameFromPath(d?.pathImage) || 'image';
-
-                document.getElementById('detail-id').value   = d?.id ?? '';
-                document.getElementById('detail-desc').value   = d?.description ?? '';
-                document.getElementById('detail-status').value  = mapStatus(d?.status);
-                document.getElementById('detail-is-delete').value = mapIsDelete(d?.isDelete);
-
-                document.getElementById('inputAuthor').value   = d?.createdByName ?? d?.createdBy ?? '-';
-                document.getElementById('inputCreateAt').value = formatDate(d?.createdAt);
-
-                document.getElementById('inputUpdater').value  = d?.updatedByName ?? d?.updatedBy ?? '-';
-                document.getElementById('inputUpdateAt').value = formatDate(d?.updatedAt);
-
-            });
-            this.disabled = false;
-        }
-
+        (async () => {
+            await window.authReady;
+            handleFilter();
+            hideAddBtn("UI")
+            hideUpdateBtn("UI")
+            hideDeleteBtn("UI")
+        })();
     </script>
+
 </main>

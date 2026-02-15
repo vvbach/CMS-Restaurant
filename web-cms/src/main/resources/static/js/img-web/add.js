@@ -17,7 +17,7 @@ document.getElementById('btn-new-image').addEventListener('click', async (e) => 
     const formData = new FormData(form);
     try {
         // Ví dụ endpoint giả. Đổi thành API thật của bạn.
-        const data = await callApi('/v1/api/image-web/add', {
+        const data = await callApi('/v1/api/image-web', {
                 method: 'POST',
                 body: formData
             }
