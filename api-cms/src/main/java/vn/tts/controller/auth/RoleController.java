@@ -72,7 +72,7 @@ public class RoleController {
     @Operation(description = "Tạo vai trò")
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADD')")
-    public ResponseEntity<ResponseBase<RoleDetailResponse>> create(@RequestBody RolePayload payload) {
+    public ResponseEntity<ResponseBase<RoleDetailResponse>> create(@RequestBody @Valid RolePayload payload) {
         return ResponseBase.success(roleService.create(payload));
     }
 

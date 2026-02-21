@@ -244,7 +244,7 @@
                         <div class="dropdown">
                             <button id="btnChange" value="" class="btn btn-outline-success btn-sm dropdown-toggle"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                Thay đổi trạng thái
+                                Change status
                             </button>
                             <ul class="dropdown-menu shadow" id="detail-list-status">
                             </ul>
@@ -256,14 +256,14 @@
 
                             <button id="btnSaveChange" class="btn btn-danger btn-outline-warning btn-sm"
                                     aria-expanded="true">
-                                Lưu trạng thái
+                                Save status
                             </button>
                         </div>
                     </div>
 
                     <!-- Hàng 2: lý do từ chối -->
                     <div class="mb-3 w-100 d-none" id="reason">
-                        <label for="reason-textarea" class="form-label">Lý do từ chối</label>
+                        <label for="reason-textarea" class="form-label">Reject reason</label>
                         <textarea class="form-control readonly" id="reason-textarea" rows="3"></textarea>
                     </div>
                 </div>
@@ -287,7 +287,7 @@
                     </div>
 
                     <hr/>
-                    <div class="section-title">Chi tiết nội dung đầy đủ</div>
+                    <div class="section-title">Detail</div>
                     <!-- Image selection from library -->
                     <div id="detail-img" class="hero">
                         <img id="detail-img-update" alt="" src="">
@@ -328,18 +328,18 @@
                         <input class="form-control" type="text" id="edit-categoryName" disabled>
                     </div>
                     <div class="mb-3" id="detail-reason-delete">
-                        <label for="reason-delete-textarea" class="form-label">Lý do xoá</label>
+                        <label for="reason-delete-textarea" class="form-label">Delete reason</label>
                         <textarea id="reason-delete-textarea" class="form-control readonly" rows="2" readonly
                                   disabled></textarea>
                     </div>
                     <div class="mb-3" id="detail-reason-reject">
-                        <label for="reason-reject-textarea" class="form-label">Lý do từ chối duyệt</label>
+                        <label for="reason-reject-textarea" class="form-label">Reject reason</label>
                         <textarea id="reason-reject-textarea" class="form-control readonly" rows="2" readonly
                                   disabled></textarea>
                     </div>
 
                     <div class="mb-3" id="detail-reason-unpublish">
-                        <label for="reason-unpublish-textarea" class="form-label">Lý do huỷ xuất bản</label>
+                        <label for="reason-unpublish-textarea" class="form-label">Unpublish reason</label>
                         <textarea id="reason-unpublish-textarea" class="form-control readonly" rows="2" readonly
                                   disabled></textarea>
                     </div>
@@ -396,7 +396,7 @@
                             class="bi bi-x-circle"></i> Close
                     </button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-update-detail"><i
-                            class="bi bi-check2"></i> Lưu
+                            class="bi bi-check2"></i> Save
                     </button>
                 </div>
             </div>
@@ -408,7 +408,7 @@
         <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive"
              aria-atomic="true">
             <div class="d-flex">
-                <div class="toast-body" id="toastMsg">Đã cập nhật trạng thái.</div>
+                <div class="toast-body" id="toastMsg">Status updated</div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
                         aria-label="Close"></button>
             </div>

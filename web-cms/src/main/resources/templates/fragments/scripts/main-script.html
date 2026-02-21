@@ -147,16 +147,30 @@
             }
         };
 
+        const MAP_STATUS_STEP = {
+            DRAFT: 1,
+            PENDING_APPROVAL: 2,
+            APPROVED: 3,
+            PUBLISHED: 4,
+            REJECTED: 1,
+            UNPUBLISHED: 3
+        }
+
         // ====== Helpers ======
         function setProgress(activeIndex) {
             const steps = document.querySelectorAll('.step');
+            const total = steps.length;
+
             steps.forEach(s => {
                 const idx = +s.dataset.index;
-                s.classList.toggle('done', idx <= activeIndex);
+                s.classList.toggle('done', idx < activeIndex);
                 s.classList.toggle('active', idx === activeIndex);
             });
-            const total = steps.length;
-            const pct = (activeIndex - 1) / (total - 1) * 100;
+
+            const pct = total > 1
+                ? ((activeIndex - 1) / (total - 1)) * 100
+                : 100;
+
             document.getElementById('progressed').style.width = pct + '%';
         }
 

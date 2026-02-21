@@ -1,4 +1,4 @@
-document.getElementById('bt-update-detail').addEventListener('click',async (e) => {
+document.getElementById('btn-update-detail').addEventListener('click',async (e) => {
     e.preventDefault();
     e.disabled = true;
     const fileInput = document.getElementById('detail-img-input');

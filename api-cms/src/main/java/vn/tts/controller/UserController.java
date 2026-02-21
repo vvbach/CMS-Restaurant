@@ -79,7 +79,7 @@ public class UserController {
     }
 
     @Operation(description = "Create a user account by admin")
-    @PostMapping("/")
+    @PostMapping
     @PreAuthorize("hasAuthority('USER_ADD')")
     public ResponseEntity<ResponseBase<String>> create(@RequestBody @Valid CreateUserPayload payload) {
         return ResponseBase.success(accountService.create(payload));
@@ -115,7 +115,7 @@ public class UserController {
     }
 
     @Operation(description = "Find all users with search query")
-    @GetMapping("")
+    @GetMapping
     @PreAuthorize("hasAuthority('USER_READ')")
     public ResponseEntity<ResponseBase<PaginationResponse<List<UserDetailResponse>>>> listUsers(
             @ModelAttribute SearchUserPayload payload,

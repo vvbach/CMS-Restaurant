@@ -64,6 +64,5 @@ public class UserEntity extends BaseEntity {
     protected void onCreate() {
         super.onCreate();
         status = UserStatusEnum.ACTIVE;
-        forceChangePassword = 0;
     }
 }

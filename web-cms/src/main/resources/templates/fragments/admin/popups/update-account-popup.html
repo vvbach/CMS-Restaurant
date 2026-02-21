@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header px-4">
-                <div class="section-title m-0">Cập nhật người dùng</div>
+                <div class="section-title m-0">Update user</div>
             </div>
             <!-- Body -->
             <div class="modal-body px-4 pb-4">
@@ -13,7 +13,7 @@
 
                     <div class="tools">
                         <label class="btn btn-sm btn-soft">
-                            <i class="bi bi-camera me-1"></i> Tải ảnh
+                            <i class="bi bi-camera me-1"></i> Upload image
                             <input id="detail-img-input" type="file"/>
                         </label>
                     </div>
@@ -31,14 +31,14 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="input-gender-update" class="form-label">Giới tính</label>
+                        <label for="input-gender-update" class="form-label">Gender</label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-gender-ambiguous"></i></span>
                             <select id="input-gender-update" name="gender" class="form-select">
-                                <option value="">Chọn giới tính</option>
-                                <option value="MALE">Nam</option>
-                                <option value="FEMALE">Nữ</option>
-                                <option value="OTHER">Khác</option>
+                                <option value="">Choose gender</option>
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="OTHER">OTHER</option>
                             </select>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 
                             <!-- nút lưu trực tiếp (gọi API cập nhật vai trò cho user hiện tại) -->
                             <button type="button" class="btn btn-success" id="saveRolesDirectBtn">
-                                <i class="bi bi-save me-1"></i> Lưu vai trò
+                                <i class="bi bi-save me-1"></i> Save
                             </button>
 
                             <!-- trạng thái nhỏ hiển thị tình trạng (ví dụ: đang gửi, thành công) -->
@@ -92,7 +92,7 @@
                         class="bi bi-x-circle"></i> Close
                 </button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-update-detail">
-                    <i class="bi bi-check2"></i> Lưu
+                    <i class="bi bi-check2"></i> Save
                 </button>
             </div>
         </div>
@@ -467,7 +467,7 @@
                 const payload = {roleIds: ids};
 
                 // gọi API cập nhật: /v1/api/{userId}/update-roles
-                const url = `/v1/api/users/${userId}/update-roles`;
+                const url = `/v1/api/users/${userId}/roles`;
                 callApi(url, {
                     method: 'PUT',
                     headers: {'Content-Type': 'application/json'},
@@ -513,11 +513,11 @@
             function applyFile(file) {
                 if (!file) return;
                 if (!ALLOWED.includes(file.type)) {
-                    showToast('❗ Định dạng không hỗ trợ. Chọn JPG/PNG');
+                    showToast('Format is not supported. Please choosing JPG/PNG');
                     return;
                 }
                 if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-                    showToast(`❗ Ảnh quá lớn (>${MAX_SIZE_MB}MB).`);
+                    showToast(`Size is too large (>${MAX_SIZE_MB}MB).`);
                     return;
                 }
                 document.getElementById('detail-img-view').src = URL.createObjectURL(file);
@@ -565,12 +565,11 @@
 
             // Insert detail into update form
             document.getElementById('open-update-modal-btn').addEventListener('click', () => {
-                const updateTextFields = ['fullName', 'phone', 'email'];
+                const updateTextFields = ['fullName', 'phone', 'email', 'gender'];
 
                 // xóa selection + token trước khi load (đảm bảo bắt đầu "sạch")
                 setSelectedIdsHidden([]);
                 renderTokens({});
-                roleActionStatus.textContent = 'Đang tải vai trò...';
 
                 // load danh sách tất cả roles, sau đó load roles của user và mở modal
                 loadRoles(() => {
@@ -582,12 +581,6 @@
                 for (const field of updateTextFields)
                     insertDetailIntoUpdateInput(field);
 
-                insertDetailIntoUpdateInputWithMap('gender', (value) => {
-                    value = value.toLowerCase().trim()
-                    if (value === 'nam') return 'MALE'
-                    if (value === 'nữ') return 'FEMALE'
-                    if (value === 'khác') return 'OTHER'
-                });
 
                 insertImageDetailIntoUpdateInput('image');
             })
@@ -639,13 +632,6 @@
                 const detailEl = document.getElementById(`detail-${field}`);
                 const updateInputEL = document.getElementById(`input-${field}-update`)
                 updateInputEL.value = detailEl.value;
-            }
-
-            // Insert item detail into an update select detail, map is a function to transform the detail value
-            function insertDetailIntoUpdateInputWithMap(field, map) {
-                const detailEl = document.getElementById(`detail-${field}`);
-                const updateInputEL = document.getElementById(`input-${field}-update`)
-                updateInputEL.value = map(detailEl.value);
             }
 
             function insertImageDetailIntoUpdateInput(field) {

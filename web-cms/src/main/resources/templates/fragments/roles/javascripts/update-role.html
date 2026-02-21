@@ -1,23 +1,30 @@
-<html xmlns:th="http://www.thymeleaf.org" lang="vn">
-<script th:fragment="add-role" th:inline="javascript">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Role JS</title>
+</head>
+<body>
+<script th:fragment="update-role" th:inline="javascript">
     (function () {
         const API_URL = '/v1/api/permissions';
-        const CREATE_URL = '/v1/api/roles';
-        const container = document.getElementById('permissionsGroups');
-        const spinner = document.getElementById('permissionsSpinner');
-        const searchInput = document.getElementById('permSearch');
-        const selectAllCheckbox = document.getElementById('permSelectAll');
-        const hiddenInput = document.getElementById('permissionIdsInput');
+        const container = document.getElementById('updatePermissionsGroups');
+        const spinner = document.getElementById('updatePermissionSpinner');
+        const searchInput = document.getElementById('updatePermSearch');
+        const selectAllCheckbox = document.getElementById('updatePermSelectAll');
+        const hiddenInput = document.getElementById('updatePermissionIdInputs');
 
-        const nameInput = document.getElementById('input-name-new');
-        const codeInput = document.getElementById('input-code-new');
-        const descInput = document.getElementById('input-description-new');
-        const addBtn = document.getElementById('btn-new-role');
+        const nameInput = document.getElementById('input-name-update');
+        const codeInput = document.getElementById('input-code-update');
+        const descInput = document.getElementById('input-description-update');
+        const saveBtn = document.getElementById('btn-update-detail');
 
-        let permissions = [];
-        let grouped = {};
-        // selected ids are strings to support UUIDs
+        let permissions = []; // flat list
+        let grouped = {}; // groupName -> [perm]
+        // Store selected IDs as strings (supports UUIDs)
         let selectedIds = new Set();
+        // Buffer for preselected ids when role detail arrives before permissions list is loaded
+        let preselectedIds = null;
 
         function showSpinner(show) {
             if (!spinner) return;
@@ -39,9 +46,9 @@
 
             const input = document.createElement('input');
             input.type = 'checkbox';
-            input.className = 'form-check-input add-perm-checkbox';
+            input.className = 'form-check-input update-perm-checkbox';
             input.dataset.permId = id;
-            input.id = 'addPerm_' + id;
+            input.id = 'updatePerm_' + id;
             if (selectedIds.has(String(id))) input.checked = true;
 
             input.addEventListener('change', function () {
@@ -78,36 +85,38 @@
                     if (!ft) return true;
                     return (p.name && p.name.toLowerCase().includes(ft)) || (p.code && p.code.toLowerCase().includes(ft));
                 });
-                if (perms.length === 0) return;
+                if (perms.length === 0) return; // skip empty groups after filter
 
                 totalRendered += perms.length;
 
+                // Accordion item
                 const item = document.createElement('div');
                 item.className = 'accordion-item';
 
                 const h2 = document.createElement('h2');
                 h2.className = 'accordion-header';
-                h2.id = 'headingAddPerm' + groupIndex;
+                h2.id = 'headingUpdatePerm' + groupIndex;
 
                 const btn = document.createElement('button');
                 btn.className = 'accordion-button collapsed';
                 btn.type = 'button';
                 btn.setAttribute('data-bs-toggle', 'collapse');
-                btn.setAttribute('data-bs-target', '#collapseAddPerm' + groupIndex);
+                btn.setAttribute('data-bs-target', '#collapseUpdatePerm' + groupIndex);
                 btn.setAttribute('aria-expanded', 'false');
-                btn.setAttribute('aria-controls', 'collapseAddPerm' + groupIndex);
+                btn.setAttribute('aria-controls', 'collapseUpdatePerm' + groupIndex);
                 btn.textContent = groupName + ' (' + perms.length + ')';
 
                 h2.appendChild(btn);
 
                 const collapse = document.createElement('div');
-                collapse.id = 'collapseAddPerm' + groupIndex;
+                collapse.id = 'collapseUpdatePerm' + groupIndex;
                 collapse.className = 'accordion-collapse collapse';
                 collapse.setAttribute('aria-labelledby', h2.id);
 
                 const body = document.createElement('div');
                 body.className = 'accordion-body';
 
+                // list permissions
                 perms.forEach(p => {
                     const cb = createCheckbox(p.id, p.name || p.code || ('Permission ' + p.id), p.code);
                     body.appendChild(cb);
@@ -119,8 +128,11 @@
                 container.appendChild(item);
             });
 
-            if (totalRendered === 0) container.innerHTML = '<div class="text-muted small py-3">No permissions match your search</div>';
+            if (totalRendered === 0) {
+                container.innerHTML = '<div class="text-muted small py-3">No permissions match your search</div>';
+            }
 
+            // After rendering, update select-all checkbox state
             syncSelectAllState();
         }
 
@@ -132,7 +144,7 @@
 
         function syncSelectAllState() {
             if (!container || !selectAllCheckbox) return;
-            const checkboxes = container.querySelectorAll('.add-perm-checkbox');
+            const checkboxes = container.querySelectorAll('.update-perm-checkbox');
             if (checkboxes.length === 0) {
                 selectAllCheckbox.checked = false;
                 selectAllCheckbox.indeterminate = false;
@@ -154,7 +166,7 @@
         if (selectAllCheckbox) {
             selectAllCheckbox.addEventListener('change', function () {
                 if (!container) return;
-                const checkboxes = container.querySelectorAll('.add-perm-checkbox');
+                const checkboxes = container.querySelectorAll('.update-perm-checkbox');
                 checkboxes.forEach(cb => {
                     cb.checked = selectAllCheckbox.checked;
                     const pid = String(cb.dataset.permId);
@@ -164,7 +176,7 @@
             });
         }
 
-        // debounce search
+        // Search handling with small debounce
         let searchTimer = null;
         if (searchInput) {
             searchInput.addEventListener('input', function () {
@@ -173,24 +185,29 @@
             });
         }
 
-        function fetchPermissions() {
+        async function fetchPermissions() {
             showSpinner(true);
-            const options = {method: 'GET', headers: {'Content-Type': 'application/json'}};
-            const useCallApi = (typeof callApi === 'function');
-            const p = useCallApi ? Promise.resolve(callApi(API_URL, options)) : fetch(API_URL, options);
-            p.then(responseOrData => {
-                if (Array.isArray(responseOrData)) return responseOrData;
-                if (!responseOrData) throw new Error('No response from permissions API');
-                if (typeof responseOrData.json === 'function') {
-                    if (responseOrData.ok === false) throw new Error('Failed to load permissions');
-                    return responseOrData.json();
-                }
-                if (responseOrData.data && Array.isArray(responseOrData.data)) return responseOrData.data;
-                return [];
-            })
+            await callApi(API_URL, {method: 'GET', headers: {'Content-Type': 'application/json'}})
+                .then(responseOrData => {
+                    if (Array.isArray(responseOrData)) return responseOrData;
+                    if (!responseOrData) throw new Error('No response from permissions API');
+                    if (typeof responseOrData.json === 'function') {
+                        if (responseOrData.ok === false) throw new Error('Failed to load permissions');
+                        return responseOrData.json();
+                    }
+                    if (responseOrData.data && Array.isArray(responseOrData.data)) return responseOrData.data;
+                    return [];
+                })
                 .then(data => {
                     permissions = Array.isArray(data) ? data : [];
                     buildGroups();
+                    // If role detail provided preselected IDs while permissions were not yet loaded,
+                    // apply them now so checkboxes are ticked.
+                    if (preselectedIds && Array.isArray(preselectedIds)) {
+                        selectedIds = new Set(preselectedIds.map(id => String(id)));
+                        preselectedIds = null;
+                    }
+                    updateHiddenInput();
                     renderPermissions();
                 })
                 .catch(err => {
@@ -200,18 +217,57 @@
                 .finally(() => showSpinner(false));
         }
 
-        // Fetch permissions when the add-modal opener is clicked. Support common opener id.
-        document.addEventListener('click', function (e) {
-            const openBtn = e.target.closest('#openModalNewBtn');
+        // Listen for clicks on the open-update button to fetch role detail and permissions
+        document.addEventListener('click', async function (e) {
+            const openBtn = e.target.closest('#open-update-modal-btn');
             if (!openBtn) return;
-            if (!permissions || permissions.length === 0) fetchPermissions(); else renderPermissions();
+
+            const idEl = document.getElementById("detail-id");
+            const id = idEl ? idEl.value : null;
+            if (!id) {
+                console.error('No detail-id found to load role detail');
+                return;
+            }
+
+            // Fetch role detail and pre-fill fields
+            await callApi(`/v1/api/roles/${id}/detail`, {
+                method: 'GET', headers: {'Content-Type': 'application/json'}
+            }, async function (resp) {
+                const d = resp?.data ?? resp ?? {};
+                if (nameInput) nameInput.value = d?.name ?? '';
+                if (codeInput) codeInput.value = d?.code ?? '';
+                if (descInput) descInput.value = d?.description ?? '';
+
+                // Preselect permissions from role detail. permissions in response are objects with id
+                const permIds = Array.isArray(d?.permissions) ? d.permissions.map(p => String(p.id)) : [];
+                if (!permissions || permissions.length === 0) {
+                    // buffer until permissions list available
+                    preselectedIds = permIds;
+                } else {
+                    selectedIds = new Set(permIds);
+                    updateHiddenInput();
+                    renderPermissions();
+                }
+            }).catch(err => console.error('Failed to fetch role detail', err));
+
+            // Ensure permissions list loaded
+            if (!permissions || permissions.length === 0) {
+                await fetchPermissions();
+            } else {
+                renderPermissions();
+            }
         });
 
+        // Save handler: send PUT to /v1/api/roles/{id}
+        if (saveBtn) {
+            saveBtn.addEventListener('click', async function () {
+                const idEl = document.getElementById("detail-id");
+                const id = idEl ? idEl.value : null;
+                if (!id) {
+                    console.error('No detail-id found to update role');
+                    return;
+                }
 
-        // Create role handler
-        if (addBtn) {
-            addBtn.addEventListener('click', async function () {
-                // simple validation
                 const name = (nameInput && nameInput.value || '').trim();
                 const code = (codeInput && codeInput.value || '').trim();
                 const description = (descInput && descInput.value || '').trim();
@@ -219,60 +275,51 @@
                 if (!name) {
                     if (nameInput) nameInput.classList.add('is-invalid');
                     return;
-                } else {
-                    if (nameInput) nameInput.classList.remove('is-invalid');
-                }
+                } else if (nameInput) nameInput.classList.remove('is-invalid');
+
                 if (!code) {
                     if (codeInput) codeInput.classList.add('is-invalid');
                     return;
-                } else {
-                    if (codeInput) codeInput.classList.remove('is-invalid');
-                }
+                } else if (codeInput) codeInput.classList.remove('is-invalid');
 
                 const permArr = hiddenInput && hiddenInput.value ? hiddenInput.value.split(',').filter(Boolean) : [];
                 const payload = {
+                    id: id,
                     name: name,
                     code: code,
                     description: description || null,
-                    permission_ids: permArr
+                    permissionIds: permArr
                 };
 
-                // Disable button while sending
-                addBtn.disabled = true;
-                const options = {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)};
+                const options = {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)};
 
                 try {
-                    await callApi(CREATE_URL, options, function (resp) {
-                        addBtn.disabled = false;
-                        // Expect backend to return standard {code,message,data}
+                    await callApi(`/v1/api/roles/${id}`, options, function (resp) {
                         if (resp && (resp.code === '200' || resp.code === 200 || resp.success)) {
-                            // success
-                            if (typeof showSuccessDialog === 'function') showSuccessDialog(resp.message || 'Role created successfully');
-                            else alert(resp.message || 'Role created successfully');
-                            // reset form
-                            if (nameInput) nameInput.value = '';
-                            if (codeInput) codeInput.value = '';
-                            if (descInput) descInput.value = '';
-                            selectedIds.clear();
-                            updateHiddenInput();
-                            renderPermissions();
-                            // refresh list / detail if these helpers exist
+                            showSuccessDialog(resp.message || 'Role updated successfully');
+                            // refresh list / detail
                             if (typeof handleFilter === 'function') handleFilter();
-                            if (document.getElementById('detail-id') && typeof viewDetail === 'function') viewDetail(document.getElementById('detail-id').value);
+                            if (typeof viewDetail === 'function' && document.getElementById('detail-id')) viewDetail(document.getElementById('detail-id').value);
                         } else {
-                            console.error('Create role failed', resp);
-                            alert('Failed to create role');
+                            console.error('Update role failed', resp);
+                            showErrorDialog('Failed to update role');
                         }
                     });
                 } catch (err) {
-                    addBtn.disabled = false;
-                    console.error('Create role error', err);
-                    alert('Failed to create role');
+                    console.error('Update role error', err);
+                    alert('Failed to update role');
                 }
-
             });
         }
 
+        // Utility to clear selection
+        window.clearUpdateRoleSelection = function () {
+            selectedIds.clear();
+            updateHiddenInput();
+            renderPermissions();
+        };
+
     })();
 </script>
+</body>
 </html>

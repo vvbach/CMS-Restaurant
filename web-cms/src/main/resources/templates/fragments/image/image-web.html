@@ -40,7 +40,7 @@
 
                                             <!-- Description -->
                                             <th>
-                                                <input type="text" id="f-desc" class="form-control form-control-sm" placeholder="Nhập mô tả" />
+                                                <input type="text" id="f-description" class="form-control form-control-sm" placeholder="Enter description" />
                                             </th>
                                             <th>
                                                 <select id="f-s-status" class="form-select form-select-sm">
@@ -212,7 +212,7 @@
                         <!-- Bên trái: btnChange -->
                         <div class="dropdown">
                             <button id="btnChange" value="" class="btn btn-outline-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Thay đổi trạng thái
+                                Change status
                             </button>
                             <ul class="dropdown-menu shadow" id="detail-lst-status">
                             </ul>
@@ -223,14 +223,14 @@
                             <span id="headerState" class="badge text-bg-secondary state-badge">UNPUBLISHED</span>
 
                             <button id="btnSaveChange" class="btn btn-danger btn-outline-warning btn-sm" aria-expanded="true">
-                                Lưu trạng thái
+                                Save status
                             </button>
                         </div>
                     </div>
 
                     <!-- Hàng 2: lý do từ chối -->
                     <div class="mb-3 w-100 d-none" id="reason" >
-                        <label class="form-label">Lý do từ chối</label>
+                        <label class="form-label">Reason</label>
                         <textarea class="form-control readonly" rows="3"></textarea>
                     </div>
                 </div>
@@ -251,7 +251,7 @@
                     </div>
 
                     <hr />
-                    <div class="section-title">Chi tiết nội dung đầy đủ</div>
+                    <div class="section-title">Detail</div>
                     <div id="detail-img" class="hero">
                         <img id="detail-img-view" >
                         <div class="overlay"></div>
@@ -279,17 +279,17 @@
                     </div>
 
                     <div class="mb-3" id="detail-reason-delete">
-                        <label class="form-label">Lý do xoá</label>
+                        <label class="form-label">Delete reason</label>
                         <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
                     </div>
 
                     <div class="mb-3" id="detail-reason-reject">
-                        <label class="form-label">Lý do từ trối duyệt</label>
+                        <label class="form-label">Reason</label>
                         <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
                     </div>
 
                     <div class="mb-3" id="detail-reason-unpublish">
-                        <label class="form-label">Lý do huỷ xuất bản</label>
+                        <label class="form-label">Unpublish reason</label>
                         <textarea class="form-control readonly" rows="2" readonly disabled></textarea>
                     </div>
 
@@ -337,7 +337,7 @@
                 <!-- Footer -->
                 <div class="modal-footer px-4">
                     <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Close</button>
-                    <button type="button" class="btn btn-primary d-none" data-bs-dismiss="modal" id="bt-update-detail"><i class="bi bi-check2"></i> Lưu</button>
+                    <button type="button" class="btn btn-primary d-none" data-bs-dismiss="modal" id="btn-update-detail"><i class="bi bi-check2"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -347,7 +347,7 @@
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
         <div id="appToast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
-                <div class="toast-body" id="toastMsg">Đã cập nhật trạng thái.</div>
+                <div class="toast-body" id="toastMsg">Status updated</div>
                 <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         </div>
@@ -407,7 +407,7 @@
                 <div class="modal-footer border-0">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
                     <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
-                        Xóa
+                        Delete
                     </button>
                 </div>
             </div>
@@ -431,3 +431,4 @@
     </script>
 
 </main>
+

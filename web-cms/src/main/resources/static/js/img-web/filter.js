@@ -6,7 +6,7 @@ let objFilter = {};
 // SỬ dụng cho chức năng tìm kiếm
 async function handleFilter(e) {
     objFilter["isDelete"] = document.getElementById('f-is-delete').value || null;
-    objFilter["description"] = document.getElementById('f-desc').value || null;
+    objFilter["description"] = document.getElementById('f-description').value || null;
     objFilter["formDate"] = document.getElementById('f-from-date').value || null;
     objFilter["toDate"] = document.getElementById('f-to-date').value || null;
     objFilter["createdByName"] = document.getElementById('f-create_by').value || null;

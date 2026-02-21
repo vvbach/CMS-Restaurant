@@ -114,13 +114,8 @@
 
             const apiMessage = (data && (data.message || (data.data && data.data.message) || data.error))
                 || 'Unknown error from server.';
-
-            // 403: forbidden — just flash message and throw (no refresh, no retry)
-            if (response.status === 403) {
-                showErrorDialog(`${response.status} - ${apiMessage}`);
-                console.error("API 403 body:", data);
-                throw new Error(`${response.status} - ${apiMessage}`);
-            }
+            const apiMessageDescription = (data && (data.description || (data.data && data.data.description)))
+                || 'Unknown error description from server.';
 
             // 401: unauthorized — attempt refresh once (single retry)
             if (response.status === 401) {
@@ -166,7 +161,6 @@
                             const refreshBody = await res.json();
                             const newAccess = refreshBody?.data?.accessToken || refreshBody?.accessToken;
                             if (!newAccess) {
-                                // clear cookies
                                 deleteCookie("rememberMe");
                                 deleteCookie("token");
                                 deleteCookie("refreshToken");
@@ -205,14 +199,12 @@
                     deleteCookie("refreshToken");
                     showErrorDialog(refreshError.message || 'Token refresh failed');
                     window.location.href = "/login";
-                    throw refreshError;
                 }
             }
 
             // other non-ok responses (not 401/403)
-            showErrorDialog(`${response.status} - ${apiMessage}`);
+            showErrorDialog(`${response.status} - ${apiMessage} - ${apiMessageDescription}`);
             console.error("API error body:", data);
-            throw new Error(`${response.status} - ${apiMessage}`);
         } catch (error) {
             // AbortError handling: comes from external/manual abort (no timeouts here)
             if (error && error.name === 'AbortError') {

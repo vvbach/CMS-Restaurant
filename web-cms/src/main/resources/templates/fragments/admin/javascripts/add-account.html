@@ -1,42 +1,71 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vn">
 <script th:fragment="add-account" th:inline="javascript">
-    document.getElementById('btn-new-account').addEventListener('click', async (e) => {
+    document.getElementById('btn-new-account').addEventListener('click', async function (e) {
         // e.preventDefault();
+        const btn = e.currentTarget;
+
         const inputFields = ['username', 'fullName', 'gender', 'email', 'phone'];
         for (const inputField of inputFields)
             updateInputValidationUI(inputField)
 
         const form = document.getElementById('form-new');
-        this.disabled = true;
+        btn.disabled = true;
 
         // Lấy dữ liệu form
         let fetchBody = {}
         const formData = new FormData(form);
         formData.forEach((value, key) => fetchBody[key] = value);
         try {
-            const data = await callApi('/v1/api/users/create', {
+            await callApi('/v1/api/users', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(fetchBody)
                 }
                 , (data) => {
-                    showSuccessDialog(data.message)
+                    // Show the generated password in the new modal instead of the previous toast
+                    try {
+                        const passwordInput = document.getElementById('new-password-value');
+                        const messageEl = document.getElementById('password-popup-message');
+                        // Try to extract password from API response (common locations)
+                        const generatedPassword = (data && data.data && (data.data.password || data.data)) || '';
+                        if (passwordInput) passwordInput.value = generatedPassword;
+                        if (messageEl) messageEl.textContent = data.message || 'Account created';
+
+                        const modalEl = document.getElementById('password-popup');
+                        if (modalEl && typeof bootstrap !== 'undefined') {
+                            const modal = new bootstrap.Modal(modalEl);
+                            modal.show();
+                        } else if (modalEl) {
+                            // fallback: add show class
+                            modalEl.classList.add('show');
+                            modalEl.style.display = 'block';
+                        } else {
+                            // final fallback
+                            alert((data && data.message ? data.message + '\n' : '') + 'Password: ' + generatedPassword);
+                        }
+                    } catch (err) {
+                        console.error('Failed to show password modal', err);
+                    }
+
                     handleFilter()
-                    viewDetail(document.getElementById("detail-id").value);
                 });
         } catch (err) {
-            // đã show toast lỗi trong utils; vẫn có thể xử lý thêm ở đây nếu cần
+            // errors are shown by utils; keep console log for debugging
             console.error(err);
         } finally {
 
         }
-        this.disabled = false;
+        btn.disabled = false;
 
         // Cập nhật giao diện input nếu người dùng chưa nhập field
         function updateInputValidationUI(field) {
-            if (!document.getElementById(`input-${field}-new`).value.trim()) {
-                document.getElementById(`invalid-feedback-input-${field}-new`).classList.remove("invalid-feedback");
-                document.getElementById(`invalid-feedback-input-${field}-new`).classList.add("text-danger");
+            const el = document.getElementById(`input-${field}-new`);
+            const feedbackEl = document.getElementById(`invalid-feedback-input-${field}-new`);
+            if (!el || !el.value.trim()) {
+                if (feedbackEl) {
+                    feedbackEl.classList.remove("invalid-feedback");
+                    feedbackEl.classList.add("text-danger");
+                }
             }
         }
     });

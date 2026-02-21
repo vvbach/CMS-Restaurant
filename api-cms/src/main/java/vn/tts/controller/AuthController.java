@@ -59,7 +59,7 @@ public class AuthController {
     @PostMapping("/force-change-password")
     public ResponseEntity<ResponseBase<ForceChangePasswordResponse>> forceChangePassword(
             HttpServletRequest request,
-            @RequestBody ChangePasswordPayload payload
+            @RequestBody @Valid ChangePasswordPayload payload
     ) {
         return ResponseBase.success(authService.forceChangePassword(request.getHeader("Authorization"), payload));
     }

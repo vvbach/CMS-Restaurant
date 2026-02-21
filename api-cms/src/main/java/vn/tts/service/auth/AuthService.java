@@ -113,14 +113,13 @@ public class AuthService extends BaseService {
         if (payload.getOldPassword().equals(payload.getNewPassword()))
             throw new AppBadRequestException(ChangePasswordPayload.Fields.newPassword, getMessage("change.password.identical"));
 
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        if (!encoder.matches(payload.getOldPassword(), user.getPassword()))
+        if (!passwordEncoder.matches(payload.getOldPassword(), user.getPassword()))
             throw new LoginFailedException("change.password.wrong.password");
 
-        user.setPassword(encoder.encode(payload.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(payload.getNewPassword()));
         user.setForceChangePassword(0);
         userRepository.save(user);
-
+        System.out.println("User " + user.getUsername() + " has changed their password.");
         return ForceChangePasswordResponse.builder()
                 .accessToken(jwtService.generateToken(String.valueOf(userId)))
                 .refreshToken(jwtService.generateRefreshToken(String.valueOf(userId)))

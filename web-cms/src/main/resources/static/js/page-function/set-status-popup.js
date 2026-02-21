@@ -1,7 +1,6 @@
 function setStatus(d, permissionType){
     let permission = ""
     permission += permissionType + "_"
-    // xóa hết dữ liệu
     document.getElementById('detail-list-status').innerHTML = '';
 
     if (d?.status === 'DRAFT') {
@@ -10,8 +9,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "DRAFT")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
     else if (d?.status === 'REJECTED') {
@@ -21,8 +19,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "REJECT")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
     else if (d?.status === 'PENDING_APPROVAL') {
@@ -32,8 +29,7 @@ function setStatus(d, permissionType){
             `<li><button class="dropdown-item" data-action="Reject"><b>Reject</b></button></li>
                   <li><button class="dropdown-item" data-action="Approve">Approve</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "PENDING_APPROVE")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
     else if (d?.status === 'APPROVED') {
@@ -43,8 +39,7 @@ function setStatus(d, permissionType){
             `<li><button class="dropdown-item" data-action="Reject"><b>Reject</b></button></li>
                   <li><button class="dropdown-item" data-action="Publish">Publish</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "APPROVE")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
     else if (d?.status === 'PUBLISHED') {
@@ -53,8 +48,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Unpublish">Unpublish</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "PUBLISH")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
     else if (d?.status === 'UNPUBLISHED') {
@@ -65,8 +59,7 @@ function setStatus(d, permissionType){
             `<li><button class="dropdown-item" data-action="Publish">Publish</button></li>
                   <li><button class="dropdown-item" data-action="Draft">Draft</button></li>`) ;
         if (!rolesPermissions.hasPermission(permission + "UNPUBLISH")) {
-            document.getElementById('btnChange').remove();
-            document.getElementById('btnSaveChange').remove();
+            removeButtons()
         }
     }
 
@@ -93,6 +86,13 @@ function updateReason(newReason, divId) {
         const textarea = document.querySelector(divId +' textarea');
         textarea.value = newReason;
     }
+}
+
+function removeButtons(){
+    const btnChange = document.getElementById('btnChange')
+    if (btnChange) btnChange.remove();
+    const btnSaveChange = document.getElementById('btnSaveChange')
+    if (btnSaveChange) btnSaveChange.remove();
 }
 
 document.getElementById("openModalDeleteBtn").addEventListener("click", async function (e) {

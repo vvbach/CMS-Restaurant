@@ -30,12 +30,13 @@
     <!-- popup thêm mới-->
     <div th:replace="~{/fragments/roles/popup/add-role-popup :: add-role-popup}"></div>
 
-    <!--    Tạo vai trò  -->
-    <script th:replace="~{/fragments/roles/javascripts/add-role :: add-role}"></script>
-
     <!-- Thông tin detail -->
     <script th:replace="~{/fragments/roles/javascripts/view-detail :: view-detail}"></script>
 
+    <!--    Tạo vai trò  -->
+    <script th:replace="~{/fragments/roles/javascripts/add-role :: add-role}"></script>
+
+    <script th:replace="~{/fragments/roles/javascripts/update-role :: update-role}"></script>
     <!--  Xóa vai trò  -->
     <script th:replace="~{/fragments/roles/javascripts/delete-role :: delete-role}"></script>
 
