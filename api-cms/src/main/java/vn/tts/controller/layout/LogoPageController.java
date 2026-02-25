@@ -46,7 +46,7 @@ public class LogoPageController {
 
     @Operation(summary = "Tạo mới thông tin logo page")
     @PostMapping
-    @PreAuthorize("hasAuthority('UI_CREATE')")
+    @PreAuthorize("hasAuthority('UI_ADD')")
     public ResponseEntity<ResponseBase<LogoPageResponse>> create(
             @RequestBody @Valid LogoPagePayload payload) {
         return ResponseBase.success(logoPageService.create(payload));

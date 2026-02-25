@@ -10,9 +10,16 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             const d = resp?.data ?? resp;
 
             setStatus(d, "UI");
+            setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
 
             document.querySelector('#detail-img-update').src = d?.logoUrl;
             document.querySelector('#detail-name-update').querySelector("input").value = d?.name;
+
+            if (d?.status === 'DRAFT') {
+                document.getElementById('btn-update-detail').classList.remove('d-none')
+            } else {
+                document.getElementById('btn-update-detail').classList.add('d-none')
+            }
         });
         this.disabled = false;
 

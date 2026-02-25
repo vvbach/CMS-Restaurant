@@ -58,7 +58,7 @@
             <a href="/category-page" class="nav-link"
                th:classappend="${viewName} != 'category-page' ? 'collapsed' : ''">
                 <i class="bi bi-menu-button-wide"></i>
-                <span>Category</span>
+                <span>Category Page</span>
             </a>
         </li>
         <li id="homePageNavItem" class="nav-item">
@@ -123,7 +123,7 @@
         </li>
         <!-- End Contact Nav -->
         <!-- Start Media Nav -->
-        <li class="nav-item">
+        <li id="ImageWebNavItem" class="nav-item">
             <a href="/web/image-web" class="nav-link" th:classappend="${viewName} != 'image-web' ? 'collapsed' : ''">
                 <i class="bi bi-image-fill"></i>
                 <span>Image Library</span>

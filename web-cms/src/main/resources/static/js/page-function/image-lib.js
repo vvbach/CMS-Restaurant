@@ -14,6 +14,7 @@ async function openImageLibrary() {
     try {
         const data = await callApi('/v1/api/image-web');
         data.data.forEach((img) => {
+            if (img.isDelete === 'YES' || img.status !== 'PUBLISHED') return;
             const col = document.createElement('div');
             col.className = 'col-md-3 mb-3';
 

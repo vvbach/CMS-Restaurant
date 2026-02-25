@@ -16,10 +16,17 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             const d = resp?.data ?? resp;
 
             setStatus(d, "UI");
+            setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
 
             document.querySelector('#detail-title-update input').value = d?.title ?? "";
 
             document.querySelector('#detail-description-update input').value = d?.description ?? "";
+
+            if (d?.status === 'DRAFT') {
+                document.getElementById('btn-update-detail').classList.remove('d-none')
+            } else {
+                document.getElementById('btn-update-detail').classList.add('d-none')
+            }
         });
 
         myModal.show(this);

@@ -8,7 +8,7 @@ function setStatus(d, permissionType){
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "DRAFT")) {
+        if (!rolesPermissions.hasPermission("UI_DRAFT")) {
             removeButtons()
         }
     }
@@ -18,7 +18,7 @@ function setStatus(d, permissionType){
         updateReason( d?.rejectionReason,'#detail-reason-reject')
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="PendingApproval">Pending Approval</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "REJECT")) {
+        if (!rolesPermissions.hasPermission("UI_REJECT")) {
             removeButtons()
         }
     }
@@ -28,7 +28,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Reject"><b>Reject</b></button></li>
                   <li><button class="dropdown-item" data-action="Approve">Approve</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "PENDING_APPROVE")) {
+        if (!rolesPermissions.hasPermission("UI_PENDING_APPROVE")) {
             removeButtons()
         }
     }
@@ -38,7 +38,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Reject"><b>Reject</b></button></li>
                   <li><button class="dropdown-item" data-action="Publish">Publish</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "APPROVE")) {
+        if (!rolesPermissions.hasPermission("UI_APPROVE")) {
             removeButtons()
         }
     }
@@ -47,7 +47,7 @@ function setStatus(d, permissionType){
         hideDiv('detail-reason-unpublish');
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Unpublish">Unpublish</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "PUBLISH")) {
+        if (!rolesPermissions.hasPermission("UI_PUBLISH")) {
             removeButtons()
         }
     }
@@ -58,7 +58,7 @@ function setStatus(d, permissionType){
         document.getElementById('detail-list-status').insertAdjacentHTML('beforeend',
             `<li><button class="dropdown-item" data-action="Publish">Publish</button></li>
                   <li><button class="dropdown-item" data-action="Draft">Draft</button></li>`) ;
-        if (!rolesPermissions.hasPermission(permission + "UNPUBLISH")) {
+        if (!rolesPermissions.hasPermission("UI_UNPUBLISH")) {
             removeButtons()
         }
     }

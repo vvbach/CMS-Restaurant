@@ -292,7 +292,7 @@
 
                         <div class="tools">
                             <button class="btn btn-soft btn-sm" onclick="openImageLibrary()">
-                                <i class="bi bi-images me-1"></i> Chọn ảnh từ thư viện
+                                <i class="bi bi-images me-1"></i> Choose Image from library
                             </button>
                         </div>
 
@@ -387,10 +387,10 @@
 
                 <!-- Footer -->
                 <div class="modal-footer px-4">
-                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i
                             class="bi bi-x-circle"></i> Close
                     </button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btn-update-detail"><i
+                    <button type="button" class="btn btn-primary" onclick="closeAllModals()" id="btn-update-detail"><i
                             class="bi bi-check2"></i> Save
                     </button>
                 </div>
@@ -440,13 +440,13 @@
                     <div class="col-12">
                         <label class="form-label">Ảnh Banner</label>
                         <button type="button" class="btn btn-outline-secondary w-100" onclick="openImageLibrary()">
-                            <i class="bi bi-images me-2"></i>Chọn ảnh từ thư viện
+                            <i class="bi bi-images me-2"></i>Choose Image from library
                         </button>
                         <img id="input-image-new" src="" alt="">
                     </div>
                     <div class="text-center">
                         <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     </div>
                 </form>
             </div>
@@ -458,8 +458,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="foodLibraryLabel">Chọn ảnh từ thư viện</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="foodLibraryLabel">Choose Image from library</h5>
+                    <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row" id="foodLibraryGrid">
@@ -467,7 +467,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     <button type="button" class="btn btn-primary" id="selectFoodBtn" disabled>Chọn Món ăn</button>
                 </div>
             </div>
@@ -479,8 +479,8 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="imageLibraryLabel">Chọn ảnh từ thư viện</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="imageLibraryLabel">Choose Image from library</h5>
+                    <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row" id="imageLibraryGrid">
@@ -488,7 +488,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     <button type="button" class="btn btn-primary" id="selectImageBtn" disabled>Chọn ảnh</button>
                 </div>
             </div>
@@ -501,14 +501,14 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
+                    <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa Banner Chính này?</p>
                     <div class="mb-0">
                         <label for="deleteReasonDetail" class="form-label">
-                            Description chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
+                            Description chi tiết <small class="text-muted">(Minimum 1 character)</small>
                         </label>
                         <textarea id="deleteReasonDetail" class="form-control" rows="3"
                                   minlength="1" maxlength="500" required
@@ -516,15 +516,15 @@
                         <div class="d-flex justify-content-end mt-1">
                             <small class="text-muted"><span id="deleteReasonCount">0</span>/500</small>
                         </div>
-                        <div class="invalid-feedback">Vui lòng không để trống.</div>
+                        <div class="invalid-feedback">Do not leave blank</div>
                     </div>
                 </div>
                 <label class="d-none" for="id-confirm-delete"></label>
                 <input type="text" hidden="hidden" readonly disabled id="id-confirm-delete"/>
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAllModals()">Cancel</button>
                     <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
-                        Xóa
+                        Delete
                     </button>
                 </div>
             </div>

@@ -3,7 +3,6 @@ document.getElementById('btnSaveChange').addEventListener('click',async (e) => {
     this.disabled = true;
     let objChange = {};
     let url = "/v1/api/image-web/" + document.getElementById('id-row-edit').value;
-    console.log(document.getElementById('headerState').textContent);
     if (document.getElementById('headerState').textContent === 'Pending Approval') {
         url = url + "/pending-approval";
     } else if (document.getElementById('headerState').textContent === 'Approved') {
@@ -12,7 +11,7 @@ document.getElementById('btnSaveChange').addEventListener('click',async (e) => {
         url = url + "/publish";
     } else if (document.getElementById('headerState').textContent === 'Rejected') {
         url = url + "/reject";
-        objChange['rejectionReason'] = document.getElementById('reason').textContent; ;
+        objChange['reason'] = document.getElementById('reason').textContent; ;
     } else if (document.getElementById('headerState').textContent === 'Unpublished') {
         url = url + "/unpublish";
         objChange['reason'] = document.getElementById('reason').textContent;
@@ -41,3 +40,4 @@ document.getElementById('btnSaveChange').addEventListener('click',async (e) => {
 
     this.disabled = false;
 });
+

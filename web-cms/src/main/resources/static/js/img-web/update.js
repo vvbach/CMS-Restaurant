@@ -8,10 +8,10 @@ document.getElementById('btn-update-detail').addEventListener('click',async (e) 
         formdata.append('file', fileInput.files[0]);
     }
 
-    formdata.append('description', getTextareaValue('detail-descs'));
+    formdata.append('description', getTextareaValue('detail-description'));
 
     try {
-        let url = '/v1/api/image-web' + document.getElementById('id-row-edit').value;
+        let url = '/v1/api/image-web/' + document.getElementById('id-row-edit').value;
         // Ví dụ endpoint giả. Đổi thành API thật của bạn.
         const data = await callApi(url, {
                 method: 'POST',

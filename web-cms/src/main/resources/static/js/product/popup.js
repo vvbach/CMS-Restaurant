@@ -27,7 +27,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
                 const selectedIds = d?.categories?.map(c => c.id) || [];
 
                 cats.data.forEach(cat => {
-                    if (cat.isDelete === "YES" || cat.status !== 'PUBLISH') return;
+                    if (cat.isDelete === "YES" || cat.status !== 'PUBLISHED') return;
                     const option = document.createElement('option');
                     option.value = cat.id;
                     option.textContent = cat.name;
@@ -38,6 +38,12 @@ document.getElementById('openModalBtn').addEventListener('click', async function
                 });
             } catch (err) {
                 console.error("Error loading categories:", err);
+            }
+
+            if (d?.status === 'DRAFT') {
+                document.getElementById('btn-update-detail').classList.remove('d-none')
+            } else {
+                document.getElementById('btn-update-detail').classList.add('d-none')
             }
         });
     } catch (err) {
@@ -61,7 +67,7 @@ document.getElementById('openModalNewBtn').addEventListener('click', async funct
         const cats = await callApi('/v1/api/category');
 
         cats.data.forEach(cat => {
-            if (cat.isDelete === "YES" || cat.status !== 'PUBLISH') return;
+            if (cat.isDelete === "YES" || cat.status !== 'PUBLISHED') return;
             const option = document.createElement('option');
             option.value = cat.id;
             option.textContent = cat.name;

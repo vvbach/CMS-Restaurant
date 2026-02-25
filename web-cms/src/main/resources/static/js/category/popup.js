@@ -12,6 +12,12 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             setStatus(d, "PRODUCT");
             document.querySelector('#detail-name-update').querySelector("input").value = d?.name;
             document.querySelector('#detail-description-update').querySelector("textarea").value = d?.description;
+
+            if (d?.status === 'DRAFT') {
+                document.getElementById('btn-update-detail').classList.remove('d-none')
+            } else {
+                document.getElementById('btn-update-detail').classList.add('d-none')
+            }
         });
         this.disabled = false;
 

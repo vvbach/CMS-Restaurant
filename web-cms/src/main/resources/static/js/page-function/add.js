@@ -13,7 +13,7 @@ function addItem(config) {
             if (element) {
                 if (field.type === 'image') {
                     // Handle image URL extraction
-                    payload[field.key] = decodeURIComponent(new URL(element.src).pathname.split('/bepanvtit/')[1]);
+                    payload[field.key] = decodeURIComponent(new URL(element.src).pathname.split('/tts/')[1]);
                 } else if (field.type === 'multi-select') {
                     // Handle multiple select values
                     payload[field.key] = Array.from(element.selectedOptions).map(opt => opt.value);

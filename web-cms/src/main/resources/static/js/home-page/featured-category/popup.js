@@ -16,6 +16,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             const d = resp?.data ?? resp;
 
             setStatus(d, "UI");
+            setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
 
             if (d.categoryId) {
                 const category = await callApi("/v1/api/category/" + d.categoryId, {method: 'GET'})
@@ -25,6 +26,12 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             document.querySelector('#detail-img-update').src = d?.imageUrl;
             document.querySelector('#edit-categoryId').value = d?.categoryId ?? "";
             document.querySelector('#edit-description').value = d?.description ?? "";
+
+            if (d?.status === 'DRAFT') {
+                document.getElementById('btn-update-detail').classList.remove('d-none')
+            } else {
+                document.getElementById('btn-update-detail').classList.add('d-none')
+            }
         });
 
         myModal.show();

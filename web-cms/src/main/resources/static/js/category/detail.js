@@ -18,13 +18,8 @@ async function viewDetail(id) {
         document.getElementById('inputUpdater').value = d?.updatedByName ?? d?.updatedBy ?? '-';
         document.getElementById('inputUpdateAt').value = formatDate(d?.updatedAt);
         setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
-        setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
 
-        if (d?.status === 'DRAFT') {
-            document.getElementById('btn-update-detail').classList.remove('d-none')
-        } else {
-            document.getElementById('btn-update-detail').classList.add('d-none')
-        }
+
 
     });
     this.disabled = false;

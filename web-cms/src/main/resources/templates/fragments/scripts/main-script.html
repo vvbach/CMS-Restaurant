@@ -205,9 +205,13 @@
             openModals.forEach(modalEl => {
                 const modalInstance = bootstrap.Modal.getInstance(modalEl);
                 if (modalInstance) {
-                    modalInstance.hide();
+                    modalInstance.hide()
                 }
-            });
+            })
+            if (document.getElementById('reason') && !document.getElementById('reason').classList.contains("d-none")){
+                document.getElementById('reason').classList.add("d-none")
+            }
+
         }
     </script>
     <script>
@@ -246,7 +250,8 @@
                 "categoryPageNavItem",
                 "homePageNavItem",
                 "aboutPageNavItem",
-                "contactPageNavItem"
+                "contactPageNavItem",
+                "ImageWebNavItem"
             ];
 
             const productNavItems = [

@@ -214,7 +214,7 @@
                             <button id="btnChange" value="" class="btn btn-outline-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Change status
                             </button>
-                            <ul class="dropdown-menu shadow" id="detail-lst-status">
+                            <ul class="dropdown-menu shadow" id="detail-list-status">
                             </ul>
                         </div>
 
@@ -273,7 +273,7 @@
                         <div class="drop-indicator"></div>
                     </div>
 
-                    <div class="mb-3" id="detail-descs">
+                    <div class="mb-3" id="detail-description">
                         <label class="form-label">Description</label>
                         <textarea class="form-control readonly" rows="2" disabled></textarea>
                     </div>
@@ -336,8 +336,8 @@
 
                 <!-- Footer -->
                 <div class="modal-footer px-4">
-                    <button type="button" class="btn btn-light border" data-bs-dismiss="modal"><i class="bi bi-x-circle"></i> Close</button>
-                    <button type="button" class="btn btn-primary d-none" data-bs-dismiss="modal" id="btn-update-detail"><i class="bi bi-check2"></i> Save</button>
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                    <button type="button" class="btn btn-primary d-none" onclick="closeAllModals()" id="btn-update-detail"><i class="bi bi-check2"></i> Save</button>
                 </div>
             </div>
         </div>
@@ -371,8 +371,8 @@
                         <div class="invalid-feedback" id="invalid-feedback-input-describe-new">Chưa nhập mô tả của bức ảnh</div>
                     </div>
                     <div class="text-center">
-                        <button id="btn-new-image" class="btn btn-primary" type="button">Thêm mới</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="btn-new-image" class="btn btn-primary" type="button">Add</button>
+                        <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     </div>
                 </form>
             </div>
@@ -385,27 +385,26 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title" id="confirmDeleteLabel">Xác nhận xóa</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="confirmDeleteLabel">Confirm delete</h5>
+                    <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa?</p>
-                </div>
-                <div class="mb-0">
-                    <label for="deleteReasonDetail" class="form-label">
-                        Description chi tiết <small class="text-muted">(tối thiểu 1 ký tự)</small>
-                    </label>
-                    <textarea id="deleteReasonDetail" class="form-control" rows="3"
-                              minlength="1" maxlength="500" required
-                              placeholder="Nhập lý do chi tiết..."></textarea>
-                    <div class="d-flex justify-content-end mt-1">
-                        <small class="text-muted"><span id="deleteReasonCount">0</span>/500</small>
+                    <p class="mb-0 confirm-message">Are you sure you want to delete?</p>
+                    <div class="mb-0">
+                        <label for="deleteReasonDetail" class="form-label">
+                            Description <small class="text-muted">(Minimum 1 character)</small>
+                        </label>
+                        <textarea id="deleteReasonDetail" class="form-control" rows="3" minlength="1" maxlength="500" required></textarea>
+                        <div class="d-flex justify-content-end mt-1">
+                            <small class="text-muted"><span id="deleteReasonCount">0</span>/500</small>
+                        </div>
+                        <div class="invalid-feedback">Do not leave blank.</div>
                     </div>
-                    <div class="invalid-feedback">Vui lòng không để trống.</div>
                 </div>
+
                 <input type="text" hidden="hidden" readonly disabled id="id-confirm-delete" />
                 <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAllModals()">Cancel</button>
                     <button type="button" id="confirmDeleteBtn" class="btn btn-danger">
                         Delete
                     </button>
@@ -413,6 +412,8 @@
             </div>
         </div>
     </div>
+    <script th:src="@{/js/page-function/hideRoleBasedEl.js}" async></script>
+    <script th:src="@{/js/page-function/set-status-popup.js}" async></script>
     <script th:src="@{/js/img-web/popup.js}" async></script>
     <script th:src="@{/js/img-web/add.js}" async></script>
     <script th:src="@{/js/img-web/filter.js}" async></script>

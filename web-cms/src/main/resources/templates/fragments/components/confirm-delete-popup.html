@@ -6,11 +6,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" th:text="${'Bạn có chắc chắn muốn xóa ' + name + ' này không?'}"></h6>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" th:attr="onclick=|${onclick}|">Xóa</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="closeAllModals()" th:attr="onclick=|${onclick}|">Xóa</button>
+                <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
             </div>
         </div>
     </div>

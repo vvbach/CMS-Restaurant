@@ -13,9 +13,16 @@ document.getElementById('openModalBtn').addEventListener('click', async function
         const d = resp?.data ?? resp;
 
         setStatus(d, "UI");
+            setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
         document.querySelector('#detail-img-update').src = d?.imageUrl;
         document.querySelector('#detail-title-update').querySelector("input").value = d?.title;
         context = d?.text;
+
+        if (d?.status === 'DRAFT') {
+            document.getElementById('btn-update-detail').classList.remove('d-none')
+        } else {
+            document.getElementById('btn-update-detail').classList.add('d-none')
+        }
     });
     this.disabled = false;
 
@@ -85,6 +92,7 @@ async function openImageLibraryForEditor(editorInstance) {
     try {
         const data = await callApi('/v1/api/image-web');
         data.data.forEach((img) => {
+            if (img.isDelete === 'YES' || img.status !== 'PUBLISHED') return;
             const col = document.createElement('div');
             col.className = 'col-md-3 mb-3';
 

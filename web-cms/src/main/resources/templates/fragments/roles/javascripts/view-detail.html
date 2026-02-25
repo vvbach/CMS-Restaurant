@@ -19,7 +19,6 @@
             document.getElementById('inputCreateAt').value = formatDate(d?.createdAt);
             document.getElementById('inputUpdater').value = d?.updatedByName || d?.updatedBy || '-';
             document.getElementById('inputUpdateAt').value = formatDate(d?.updatedAt);
-        setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
             const permissions = d?.permissions ?? []
             document.getElementById("detail-permissions").innerHTML = ""
             for (const permission of permissions) {
@@ -46,7 +45,6 @@
         const selectAllCb = document.getElementById('updatePermSelectAll');
         const saveBtn = document.getElementById('btn-update-detail');
 
-        // helper: chờ element(s) xuất hiện (polling)
         function waitFor(selector, timeout = 3000, interval = 100) {
             return new Promise((resolve, reject) => {
                 const stopAt = Date.now() + timeout;
@@ -59,7 +57,6 @@
             });
         }
 
-        // cập nhật giá trị hidden input dựa trên checkbox được tick
         function syncHiddenPermInput() {
             const checkedPerms = Array.from(permissionsContainer.querySelectorAll('.perm-checkbox:checked'))
                 .map(cb => String(cb.getAttribute('data-perm-id')));
@@ -70,7 +67,6 @@
             hiddenPermInput.value = merged.join(',');
         }
 
-        // cập nhật trạng thái parent (checked / indeterminate) dựa trên children
         function updateParentStates() {
             const parentCbs = permissionsContainer.querySelectorAll('.parent-perm-checkbox');
             parentCbs.forEach(parentCb => {
@@ -95,7 +91,6 @@
             });
         }
 
-        // cập nhật select-all checkbox dựa trên tất cả input hiện có
         function updateSelectAllState() {
             const allInputs = permissionsContainer.querySelectorAll('.parent-perm-checkbox, .perm-checkbox');
             if (!allInputs.length) {
