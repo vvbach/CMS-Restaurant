@@ -54,7 +54,7 @@ public interface FoodCategoryRepository extends
                  AND r.foodCategoryId = fc.id
                  AND fc.isDelete = 0
                  AND r.isDelete = 0
-                 AND fc.status = 'Publish'
+                 AND fc.status = 'PUBLISHED'
              )
             """)
     List<FoodCategoryResponse> findFoodCategoriesOfFoodId(@Param("foodId") UUID foodId);
@@ -64,7 +64,7 @@ public interface FoodCategoryRepository extends
                     c.is_delete, c.created_by_name, c.created_at, c.updated_by_name, c.updated_at,
                     c.reason_delete, c.reason_rejection, c.reason_unpublish, rel.rev
              FROM public.food_category_relation_aud rel
-             JOIN public.food_categories c ON rel.food_category_id = c.id
+             JOIN public.food_category c ON rel.food_category_id = c.id
              WHERE rel.rev IN (:revs)
             """, nativeQuery = true)
     List<FoodCategoryDto> findFoodCategoriesByRevNumbers(@Param("revs") Collection<Integer> revs);

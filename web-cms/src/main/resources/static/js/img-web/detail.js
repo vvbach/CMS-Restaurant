@@ -11,7 +11,7 @@ async function viewDetail(id) {
         imgEl.alt = fileNameFromPath(d?.pathImage) || 'image';
 
         document.getElementById('detail-id').value = d?.id ?? '';
-        document.getElementById('detail-desc').value = d?.description ?? '';
+        document.getElementById('detail-description').value = d?.description ?? '';
         document.getElementById('detail-status').value = mapStatus(d?.status);
         document.getElementById('detail-is-delete').value = mapIsDelete(d?.isDelete);
 

@@ -46,8 +46,6 @@ public interface FoodRepository extends JpaRepository<FoodEntity, UUID> {
     """)
     List<FoodEntity> findByCategoryId(UUID categoryId);
 
-    // This does not satisfy the requirement
-    // I can't think of a way in pure SQL, and I'm too lazy to use Java instead
     @Query(value = """
             WITH each_from_category AS (
             	SELECT f.id, f.image_url

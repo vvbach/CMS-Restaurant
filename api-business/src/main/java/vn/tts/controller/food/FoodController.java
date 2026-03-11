@@ -2,6 +2,7 @@ package vn.tts.controller.food;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +27,7 @@ public class FoodController {
     @Operation(summary = "tìm kiếm Food")
     @PostMapping("/filter")
     public ResponseEntity<ResponseBase<PaginationResponse<List<FoodResponse>>>> filter(
-            @RequestBody FilterPayload payload,
+            @RequestBody @Valid FilterPayload payload,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer pageSize
     ) {

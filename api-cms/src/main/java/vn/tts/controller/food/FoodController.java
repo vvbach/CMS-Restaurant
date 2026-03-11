@@ -80,21 +80,21 @@ public class FoodController {
     @Operation(description = "tạo món ăn mới")
     @PostMapping()
     @PreAuthorize("hasAuthority('PRODUCT_ADD')")
-    public ResponseEntity<ResponseBase<FoodResponse>> create(@RequestBody FoodPayload payload) {
+    public ResponseEntity<ResponseBase<FoodResponse>> create(@RequestBody @Valid FoodPayload payload) {
         return ResponseBase.success(foodService.create(payload));
     }
 
     @Operation(description = "cập nhật thông tin món ăn")
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('PRODUCT_UPDATE')")
-    public ResponseEntity<ResponseBase<FoodResponse>> update(@PathVariable UUID id, @RequestBody FoodPayload payload) {
+    public ResponseEntity<ResponseBase<FoodResponse>> update(@PathVariable UUID id, @RequestBody @Valid FoodPayload payload) {
         return ResponseBase.success(foodService.update(id, payload));
     }
 
     @Operation(description = "xóa món ăn theo id")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('PRODUCT_DELETE')")
-    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, @RequestBody DeletePayload payload) {
+    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, @RequestBody @Valid DeletePayload payload) {
         foodService.delete(id, payload);
         return ResponseBase.success(null);
     }

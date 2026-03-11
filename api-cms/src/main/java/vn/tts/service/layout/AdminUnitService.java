@@ -175,9 +175,25 @@ public class AdminUnitService extends BaseService implements PublishableService<
 
     @Override
     public List<AdminUnitHistoryResponse> history(UUID id) {
-        return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
-                        (entity) -> modelMapper.map(entity, AdminUnitHistoryResponse.class))
-                .stream().map(Pair::getFirst).toList();
+        return publishableHistoryUtils
+                .getUpdatedHistoryRevisions(id,
+                        entity -> modelMapper.map(entity, AdminUnitHistoryResponse.class))
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String logoUrl = response.getLogoUrl();
+
+                    if (logoUrl != null && !logoUrl.isBlank()) {
+                        try {
+                            response.setLogoUrl(minioService.getPreSignedUrl(logoUrl));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
+
+                })
+                .toList();
     }
 
     @Override

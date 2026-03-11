@@ -42,6 +42,8 @@ async function openImageLibrary() {
     selectBtn.onclick = () => {
         if (selectedImageUrl) {
             inputImageNew.src = selectedImageUrl;
+            inputImageNew.width = 100;
+            inputImageNew.height = 100;
             detailImgUpdate.src = selectedImageUrl;
         }
 

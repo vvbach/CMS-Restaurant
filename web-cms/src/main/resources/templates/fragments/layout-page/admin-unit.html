@@ -148,7 +148,7 @@
                                 <button id="openModalBtn" class="btn btn-icon me-1">
                                     <i class="ri-pencil-fill fs-5"></i>
                                 </button>
-                                <button id="openModalHistoryBtn" class="btn btn-icon me-1" >
+                                <button id="openModalHistoryBtn" class="btn btn-icon me-1">
                                     <i class="bi bi-clock-history fs-5"></i>
                                 </button>
                                 <button id="openModalDeleteBtn" class="btn btn-icon me-1" >
@@ -434,10 +434,27 @@
         </div>
     </div>
 
+<!--     History Modal-->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">History</h5>
+                </div>
+                <div class="modal-body" id="historyTableBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <script th:src="@{/js/layout/admin-unit/popup.js}" defer></script>
     <script th:src="@{/js/layout/admin-unit/filter.js}" defer></script>
     <script th:src="@{/js/layout/admin-unit/detail.js}" defer></script>
+    <script th:src="@{/js/layout/admin-unit/history.js}" defer></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
     <script th:src="@{/js/page-function/image-lib.js}"></script>

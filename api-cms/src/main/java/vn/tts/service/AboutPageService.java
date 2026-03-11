@@ -170,7 +170,22 @@ public class AboutPageService extends BaseService implements PublishableService<
     public List<AboutPageHistoryResponse> history(UUID id) {
         return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
                         (entity) -> modelMapper.map(entity, AboutPageHistoryResponse.class))
-                .stream().map(Pair::getFirst).toList();
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String imageUrl = response.getImageUrl();
+
+                    if (imageUrl != null && !imageUrl.isBlank()) {
+                        try {
+                            response.setImageUrl(minioService.getPreSignedUrl(imageUrl));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
+
+                })
+                .toList();
     }
 
     @Override

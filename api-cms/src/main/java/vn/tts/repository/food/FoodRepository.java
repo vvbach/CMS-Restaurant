@@ -19,7 +19,6 @@ import java.util.UUID;
 public interface FoodRepository extends
         JpaRepository<FoodEntity, UUID>,
         RevisionRepository<FoodEntity, UUID, Integer> {
-    List<FoodEntity> findAllByIdIn(Collection<UUID> id);
 
     @Query(value = """
             SELECT distinct f FROM FoodEntity f

@@ -12,9 +12,8 @@ document.getElementById('btn-update-detail').addEventListener('click',async (e) 
 
     try {
         let url = '/v1/api/image-web/' + document.getElementById('id-row-edit').value;
-        // Ví dụ endpoint giả. Đổi thành API thật của bạn.
         const data = await callApi(url, {
-                method: 'POST',
+                method: 'PUT',
                 body: formdata
             }
             , (data) => {

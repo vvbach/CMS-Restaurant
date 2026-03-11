@@ -181,7 +181,22 @@ public class ImageWebService extends BaseService implements
     public List<ImageWebHistoryResponse> history(UUID id) {
         return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
                         (entity) -> modelMapper.map(entity, ImageWebHistoryResponse.class))
-                .stream().map(Pair::getFirst).toList();
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String pathImage = response.getPathImage();
+
+                    if (pathImage != null && !pathImage.isBlank()) {
+                        try {
+                            response.setPathImage(minioService.getPreSignedUrl(pathImage));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
+
+                })
+                .toList();
     }
 
     @Override

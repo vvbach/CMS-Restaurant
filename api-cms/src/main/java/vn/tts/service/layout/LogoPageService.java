@@ -174,7 +174,22 @@ public class LogoPageService extends BaseService implements PublishableService<
     public List<LogoPageHistoryResponse> history(UUID id) {
         return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
                         (entity) -> modelMapper.map(entity, LogoPageHistoryResponse.class))
-                .stream().map(Pair::getFirst).toList();
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String logoUrl = response.getUrl();
+
+                    if (logoUrl != null && !logoUrl.isBlank()) {
+                        try {
+                            response.setUrl(minioService.getPreSignedUrl(logoUrl));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
+
+                })
+                .toList();
     }
 
     @Override

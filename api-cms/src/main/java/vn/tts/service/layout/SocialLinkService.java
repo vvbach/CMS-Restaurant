@@ -30,7 +30,6 @@ import vn.tts.service.utils.PublishableHistoryUtils;
 import vn.tts.service.utils.PublishingUtils;
 import vn.tts.service.utils.QueryService;
 import vn.tts.service.utils.ValidateEntityService;
-import vn.tts.service.layout.SocialLinkService;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -179,7 +178,22 @@ public class SocialLinkService extends BaseService implements PublishableService
     public List<SocialLinkHistoryResponse> history(UUID id) {
         return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
                         (entity) -> modelMapper.map(entity, SocialLinkHistoryResponse.class))
-                .stream().map(Pair::getFirst).toList();
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String iconUrl = response.getIconUrl();
+
+                    if (iconUrl != null && !iconUrl.isBlank()) {
+                        try {
+                            response.setIconUrl(minioService.getPreSignedUrl(iconUrl));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
+
+                })
+                .toList();
     }
 
     @Override

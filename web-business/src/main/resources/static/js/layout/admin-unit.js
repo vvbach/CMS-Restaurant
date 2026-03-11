@@ -10,7 +10,7 @@ async function loadAdminUnit() {
             if (img && data.data.logoUrl) {
                 img.src = data.data.logoUrl;
                 img.alt = data.data.name || "Admin Unit";
-                document.querySelector(".admin-unit-name").innerText = data.data.name || "Viettel ??";
+                document.querySelector(".admin-unit-name").innerText = data.data.name || "";
             }
         }
     });

@@ -15,6 +15,8 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             imgEl.src = d?.pathImage;
             imgEl.alt = fileNameFromPath(d?.pathImage) || 'image';
 
+            document.querySelector('#edit-description').value = d?.description ?? "";
+
             setStatus(d, "UI");
             setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
 

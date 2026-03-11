@@ -17,7 +17,7 @@ import vn.tts.entity.PublishableEntity;
 @Getter
 @Setter
 @Audited
-@AuditTable(value = "food_categories_aud")
+@AuditTable(value = "food_category_aud")
 @NoArgsConstructor
 @AllArgsConstructor
 @SQLDelete(sql = "update food_category set is_delete = 1 where id = ?")

@@ -156,6 +156,34 @@
             UNPUBLISHED: 3
         }
 
+        function getStatusColor(status) {
+            switch (status) {
+                case 'CREATED':
+                    return 'bg-secondary';
+
+                case 'PENDING_APPROVAL':
+                    return 'bg-warning text-dark';
+
+                case 'APPROVED':
+                    return 'bg-info text-dark';
+
+                case 'PUBLISHED':
+                    return 'bg-success';
+
+                case 'REJECTED':
+                    return 'bg-danger';
+
+                case 'UNPUBLISHED':
+                    return 'bg-dark';
+
+                case 'DELETED':
+                    return 'bg-danger';
+
+                default:
+                    return 'bg-light text-dark';
+            }
+        }
+
         // ====== Helpers ======
         function setProgress(activeIndex) {
             const steps = document.querySelectorAll('.step');
@@ -213,6 +241,8 @@
             }
 
         }
+
+
     </script>
     <script>
         // Helper function

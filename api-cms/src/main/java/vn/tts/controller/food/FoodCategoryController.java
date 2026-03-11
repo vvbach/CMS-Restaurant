@@ -54,21 +54,21 @@ public class FoodCategoryController {
     @Operation(description = "tạo danh mục món ăn mới")
     @PostMapping()
     @PreAuthorize("hasAuthority('PRODUCT_ADD')")
-    public ResponseEntity<ResponseBase<FoodCategoryResponse>> create(@RequestBody FoodCategoryPayload payload) {
+    public ResponseEntity<ResponseBase<FoodCategoryResponse>> create(@RequestBody @Valid FoodCategoryPayload payload) {
         return ResponseBase.success(foodCategoryService.create(payload));
     }
 
     @Operation(description = "cập nhật thông tin danh mục món ăn")
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('PRODUCT_UPDATE')")
-    public ResponseEntity<ResponseBase<FoodCategoryResponse>> update(@PathVariable UUID id, @RequestBody FoodCategoryPayload payload) {
+    public ResponseEntity<ResponseBase<FoodCategoryResponse>> update(@PathVariable UUID id, @RequestBody @Valid FoodCategoryPayload payload) {
         return ResponseBase.success(foodCategoryService.update(id, payload));
     }
 
     @Operation(description = "xóa danh mục món ăn theo id")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('PRODUCT_DELETE')")
-    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, DeletePayload payload) {
+    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, @RequestBody @Valid DeletePayload payload) {
         foodCategoryService.delete(id, payload);
         return ResponseBase.success(null);
     }
@@ -87,7 +87,7 @@ public class FoodCategoryController {
     @Operation(summary = "Reject danh mục món ăn")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('PRODUCT_REJECT')")
-    public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody RejectPayload payload) {
+    public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody @Valid RejectPayload payload) {
         foodCategoryService.reject(id, payload);
         return ResponseBase.success(null);
     }
@@ -119,7 +119,7 @@ public class FoodCategoryController {
     @Operation(summary = "Hủy xuất bản danh mục món ăn")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('PRODUCT_UNPUBLISH')")
-    public ResponseEntity<ResponseBase<Void>> unpublish(@PathVariable UUID id, UnpublishPayload payload) {
+    public ResponseEntity<ResponseBase<Void>> unpublish(@PathVariable UUID id, @RequestBody @Valid UnpublishPayload payload) {
         foodCategoryService.unpublish(id, payload);
         return ResponseBase.success(null);
     }

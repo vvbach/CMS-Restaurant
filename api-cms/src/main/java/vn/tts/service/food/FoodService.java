@@ -433,6 +433,7 @@ public class FoodService extends BaseService implements PublishableService<
         List<FoodCategoryResponse> categories =
                 foodCategoryRepository.findFoodCategoriesOfFoodId(entity.getId());
 
+
         String imageUrl;
         try {
             imageUrl = minioService.getPreSignedUrl(entity.getImageUrl());

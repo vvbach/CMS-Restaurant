@@ -65,21 +65,21 @@ public class AboutPageController {
     @Operation(description = "tạo about banner article mới")
     @PostMapping()
     @PreAuthorize("hasAuthority('UI_ADD')")
-    public ResponseEntity<ResponseBase<AboutPageResponse>> create(@RequestBody AboutPagePayload payload) {
+    public ResponseEntity<ResponseBase<AboutPageResponse>> create(@RequestBody @Valid AboutPagePayload payload) {
         return ResponseBase.success(aboutPageService.create(payload));
     }
 
     @Operation(description = "cập nhật thông tin about banner article")
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('UI_UPDATE')")
-    public ResponseEntity<ResponseBase<AboutPageResponse>> update(@PathVariable UUID id, @RequestBody AboutPagePayload payload) {
+    public ResponseEntity<ResponseBase<AboutPageResponse>> update(@PathVariable UUID id, @RequestBody @Valid AboutPagePayload payload) {
         return ResponseBase.success(aboutPageService.update(id, payload));
     }
 
     @Operation(description = "xóa about banner article theo id")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('UI_DELETE')")
-    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, @RequestBody DeletePayload payload) {
+    public ResponseEntity<ResponseBase<Void>> delete(@PathVariable UUID id, @RequestBody @Valid DeletePayload payload) {
         aboutPageService.delete(id, payload);
         return ResponseBase.success(null);
     }
@@ -87,7 +87,7 @@ public class AboutPageController {
     @Operation(summary = "Reject about banner article")
     @PostMapping("/{id}/reject")
     @PreAuthorize("hasAuthority('UI_REJECT')")
-    public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody RejectPayload payload) {
+    public ResponseEntity<ResponseBase<Void>> reject(@PathVariable UUID id, @RequestBody @Valid RejectPayload payload) {
         aboutPageService.reject(id, payload);
         return ResponseBase.success(null);
     }
@@ -119,7 +119,7 @@ public class AboutPageController {
     @Operation(summary = "Hủy xuất bản about banner article")
     @PostMapping("/{id}/unpublish")
     @PreAuthorize("hasAuthority('UI_UNPUBLISH')")
-    public ResponseEntity<ResponseBase<Void>> unpublish(@PathVariable UUID id, UnpublishPayload payload) {
+    public ResponseEntity<ResponseBase<Void>> unpublish(@PathVariable UUID id, @RequestBody @Valid UnpublishPayload payload) {
         aboutPageService.unpublish(id, payload);
         return ResponseBase.success(null);
     }

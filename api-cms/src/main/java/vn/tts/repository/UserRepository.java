@@ -96,7 +96,7 @@ public interface UserRepository extends
               u.username,
               u.fullname,
               u.password,
-              r.code AS role,
+              STRING_AGG(DISTINCT r.code, ',') AS roles,
               STRING_AGG(p.code, ',') AS permissions
             FROM users u
             LEFT JOIN role_user ru
@@ -108,7 +108,7 @@ public interface UserRepository extends
             LEFT JOIN permission p
               ON rp.permission_id = p.id
             WHERE u.id = :userId
-            GROUP BY u.id, u.username, u.fullname, u.password, r.code
+            GROUP BY u.id, u.username, u.fullname, u.password
             """, nativeQuery = true)
     Optional<UserPrincipalDto> findUserInfoDetailById(@Param("userId") UUID userId);
 
