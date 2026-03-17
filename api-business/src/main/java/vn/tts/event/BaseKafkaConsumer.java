@@ -8,5 +8,5 @@ public interface BaseKafkaConsumer<T> {
     @KafkaListener
     void onPublish(T event);
     @KafkaListener
-    void onUnPublish(UUID id);
+    void onUnpublish(UUID id);
 }

@@ -47,7 +47,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
 
                                 <span class="badge ${getStatusColor(item.status)} ms-auto">
                                     ${mapStatus(item.status)}
-                                </span>
+                                </span>cac
 
                             </div>
 

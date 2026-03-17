@@ -38,7 +38,7 @@ public class CategoryStatisticConsumer implements BaseKafkaConsumer<CategoryStat
     @Override
     @Transactional
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         CategoryStatisticEntity entity = categoryStatisticRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(serviceUtil.getMessage("category.statistic.not.found")));
 

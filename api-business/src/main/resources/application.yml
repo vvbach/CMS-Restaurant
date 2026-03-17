@@ -17,6 +17,9 @@ spring:
       port: 6379
   cache:
     type: redis
+  devtools:
+    restart:
+      enabled: false
 
   datasource:
     url: jdbc:postgresql://vvbach-linux:5432/business

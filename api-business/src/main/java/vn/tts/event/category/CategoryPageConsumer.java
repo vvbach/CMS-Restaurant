@@ -35,7 +35,7 @@ public class CategoryPageConsumer implements BaseKafkaConsumer<CategoryPageEntit
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "category_page", allEntries = true)
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, categoryPageRepository);
     }
 }

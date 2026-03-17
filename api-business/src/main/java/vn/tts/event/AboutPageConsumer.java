@@ -36,7 +36,7 @@ public class AboutPageConsumer implements BaseKafkaConsumer<AboutPageEntity> {
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "about_page", key = "'about_page'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, aboutPageRepository);
     }
 }

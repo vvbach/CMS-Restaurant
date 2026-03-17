@@ -37,7 +37,7 @@ public class AdminUnitConsumer implements BaseKafkaConsumer<AdminUnitEntity> {
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "admin_unit", key = "'admin_unit'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, adminUnitRepository);
     }
 }

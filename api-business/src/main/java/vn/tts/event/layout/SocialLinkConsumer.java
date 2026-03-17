@@ -37,7 +37,7 @@ public class SocialLinkConsumer implements BaseKafkaConsumer<SocialLinkEntity> {
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "social_link", key = "'social_link'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, socialLinkRepository);
     }
 }

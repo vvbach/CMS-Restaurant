@@ -29,7 +29,7 @@ public class ImageWebConsumer implements BaseKafkaConsumer<ImageWebEntity> {
     @Override
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, imageWebRepository);
     }
 }

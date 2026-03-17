@@ -37,7 +37,7 @@ public class LogoPageConsumer implements BaseKafkaConsumer<LogoPageEntity> {
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "logo_page", key = "'logo_page'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, repository);
     }
 }

@@ -36,7 +36,7 @@ public class FoodCategoryConsumer implements BaseKafkaConsumer<FoodCategoryEntit
     @Transactional
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = {"category_page", "featured_category"}, allEntries = true)
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, foodCategoryRepository);
 
         try {

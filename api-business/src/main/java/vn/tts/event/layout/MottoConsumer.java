@@ -37,7 +37,7 @@ public class MottoConsumer implements BaseKafkaConsumer<MottoEntity> {
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "motto", key = "'motto'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, mottoRepository);
     }
 }

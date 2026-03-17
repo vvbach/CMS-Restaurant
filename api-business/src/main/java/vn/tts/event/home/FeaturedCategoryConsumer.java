@@ -35,7 +35,7 @@ public class FeaturedCategoryConsumer implements BaseKafkaConsumer<FeaturedCateg
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "featured_category", key = "'featured_category'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, featuredCategoryRepository);
     }
 }

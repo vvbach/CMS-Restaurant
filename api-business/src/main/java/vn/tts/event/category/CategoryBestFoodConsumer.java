@@ -38,7 +38,7 @@ public class CategoryBestFoodConsumer implements BaseKafkaConsumer<CategoryBestF
     @Override
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         CategoryBestFoodEntity entity = categoryBestFoodRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(serviceUtil.getMessage("category.best.food.not.found")));
 

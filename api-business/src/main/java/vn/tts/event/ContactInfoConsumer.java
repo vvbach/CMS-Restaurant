@@ -36,7 +36,7 @@ public class ContactInfoConsumer implements BaseKafkaConsumer<ContactInfoEntity>
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "contact_info", key = "'contact_info'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, contactInfoRepository);
     }
 }

@@ -59,7 +59,7 @@ public class FoodConsumer implements BaseKafkaConsumer<FoodPublishResponse> {
     @Transactional
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = {"home_best_food", "home_main_banner"}, allEntries = true)
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         try {
             foodCategoryRelationRepository.deleteByFoodId(id);
             foodRepository.deleteById(id);

@@ -37,7 +37,7 @@ public class AboutCategoryConsumer implements BaseKafkaConsumer<AboutCategoryEnt
     @Override
     @Transactional
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         AboutCategoryEntity entity = aboutCategoryRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException(serviceUtil.getMessage("about.category.not.found")));
 

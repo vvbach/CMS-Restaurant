@@ -35,7 +35,7 @@ public class HomeMainBannerConsumer implements BaseKafkaConsumer<HomeMainBannerE
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "home_main_banner", key = "'home_main_banner'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, homeMainBannerRepository);
     }
 }

@@ -36,7 +36,7 @@ public class HomeBestFoodConsumer implements BaseKafkaConsumer<HomeBestFoodEntit
     @KafkaListener(topics = TOPIC_UNPUBLISH, groupId = TOPIC_UNPUBLISH)
     @CacheEvict(cacheNames = "home_best_food", key = "'home_best_food'")
     @Transactional
-    public void onUnPublish(UUID id) {
+    public void onUnpublish(UUID id) {
         kafkaEntityUtils.deleteEntity(id, homeBestFoodRepository);
     }
 }
