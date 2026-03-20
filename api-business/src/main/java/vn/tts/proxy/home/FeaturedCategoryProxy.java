@@ -25,7 +25,7 @@ public class FeaturedCategoryProxy {
 
         responses.parallelStream().forEach(res -> {
             try {
-                res.setImageUrl(minioService.getPresignedUrl(res.getImageUrl()));
+                res.setImageUrl(minioService.getPreSignedUrl(res.getImageUrl()));
             } catch (Exception e) {
                 log.error(e.getMessage());
                 throw new RuntimeException(serviceUtil.getMessage("minio.service.get.url.error"));

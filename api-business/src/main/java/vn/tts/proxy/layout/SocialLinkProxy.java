@@ -37,7 +37,7 @@ public class SocialLinkProxy {
 
         responses.parallelStream().forEach(response -> {
             try {
-                response.setIconUrl(minioService.getPresignedUrl(response.getIconUrl()));
+                response.setIconUrl(minioService.getPreSignedUrl(response.getIconUrl()));
             } catch (Exception e) {
                 log.error(e.getMessage());
                 throw new RuntimeException(serviceUtil.getMessage("minio.service.get.url.error"));
@@ -59,7 +59,7 @@ public class SocialLinkProxy {
 
         responses.parallelStream().forEach(response -> {
             try {
-                response.setIconUrl(minioService.getPresignedUrl(response.getIconUrl()));
+                response.setIconUrl(minioService.getPreSignedUrl(response.getIconUrl()));
             } catch (Exception e) {
                 log.error(e.getMessage());
                 throw new RuntimeException(serviceUtil.getMessage("minio.service.get.url.error"));

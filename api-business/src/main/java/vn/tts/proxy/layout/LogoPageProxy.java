@@ -36,7 +36,7 @@ public class LogoPageProxy {
         LogoPageResponse res = new LogoPageResponse(entity.getName(), entity.getUrl());
 
         try {
-            res.setUrl(minioService.getPresignedUrl(res.getUrl()));
+            res.setUrl(minioService.getPreSignedUrl(res.getUrl()));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new RuntimeException(serviceUtil.getMessage("minio.service.get.url.error"));

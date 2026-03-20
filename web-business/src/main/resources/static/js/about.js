@@ -5,22 +5,21 @@ async function loadAboutPage() {
     }, (data) => {
         if (!data) return;
 
-        // Title
-        const breadcumbText = document.querySelector(".breadcumb-area .breadcumb-text");
+        const breadcumbText = document.querySelector(".breadcumb-area .breadcumb-text h2");
         if (breadcumbText) {
             breadcumbText.innerHTML = data.data.title;
         }
 
-        // Text
         const aboutContainer = document.querySelector(".about-area .container");
         if (aboutContainer) {
             aboutContainer.innerHTML = data.data.text;
         }
 
-        // Background image
         const banner = document.querySelector("#contact-area-banner");
         if (banner && data.data.imageUrl) {
             banner.src = data.data.imageUrl;
+            banner.style.display = "block";
+            banner.style.margin = "0 auto";
         }
     });
 }

@@ -36,7 +36,7 @@ public class AdminUnitProxy {
         AdminUnitResponse res = new AdminUnitResponse(entity.getName(), entity.getLogoUrl());
 
         try {
-            res.setLogoUrl(minioService.getPresignedUrl(res.getLogoUrl()));
+            res.setLogoUrl(minioService.getPreSignedUrl(res.getLogoUrl()));
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new RuntimeException(serviceUtil.getMessage("minio.service.get.url.error"));

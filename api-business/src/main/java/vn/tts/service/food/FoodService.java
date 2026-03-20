@@ -77,7 +77,7 @@ public class FoodService {
 
         pageResp.getContent().parallelStream().forEach(food -> {
             try {
-                food.setImageUrl(minioService.getPresignedUrl(food.getImageUrl()));
+                food.setImageUrl(minioService.getPreSignedUrl(food.getImageUrl()));
             } catch (Exception ex) {
                 log.error(ex.getMessage(), ex);
                 food.setImageUrl(null);
@@ -96,7 +96,7 @@ public class FoodService {
         FoodEntity food = foodRepository.findById(id).orElseThrow(() -> new RuntimeException(serviceUtil.getMessage("food.not.found")));
 
         try {
-            food.setImageUrl(minioService.getPresignedUrl(food.getImageUrl()));
+            food.setImageUrl(minioService.getPreSignedUrl(food.getImageUrl()));
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
             food.setImageUrl(null);
@@ -191,7 +191,7 @@ public class FoodService {
         return foods.parallelStream().map(food -> {
             String imageUrl = null;
             try {
-                imageUrl = minioService.getPresignedUrl(food.getImageUrl());
+                imageUrl = minioService.getPreSignedUrl(food.getImageUrl());
             } catch (Exception ex) {
                 log.error(ex.getMessage(), ex);
             }

@@ -23,7 +23,7 @@ public class BannerFooterProxy {
 
         responses.parallelStream().forEach(res -> {
             try {
-                res.setImageUrl(minioService.getPresignedUrl(res.getImageUrl()));
+                res.setImageUrl(minioService.getPreSignedUrl(res.getImageUrl()));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
                 throw new RuntimeException(e.getMessage());

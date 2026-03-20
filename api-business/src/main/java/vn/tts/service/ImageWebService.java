@@ -27,7 +27,7 @@ public class ImageWebService {
         Page<ImageWebEntity> lstImage = imageWebRepository.findAll(pageable);
         lstImage.getContent().parallelStream().forEach(imageWebEntity -> {
             try {
-                imageWebEntity.setPathImage(minioService.getPresignedUrl(imageWebEntity.getPathImage()));
+                imageWebEntity.setPathImage(minioService.getPreSignedUrl(imageWebEntity.getPathImage()));
             } catch (Exception e) {
                 log.error(e.getMessage(), e);
             }
