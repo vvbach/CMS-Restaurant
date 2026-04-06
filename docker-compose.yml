@@ -11,7 +11,7 @@ services:
     ports:
       - "${API_CMS_PORT}:${API_CMS_PORT}"
     environment:
-      - HOSTNAME=${DB_HOSTNAME}
+      - HOSTNAME=${HOSTNAME}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_PORT=${REDIS_PORT}
@@ -44,7 +44,7 @@ services:
     ports:
       - "${API_BUSINESS_PORT}:${API_BUSINESS_PORT}"
     environment:
-      - HOSTNAME=${DB_HOSTNAME}
+      - HOSTNAME=${HOSTNAME}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_PORT=${REDIS_PORT}
