@@ -13,40 +13,40 @@
                             </button>
                         </div>
                         <div class="tab-content" id="myTabjustifiedContent">
-                            <div th:replace="~{/fragments/admin/table-filter :: table-filter}"></div>
-                            <div th:replace="~{/fragments/admin/account-table :: account-table}"></div>
+                            <div th:replace="~{fragments/admin/table-filter :: table-filter}"></div>
+                            <div th:replace="~{fragments/admin/account-table :: account-table}"></div>
                         </div><!-- End Default Tabs -->
-                        <div th:replace="~{/fragments/admin/account-pagination :: account-pagination}"></div>
+                        <div th:replace="~{fragments/admin/account-pagination :: account-pagination}"></div>
                     </div>
                 </div>
             </div>
             <!-- Hiển thị màn hình thông tin chi tiết -->
-            <div th:replace="~{/fragments/admin/account-detail :: account-detail}"></div>
+            <div th:replace="~{fragments/admin/account-detail :: account-detail}"></div>
         </div>
     </section>
     <!-- popup hiển thị để cập nhật thông tin-->
-    <div th:replace="~{/fragments/admin/popups/update-account-popup :: update-account-popup}"></div>
+    <div th:replace="~{fragments/admin/popups/update-account-popup :: update-account-popup}"></div>
 
     <!-- popup thêm mới-->
-    <div th:replace="~{/fragments/admin/popups/add-account-popup :: add-account-popup}"></div>
+    <div th:replace="~{fragments/admin/popups/add-account-popup :: add-account-popup}"></div>
 
     <!-- password popup to display generated password -->
-    <div th:replace="~{/fragments/admin/popups/password-new-account-popup :: password-new-account-popup}"></div>
+    <div th:replace="~{fragments/admin/popups/password-new-account-popup :: password-new-account-popup}"></div>
 
     <!--    Tạo tài khoản  -->
-    <script th:replace="~{/fragments/admin/javascripts/add-account :: add-account}"></script>
+    <script th:replace="~{fragments/admin/javascripts/add-account :: add-account}"></script>
 
     <!-- Thông tin detail -->
-    <script th:replace="~{/fragments/admin/javascripts/view-detail :: view-detail}"></script>
+    <script th:replace="~{fragments/admin/javascripts/view-detail :: view-detail}"></script>
 
     <!--  Xóa tài khoản  -->
-    <script th:replace="~{/fragments/admin/javascripts/delete-account :: delete-account}"></script>
+    <script th:replace="~{fragments/admin/javascripts/delete-account :: delete-account}"></script>
 
     <!-- filter -->
-    <script th:replace="~{/fragments/admin/javascripts/filter :: filter}"></script>
+    <script th:replace="~{fragments/admin/javascripts/filter :: filter}"></script>
 
     <!--    Toggle user Status  -->
-    <script th:replace="~{/fragments/admin/javascripts/toggle-status :: toggle-status}"></script>
+    <script th:replace="~{fragments/admin/javascripts/toggle-status :: toggle-status}"></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
 

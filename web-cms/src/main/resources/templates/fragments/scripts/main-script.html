@@ -13,7 +13,7 @@
     <!-- Template Main JS File -->
     <script th:src="@{/js/main.js}" async></script>
 
-    <script th:replace="~{/fragments/scripts/essential-script :: essential-script}"></script>
+    <script th:replace="~{fragments/scripts/essential-script :: essential-script}"></script>
     <script>
         const mapIsDelete = (v) => v === 'YES' ? 'Deleted' : v === 'NO' ? 'Active' : '-';
 
