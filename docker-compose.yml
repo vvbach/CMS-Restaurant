@@ -31,6 +31,7 @@ services:
     ports:
       - "${WEB_CMS_PORT}:${WEB_CMS_PORT}"
     environment:
+      - WEB_CMS_PORT=${WEB_CMS_PORT}
       - API_CMS_PORT=${API_CMS_PORT}
       - API_CMS_HOSTNAME=api-cms
       - JAVA_OPTS=-Xms256m -Xmx512m
@@ -63,7 +64,8 @@ services:
     ports:
       - "${WEB_BUSINESS_PORT}:${WEB_BUSINESS_PORT}"
     environment:
-      - API_BUSINESS_HOSTNAME=api-business
+      - WEB_BUSINESS_PORT=${WEB_BUSINESS_PORT}
       - API_BUSINESS_PORT=${API_BUSINESS_PORT} 
+      - API_BUSINESS_HOSTNAME=api-business
       - JAVA_OPTS=-Xms256m -Xmx512m
     restart: always
