@@ -1,5 +1,3 @@
-const domain = "http://localhost:8111/api-business";
-
 /**
  * Gọi API với xử lý lỗi tập trung, lấy message từ API và show toast
  */

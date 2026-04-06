@@ -1,5 +1,5 @@
 server:
-  port: 8111
+  port: ${API_BUSINESS_PORT:8111}
   servlet:
     context-path: /api-business
 
@@ -13,8 +13,8 @@ spring:
       max-request-size: 50MB
   data:
     redis:
-      host: vvbach-linux
-      port: 6379
+      host: ${HOSTNAME:localhost}
+      port: ${REDIS_PORT:6379}
   cache:
     type: redis
   devtools:
@@ -22,9 +22,9 @@ spring:
       enabled: false
 
   datasource:
-    url: jdbc:postgresql://vvbach-linux:5432/business
-    username: admin
-    password: admin123
+    url: jdbc:postgresql://${HOSTNAME:localhost}:${DB_PORT:5432}/business
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
     hikari:
       connection-timeout: 3000
@@ -43,7 +43,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
   kafka:
-    bootstrap-servers: vvbach-linux:29092
+    bootstrap-servers: ${HOSTNAME:localhost}:${KAFKA_PORT:29092}
     listener:
       ack-mode: record
       concurrency: 3
@@ -58,7 +58,6 @@ spring:
       enable-auto-commit: false
       max-poll-records: 1
 
-      # Bắt buộc dùng ErrorHandlingDeserializer để bắt Serialization/Deserialization lỗi
       key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       properties:
@@ -73,7 +72,6 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        # Giữ nguyên mặc định: thêm type headers để consumer nhận diện lớp
         spring.json.add.type.headers: true
 
 springdoc:
@@ -87,7 +85,7 @@ springdoc:
     path: /v3/api-docs
 
 minio:
-  url: http://vvbach-linux:9000
-  access-key: minioadmin
-  secret-key: minioadmin
+  url: http://${HOSTNAME:localhost}:${MINIO_PORT:9000}
+  access-key: ${MINIO_USERNAME}
+  secret-key: ${MINIO_PASSWORD}
   bucket: tts

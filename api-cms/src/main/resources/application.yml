@@ -1,5 +1,5 @@
 server:
-    port: 8000
+    port: ${API_CMS_PORT:8000}
     servlet:
         context-path: /api-cms
 
@@ -15,7 +15,7 @@ spring:
       restart:
           enabled: false
     kafka:
-        bootstrap-servers: vvbach-linux:29092
+        bootstrap-servers: ${HOSTNAME:localhost}:${KAFKA_PORT:29092}
         listener:
             ack-mode: record
             concurrency: 3
@@ -30,7 +30,6 @@ spring:
             enable-auto-commit: false
             max-poll-records: 1
 
-            # Bắt buộc dùng ErrorHandlingDeserializer để bắt Serialization/Deserialization lỗi
             key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
             value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
             properties:
@@ -45,27 +44,12 @@ spring:
             key-serializer: org.apache.kafka.common.serialization.StringSerializer
             value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
             properties:
-                # Giữ nguyên mặc định: thêm type headers để consumer nhận diện lớp
                 spring.json.add.type.headers: true
-    mail:
-        host: smtp.gmail.com
-        port: 587
-        username: dreamwalkers04@gmail.com
-        password: ouhtwptcmxgbgazr
-        properties:
-            mail:
-                smtp:
-                    auth: true
-                    starttls:
-                        enable: true
-                    connectiontimeout: 5000
-                    timeout: 3000
-                    writetimeout: 5000
 
     datasource:
-        url: jdbc:postgresql://vvbach-linux:5432/cms
-        username: admin
-        password: admin123
+        url: jdbc:postgresql://${HOSTNAME:localhost}:${DB_PORT:5432}/cms
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
         driver-class-name: org.postgresql.Driver
         hikari:
             connection-timeout: 3000
@@ -85,8 +69,8 @@ spring:
 
     data:
         redis:
-            host: vvbach-linux
-            port: 6379
+            host: ${HOSTNAME:localhost}
+            port: ${REDIS_PORT:6379}
 
     cache:
         type: redis
@@ -101,9 +85,9 @@ springdoc:
         enabled: true
 
 minio:
-    url: http://vvbach-linux:9000
-    access-key: minioadmin
-    secret-key: minioadmin
+    url: http://${HOSTNAME:localhost}:${MINIO_PORT:9000}
+    access-key: ${MINIO_USERNAME}
+    secret-key: ${MINIO_PASSWORD}
     bucket: tts
 
 custom:
@@ -111,7 +95,7 @@ custom:
         whiteList: /v1/api/auth/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/swagger-resources/**,/sw/**
 
 sso:
-    secret: fsdfnr5235ydflo121232#34kj2234235432549843ksdfguysfsdsfsdfgsdgsdgsdgsdgsdgwerfsdgr
+    secret: ${SECRET_KEY:secrettestabcdefghijklmnopqrstuvwxyz}
     expiration:
         token: 10000
         reset_token: 36

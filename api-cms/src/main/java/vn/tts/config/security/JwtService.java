@@ -1,8 +1,10 @@
 package vn.tts.config.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -132,7 +134,6 @@ public class JwtService {
 
         if (!typeMatches || expired) return false;
 
-        // For access/refresh tokens, check Redis
         if (redisKeyTemplate != null) {
             String redisToken = Objects.requireNonNull(
                     redisTemplate.opsForValue().get(String.format(redisKeyTemplate, extractAccountId(token)))
@@ -158,6 +159,18 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getSignKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+        } catch (SignatureException e) {
+            throw new RuntimeException("Chữ ký Token không hợp lệ");
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("Token đã hết hạn");
+        } catch (Exception e) {
+            throw new RuntimeException("Token không hợp lệ hoặc đã bị hỏng");
+        }
     }
 }

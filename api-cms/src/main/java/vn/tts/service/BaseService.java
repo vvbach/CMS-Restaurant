@@ -68,7 +68,7 @@ public class BaseService {
                 .build();
     }
 
-    public String getToken() {
+    private String getToken() {
         return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
                 .getRequest().getHeader("Authorization").substring("Bearer ".length());
     }

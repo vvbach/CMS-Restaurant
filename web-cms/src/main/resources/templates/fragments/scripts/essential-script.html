@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="vn">
 <script th:fragment="essential-script" th:inline="javascript">
 
-    const domain = "http://localhost:8000/api-cms";
+    const domain = "http://" + [[${apiHostname}]] + ":" + [[${apiPort}]] + "/api-cms";
 
     function setCookie(name, value, opts = {}) {
         const {

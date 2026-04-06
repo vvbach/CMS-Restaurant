@@ -54,13 +54,6 @@
                 </li>
             </ul>
         </li>
-        <li id="categoryPageNavItem" class="nav-item">
-            <a href="/category-page" class="nav-link"
-               th:classappend="${viewName} != 'category-page' ? 'collapsed' : ''">
-                <i class="bi bi-menu-button-wide"></i>
-                <span>Category Page</span>
-            </a>
-        </li>
         <li id="homePageNavItem" class="nav-item">
             <a class="nav-link" th:classappend="${viewName.startsWith('home-page')} ? '' : 'collapsed'"
                data-bs-toggle="collapse" data-bs-target="#home-page-nav">

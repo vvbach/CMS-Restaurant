@@ -39,6 +39,9 @@
     <div id="successDialog"></div>
     <div id="errorDialog"></div>
     <!-- ##### All Javascript Files ##### -->
+    <script th:inline="javascript">
+        const domain = "http://" + [[${apiHostname}]] + ":" + [[${apiPort}]] + "/api-business"
+    </script>
     <script th:src="@{/js/utils.js}"></script>
     <script th:src="@{/js/layout/social-link.js}"></script>
     <script th:src="@{/js/layout/logo-page.js}"></script>
