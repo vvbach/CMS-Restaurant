@@ -12,6 +12,7 @@ services:
       - "${API_CMS_PORT}:${API_CMS_PORT}"
     environment:
       - HOSTNAME=${HOSTNAME}
+      - API_CMS_PORT=${API_CMS_PORT}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_PORT=${REDIS_PORT}
@@ -46,6 +47,7 @@ services:
       - "${API_BUSINESS_PORT}:${API_BUSINESS_PORT}"
     environment:
       - HOSTNAME=${HOSTNAME}
+      - API_BUSINESS_PORT=${API_BUSINESS_PORT}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - REDIS_PORT=${REDIS_PORT}
@@ -58,7 +60,7 @@ services:
 
   web-business:
     build: ./web-business
-    container_name: web-business-container
+    container_name: web-business
     networks:
       - app-network
     ports:
