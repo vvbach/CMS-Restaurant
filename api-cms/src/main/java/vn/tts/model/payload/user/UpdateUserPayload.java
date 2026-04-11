@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserPayload implements Serializable {
+public class UpdateUserPayload implements Serializable {
 
     @NotBlank(message = "{validate.register.payload.full.name.not.blank}")
     @Pattern(regexp = "^[\\p{L}\\p{N}\\s\\\\|.]+$", message = "{validate.register.payload.fullname.format}")

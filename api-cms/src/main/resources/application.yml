@@ -75,6 +75,21 @@ spring:
     cache:
         type: redis
 
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: dreamwalkers04@gmail.com
+        password: ouhtwptcmxgbgazr
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls:
+                        enable: true
+                    connectiontimeout: 5000
+                    timeout: 3000
+                    writetimeout: 5000
+
 
 springdoc:
     api-docs:

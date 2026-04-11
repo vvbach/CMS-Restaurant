@@ -58,7 +58,7 @@ public class UserController {
             @Parameter(description = "Image file uploaded to server",
                     schema = @Schema(type = "string", format = "binary"))
             @RequestParam(value = "file", required = false) MultipartFile file,
-            @RequestPart("payload") UserPayload payload
+            @RequestPart("payload") UpdateUserPayload payload
     ){
         return ResponseBase.success(accountService.updateCurrentAccount(file, payload));
     }
@@ -95,7 +95,7 @@ public class UserController {
             @Parameter(description = "Image file uploaded to server",
                     schema = @Schema(type = "string", format = "binary"))
             @RequestParam(value = "file", required = false) MultipartFile file,
-            @RequestPart("payload") UserPayload payload
+            @RequestPart("payload") UpdateUserPayload payload
     ) throws Exception {
         return ResponseBase.success(accountService.update(id, file, payload));
     }

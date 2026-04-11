@@ -13,7 +13,6 @@ import vn.tts.model.payload.FilterPayload;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-@Transactional
 public interface ContactInfoRepository extends
         JpaRepository<ContactInfoEntity, UUID>,
         RevisionRepository<ContactInfoEntity, UUID, Integer> {

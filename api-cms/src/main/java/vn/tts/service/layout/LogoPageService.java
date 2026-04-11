@@ -30,7 +30,6 @@ import vn.tts.service.utils.PublishableHistoryUtils;
 import vn.tts.service.utils.PublishingUtils;
 import vn.tts.service.utils.QueryService;
 import vn.tts.service.utils.ValidateEntityService;
-import vn.tts.service.layout.LogoPageService;
 
 import java.time.ZoneId;
 import java.util.List;
@@ -126,9 +125,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public LogoPageResponse update(UUID id, LogoPagePayload payload) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.article.status.is.draft.update");
+        publishingUtils.checkForUpdate(entity, "validate.article.status.is.draft.update");
 
         entity.setName(payload.getName());
         entity.setUrl(payload.getUrl());
@@ -150,9 +149,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void delete(UUID id, DeletePayload payload) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.article.status.is.draft.delete");
+        publishingUtils.checkForDelete(entity, "validate.article.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -195,9 +194,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void reject(UUID id, RejectPayload payload) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.article.status.is.draft.reject");
+        publishingUtils.checkForReject(entity, "validate.article.status.is.draft.reject");
         publishingUtils.rejectEntity(entity, payload);
 
         publishingUtils.kafkaSendTopic(
@@ -215,9 +214,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void submitForApproval(UUID id) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.article.status.is.draft");
+        publishingUtils.checkForPendingApproval(entity, "validate.article.status.is.draft");
         publishingUtils.pendingApproveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -235,9 +234,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void approve(UUID id) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.article.status.is.draft.approve");
+        publishingUtils.checkForApprove(entity, "validate.article.status.is.draft.approve");
         publishingUtils.approveEntity(entity);
 
         publishingUtils.kafkaSendTopic(
@@ -255,9 +254,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void publish(UUID id) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.article.status.is.draft.publish");
+        publishingUtils.checkForPublish(entity, "validate.article.status.is.draft.publish");
         publishingUtils.publishEntity(entity);
 
         publishingUtils.kafkaSendTopic(entity, TOPIC_PUBLISH);
@@ -277,9 +276,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void unpublish(UUID id, UnpublishPayload payload) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUnpublish(entity, "validate.article.status.is.unpublish");
+        publishingUtils.checkForUnpublish(entity, "validate.article.status.is.unpublish");
         publishingUtils.unpublishEntity(entity, payload);
 
         publishingUtils.kafkaSendTopic(id, TOPIC_UNPUBLISH);
@@ -299,9 +298,9 @@ public class LogoPageService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void revertToDraft(UUID id) {
-        LogoPageEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        LogoPageEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.article.status.is.draft.unpublish.draft");
+        publishingUtils.checkForDraft(entity, "validate.article.status.is.draft.unpublish.draft");
         publishingUtils.revertToDraftEntity(entity);
 
         publishingUtils.kafkaSendTopic(

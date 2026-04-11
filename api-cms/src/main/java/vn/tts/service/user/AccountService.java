@@ -16,7 +16,7 @@ import vn.tts.exception.AppBadRequestException;
 import vn.tts.exception.UserNotFoundException;
 import vn.tts.model.dto.AccountDto;
 import vn.tts.model.payload.user.CreateUserPayload;
-import vn.tts.model.payload.user.UserPayload;
+import vn.tts.model.payload.user.UpdateUserPayload;
 import vn.tts.model.response.user.AccountDetailResponse;
 import vn.tts.repository.UserRepository;
 import vn.tts.service.BaseService;
@@ -69,7 +69,7 @@ public class AccountService extends BaseService {
     }
 
     @Transactional
-    public String update(UUID userId, MultipartFile file, UserPayload payload) throws Exception {
+    public String update(UUID userId, MultipartFile file, UpdateUserPayload payload) throws Exception {
         UserEntity userEntity = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("message.user.not.found"));
         checkUserDelete(userEntity);
 
@@ -95,7 +95,7 @@ public class AccountService extends BaseService {
     }
 
     @Transactional
-    public String updateCurrentAccount(MultipartFile file, UserPayload payload) {
+    public String updateCurrentAccount(MultipartFile file, UpdateUserPayload payload) {
         UserEntity usersEntity = userRepository.findById(getUserDetail().getUserId()).orElseThrow(() -> new UserNotFoundException("message.user.not.found"));
         checkUserDelete(usersEntity);
         updateUser(usersEntity, file, payload);
@@ -156,7 +156,7 @@ public class AccountService extends BaseService {
 
 
 
-    private void updateUser(UserEntity usersEntity, MultipartFile file, UserPayload payload) {
+    private void updateUser(UserEntity usersEntity, MultipartFile file, UpdateUserPayload payload) {
         String avatarUrl = null;
 
         if (file != null && !file.isEmpty()) {

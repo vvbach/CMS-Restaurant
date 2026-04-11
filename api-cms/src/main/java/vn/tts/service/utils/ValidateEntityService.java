@@ -14,17 +14,13 @@ public class ValidateEntityService<EntityT extends BaseEntity, RepositoryT exten
     private final RepositoryT repository;
     private final BaseService baseService;
 
-    public EntityT checkAndDetail(UUID id, String entityNotFoundMessage) {
+    public EntityT getValidEntity(UUID id, String entityNotFoundMessage) {
         EntityT entity = repository.findById(id)
                 .orElseThrow(() -> new AppBadRequestException("id", baseService.getMessage(entityNotFoundMessage)));
 
-        isDeleted(entity, entityNotFoundMessage);
-
-        return entity;
-    }
-
-    public void isDeleted(EntityT entity, String entityNotFoundMessage) {
         if (DeleteEnum.YES.equals(entity.getIsDelete()))
             throw new AppBadRequestException("id", baseService.getMessage(entityNotFoundMessage));
+
+        return entity;
     }
 }

@@ -127,9 +127,9 @@ public class ImageWebService extends BaseService implements
 
     @Transactional
     public ImageWebResponse update(UUID id, MultipartFile file, ImageWebPayload payload) throws Exception {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.image.status.is.draft.update");
+        publishingUtils.checkForUpdate(entity, "validate.image.status.is.draft.update");
 
         entity.setDescription(payload.getDescription());
 
@@ -156,9 +156,9 @@ public class ImageWebService extends BaseService implements
 
     @Transactional
     public void delete(UUID id, DeletePayload payload) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.image.status.is.draft.delete");
+        publishingUtils.checkForDelete(entity, "validate.image.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -202,9 +202,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void reject(UUID id, RejectPayload payload) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.image.status.is.draft.reject");
+        publishingUtils.checkForReject(entity, "validate.image.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -223,9 +223,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void submitForApproval(UUID id) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.image.status.is.draft");
+        publishingUtils.checkForPendingApproval(entity, "validate.image.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -244,9 +244,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void approve(UUID id) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.image.status.is.draft.approve");
+        publishingUtils.checkForApprove(entity, "validate.image.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -265,9 +265,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void publish(UUID id) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.image.status.is.draft.publish");
+        publishingUtils.checkForPublish(entity, "validate.image.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -288,9 +288,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void unpublish(UUID id, UnpublishPayload payload) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUnpublish(entity, "validate.image.status.is.unpublish");
+        publishingUtils.checkForUnpublish(entity, "validate.image.status.is.unpublish");
 
         publishingUtils.unpublishEntity(entity, payload);
 
@@ -311,9 +311,9 @@ public class ImageWebService extends BaseService implements
     @Override
     @Transactional
     public void revertToDraft(UUID id) {
-        ImageWebEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        ImageWebEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.image.status.is.draft.unpublish.draft");
+        publishingUtils.checkForDraft(entity, "validate.image.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 

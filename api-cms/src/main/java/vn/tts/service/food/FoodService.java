@@ -32,7 +32,6 @@ import vn.tts.repository.food.FoodCategoryRelationRepository;
 import vn.tts.repository.food.FoodCategoryRepository;
 import vn.tts.repository.food.FoodRepository;
 import vn.tts.service.PublishableService;
-import vn.tts.service.food.FoodService;
 import vn.tts.service.BaseService;
 import vn.tts.service.MinioService;
 import vn.tts.service.utils.PublishableHistoryUtils;
@@ -175,9 +174,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public FoodResponse update(UUID id, FoodPayload payload) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUpdate(entity, "validate.food.status.is.draft.update");
+        publishingUtils.checkForUpdate(entity, "validate.food.status.is.draft.update");
 
         entity.setName(payload.getName());
         entity.setDescription(payload.getDescription());
@@ -221,9 +220,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void delete(UUID id, DeletePayload payload) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDelete(entity, "validate.food.status.is.draft.delete");
+        publishingUtils.checkForDelete(entity, "validate.food.status.is.draft.delete");
 
         entity.setIsDelete(DeleteEnum.YES);
         entity.setDeletionReason(payload.getReason());
@@ -302,9 +301,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void reject(UUID id, RejectPayload payload) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkReject(entity, "validate.food.status.is.draft.reject");
+        publishingUtils.checkForReject(entity, "validate.food.status.is.draft.reject");
 
         publishingUtils.rejectEntity(entity, payload);
 
@@ -323,9 +322,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void submitForApproval(UUID id) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPendingApproval(entity, "validate.food.status.is.draft");
+        publishingUtils.checkForPendingApproval(entity, "validate.food.status.is.draft");
 
         publishingUtils.pendingApproveEntity(entity);
 
@@ -344,9 +343,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void approve(UUID id) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkApprove(entity, "validate.food.status.is.draft.approve");
+        publishingUtils.checkForApprove(entity, "validate.food.status.is.draft.approve");
 
         publishingUtils.approveEntity(entity);
 
@@ -365,9 +364,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void publish(UUID id) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkPublish(entity, "validate.food.status.is.draft.publish");
+        publishingUtils.checkForPublish(entity, "validate.food.status.is.draft.publish");
 
         publishingUtils.publishEntity(entity);
 
@@ -388,9 +387,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void unpublish(UUID id, UnpublishPayload payload) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkUnpublish(entity, "validate.food.status.is.unpublish");
+        publishingUtils.checkForUnpublish(entity, "validate.food.status.is.unpublish");
 
         publishingUtils.unpublishEntity(entity, payload);
 
@@ -411,9 +410,9 @@ public class FoodService extends BaseService implements PublishableService<
     @Override
     @Transactional
     public void revertToDraft(UUID id) {
-        FoodEntity entity = validateEntityService.checkAndDetail(id, "message.entity.not.found");
+        FoodEntity entity = validateEntityService.getValidEntity(id, "message.entity.not.found");
 
-        publishingUtils.checkDraft(entity, "validate.food.status.is.draft.unpublish.draft");
+        publishingUtils.checkForDraft(entity, "validate.food.status.is.draft.unpublish.draft");
 
         publishingUtils.revertToDraftEntity(entity);
 

@@ -68,49 +68,49 @@ public class PublishingUtils<
         repository.save(entity);
     }
 
-    public void checkUpdate(EntityT entity, String validateUpdateMessage) {
+    public void checkForUpdate(EntityT entity, String validateUpdateMessage) {
         if (!ContentStatus.DRAFT.equals(entity.getStatus()))
             throw new AppBadRequestException("status", baseService.getMessage(validateUpdateMessage));
     }
 
-    public void checkDelete(EntityT entity, String validateDeleteMessage) {
+    public void checkForDelete(EntityT entity, String validateDeleteMessage) {
         if (!ContentStatus.DRAFT.equals(entity.getStatus()))
             throw new AppBadRequestException("status", baseService.getMessage(validateDeleteMessage));
     }
 
-    public void checkReject(EntityT entity, String validateRejectMessage) {
+    public void checkForReject(EntityT entity, String validateRejectMessage) {
         if (!ContentStatus.PENDING_APPROVAL.equals(entity.getStatus()) &&
             !ContentStatus.APPROVED.equals(entity.getStatus())) {
             throw new AppBadRequestException("status", baseService.getMessage(validateRejectMessage));
         }
     }
 
-    public void checkPendingApproval(EntityT entity, String validatePendingApprovalMessage) {
+    public void checkForPendingApproval(EntityT entity, String validatePendingApprovalMessage) {
         if (!ContentStatus.DRAFT.equals(entity.getStatus())
             && !ContentStatus.REJECTED.equals(entity.getStatus())) {
             throw new AppBadRequestException("status", baseService.getMessage(validatePendingApprovalMessage));
         }
     }
 
-    public void checkApprove(EntityT entity, String validateApproveMessage) {
+    public void checkForApprove(EntityT entity, String validateApproveMessage) {
         if (!ContentStatus.PENDING_APPROVAL.equals(entity.getStatus())) {
             throw new AppBadRequestException("status", baseService.getMessage(validateApproveMessage));
         }
     }
 
-    public void checkPublish(EntityT entity, String validatePublishMessage) {
+    public void checkForPublish(EntityT entity, String validatePublishMessage) {
         if (!ContentStatus.APPROVED.equals(entity.getStatus()) &&
             !ContentStatus.UNPUBLISHED.equals(entity.getStatus())) {
             throw new AppBadRequestException("status", baseService.getMessage(validatePublishMessage));
         }
     }
 
-    public void checkUnpublish(EntityT entity, String validateUnpublishMessage) {
+    public void checkForUnpublish(EntityT entity, String validateUnpublishMessage) {
         if (!ContentStatus.PUBLISHED.equals(entity.getStatus()))
             throw new AppBadRequestException("status", baseService.getMessage(validateUnpublishMessage));
     }
 
-    public void checkDraft(EntityT entity, String validateDraftMessage) {
+    public void checkForDraft(EntityT entity, String validateDraftMessage) {
         if (!ContentStatus.UNPUBLISHED.equals(entity.getStatus()))
             throw new AppBadRequestException("status", baseService.getMessage(validateDraftMessage));
     }
