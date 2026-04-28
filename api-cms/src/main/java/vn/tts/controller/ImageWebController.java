@@ -39,7 +39,7 @@ public class ImageWebController {
 
     private final ImageWebService imageWebService;
 
-    @Operation(summary = "Thêm mới bài viết ")
+    @Operation(summary = "Add bài viết ")
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseBase<Void>> create(
             @RequestPart(value = "file") MultipartFile file,
@@ -90,7 +90,7 @@ public class ImageWebController {
     }
 
     @Operation(summary = "Xem lịch sử thay đổi ")
-    @DeleteMapping("/history/{id}")
+    @GetMapping("/{id}/history")
     public ResponseEntity<ResponseBase<List<ImageWebHistoryResponse>>> history(
             @PathVariable UUID id
     ) {

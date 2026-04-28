@@ -16,10 +16,10 @@ public class ValidateEntityService<EntityT extends BaseEntity, RepositoryT exten
 
     public EntityT getValidEntity(UUID id, String entityNotFoundMessage) {
         EntityT entity = repository.findById(id)
-                .orElseThrow(() -> new AppBadRequestException("id", baseService.getMessage(entityNotFoundMessage)));
+                .orElseThrow(() -> new AppBadRequestException("message", baseService.getMessage(entityNotFoundMessage)));
 
         if (DeleteEnum.YES.equals(entity.getIsDelete()))
-            throw new AppBadRequestException("id", baseService.getMessage(entityNotFoundMessage));
+            throw new AppBadRequestException("message", baseService.getMessage(entityNotFoundMessage));
 
         return entity;
     }

@@ -112,14 +112,10 @@
                 return data;
             }
 
-            const apiMessage = (data && (data.message || (data.data && data.data.message) || data.error))
+            const apiMessage = (data && (data.message || (data.data && data.data.message)))
                 || 'Unknown error from server.';
-            const apiMessageDescription = (data && (data.description || (data.data && data.data.description)))
-                || 'Unknown error description from server.';
 
-            // 401: unauthorized — attempt refresh once (single retry)
             if (response.status === 401) {
-                // If we've already retried once, give up and redirect to login
                 if (retryCount >= 1) {
                     deleteCookie("rememberMe");
                     deleteCookie("token");
@@ -129,7 +125,6 @@
                     throw new Error(`Unauthorized after retry: ${response.status} - ${apiMessage}`);
                 }
 
-                // Need a refresh token to continue
                 if (!getCookie("refreshToken")) {
                     deleteCookie("rememberMe");
                     deleteCookie("token");
@@ -139,7 +134,6 @@
                     throw new Error('No refresh token available');
                 }
 
-                // Start single-flight refresh if not already started
                 if (!globalRefreshPromise) {
                     globalRefreshPromise = (async () => {
                         try {
@@ -151,7 +145,6 @@
 
                             if (!res.ok) {
                                 const txt = await res.text();
-                                // clear cookies
                                 deleteCookie("rememberMe");
                                 deleteCookie("token");
                                 deleteCookie("refreshToken");
@@ -203,7 +196,7 @@
             }
 
             // other non-ok responses (not 401/403)
-            showErrorDialog(`${response.status} - ${apiMessage} - ${apiMessageDescription}`);
+            showErrorDialog(`${response.status} - ${apiMessage}`);
             console.error("API error body:", data);
         } catch (error) {
             // AbortError handling: comes from external/manual abort (no timeouts here)

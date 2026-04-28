@@ -29,7 +29,7 @@ public class QueryService<
 
     public ResponseT findById(UUID id, Function<EntityT, ResponseT> getResponse) {
         EntityT entity = repository.findById(id)
-                .orElseThrow(() -> new AppBadRequestException("id", baseService.getMessage("message.entity.not.found")));
+                .orElseThrow(() -> new AppBadRequestException("message", baseService.getMessage("message.entity.not.found")));
 
         return getResponse.apply(entity);
     }

@@ -28,6 +28,7 @@ import vn.tts.model.payload.status.RejectPayload;
 import vn.tts.model.payload.status.UnpublishPayload;
 import vn.tts.model.response.PaginationResponse;
 import vn.tts.model.response.food.*;
+import vn.tts.model.response.image.ImageWebHistoryResponse;
 import vn.tts.repository.food.FoodCategoryRelationRepository;
 import vn.tts.repository.food.FoodCategoryRepository;
 import vn.tts.repository.food.FoodRepository;
@@ -242,60 +243,24 @@ public class FoodService extends BaseService implements PublishableService<
 
     @Override
     public List<FoodHistoryResponse> history(UUID id) {
-        List<Pair<FoodHistoryResponse, Revision<Integer, FoodEntity>>> pairs = publishableHistoryUtils
-                .getUpdatedHistoryRevisions(id, entity -> modelMapper.map(entity, FoodHistoryResponse.class));
+        return publishableHistoryUtils.getUpdatedHistoryRevisions(id,
+                        (entity) -> modelMapper.map(entity, FoodHistoryResponse.class))
+                .stream()
+                .map(Pair::getFirst)
+                .peek(response -> {
+                    String imageUrl = response.getImageUrl();
 
-        Map<Integer, List<FoodCategoryResponse>> categoryMap = new HashMap<>();
+                    if (imageUrl != null && !imageUrl.isBlank()) {
+                        try {
+                            response.setImageUrl(minioService.getPreSignedUrl(imageUrl));
+                        } catch (Exception e) {
+                            log.error(e.getMessage(), e);
+                            throw new RuntimeException(e.getMessage(), e);
+                        }
+                    }
 
-        List<FoodCategoryDto> dtos = foodCategoryRepository.findFoodCategoriesByRevNumbers(
-                pairs.stream().map(pair -> pair.getSecond().getRevisionNumber().orElseThrow(
-                        () -> new RuntimeException("Rev number is null")
-                )).toList()
-        );
-
-        dtos.forEach(dto -> {
-            FoodCategoryResponse response = new FoodCategoryResponse(
-                    dto.getId(),
-                    dto.getName(),
-                    dto.getDescription()
-            );
-
-            response.setStatus(ContentStatus.valueOf(dto.getStatus()));
-            response.setIsDelete(dto.getIsDelete() == 0 ? DeleteEnum.NO : DeleteEnum.YES);
-            response.setCreatedAt(dto.getCreatedAt());
-            response.setCreatedByName(dto.getCreatedByName());
-            response.setUpdatedAt(dto.getUpdatedAt());
-            response.setUpdatedByName(dto.getUpdatedByName());
-            response.setDeletionReason(dto.getDeletionReason());
-            response.setRejectionReason(dto.getRejectionReason());
-            response.setUnpublishReason(dto.getUnpublishReason());
-
-            if (!categoryMap.containsKey(dto.getRev()))
-                categoryMap.put(dto.getRev(), new ArrayList<>());
-
-            categoryMap.get(dto.getRev()).add(response);
-        });
-
-        // create a sorted map so we can look up floorEntry (largest key <= rev)
-        NavigableMap<Integer, List<FoodCategoryResponse>> sortedMap =
-                new TreeMap<>(categoryMap);
-
-        // produce responses: if exact rev not found, use floorEntry(rev), otherwise empty list
-        return pairs.stream().map(pair -> {
-            FoodHistoryResponse response = pair.getFirst();
-            int rev = pair.getSecond().getRevisionNumber()
-                    .orElseThrow(() -> new RuntimeException("Rev number is null"));
-
-            List<FoodCategoryResponse> cats = sortedMap.get(rev);
-            if (cats == null) {
-                Map.Entry<Integer, List<FoodCategoryResponse>> floor = sortedMap.floorEntry(rev);
-                cats = (floor != null) ? floor.getValue() : Collections.emptyList();
-            }
-
-            // defensive copy to avoid accidental external mutation
-            response.setCategories(new ArrayList<>(cats));
-            return response;
-        }).toList();
+                })
+                .toList();
     }
 
     @Override

@@ -14,7 +14,7 @@
                             <div class="container py-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover align-middle mb-0">
-                                        <!-- Hàng tiêu đề -->
+                                        <!-- Hàng Title -->
                                         <thead class="table-success">
                                         <tr>
                                             <th scope="col">Status</th>
@@ -88,7 +88,7 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tiêu đề</th>
+                                                <th scope="col">Title</th>
                                                 <th scope="col">Active Status</th>
                                                 <th scope="col">Content Status</th>
                                                 <th scope="col">Creator</th>
@@ -165,11 +165,11 @@
                                 <input type="text" class="form-control" id="detail-id" hidden="hidden" disabled value="" />
                                 <img src="" id="detail-image" class="card-img-top" alt="">
                                 <div class="col-12">
-                                    <label for="detail-text" class="form-label">Tiêu đề</label>
+                                    <label for="detail-text" class="form-label">Title</label>
                                     <input type="text" class="form-control" id="detail-text" disabled value="" />
                                 </div>
                                 <div class="col-12">
-                                    <label for="detail-address" class="form-label">Địa chỉ</label>
+                                    <label for="detail-address" class="form-label">Address</label>
                                     <textarea class="form-control" id="detail-address" disabled placeholder="" maxlength="500"></textarea>
                                 </div>
                                 <div class="col-12">
@@ -253,7 +253,7 @@
                         <div class="connector"></div>
                         <div class="progressed" id="progressed"></div>
                         <div class="list">
-                            <div class="step" data-index="1"><span class="dot"></span><span class="label">DRAFT/REJECT</span></div>
+                            <div class="step" data-index="1"><span class="dot"></span><span class="label">DRAFT/REJECTED</span></div>
                             <div class="step" data-index="2"><span class="dot"></span><span class="label">PENDING_APPROVAL</span></div>
                             <div class="step" data-index="3"><span class="dot"></span><span class="label">APPROVED</span></div>
                             <div class="step" data-index="4"><span class="dot"></span><span class="label">PUBLISHED</span></div>
@@ -285,23 +285,23 @@
                     </div>
 
                     <div class="mb-3" id="detail-text-update">
-                        <label class="form-label">Tiêu đề</label>
-                        <input type="text" class="form-control" id="edit-text" placeholder="Description" />
+                        <label class="form-label">Text</label>
+                        <input type="text" class="form-control" id="edit-text" placeholder="Text" />
                     </div>
 
                     <div class="mb-3" id="detail-address-update">
-                        <label class="form-label">Địa chỉ</label>
-                        <textarea class="form-control" id="edit-address" rows="2" placeholder="Nhập địa chỉ văn phòng"></textarea>
+                        <label class="form-label">Address</label>
+                        <textarea class="form-control" id="edit-address" rows="2" placeholder="Address"></textarea>
                     </div>
 
                     <div class="mb-3" id="detail-email-update">
                         <label class="form-label">Email</label>
-                        <input type="email" class="form-control" id="edit-email" placeholder="Nhập email liên hệ" />
+                        <input type="email" class="form-control" id="edit-email" placeholder="Email" />
                     </div>
 
                     <div class="mb-3" id="detail-phone-update">
                         <label class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="edit-phone" placeholder="Nhập số điện thoại" />
+                        <input type="tel" class="form-control" id="edit-phone" placeholder="Phone number" />
                     </div>
 
                     <div class="mb-3" id="detail-reason-delete">
@@ -383,27 +383,27 @@
     <div class="modal fade clearfix" id="popup-new" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-content modal-dialog modal-lg">
             <div class="modal-body">
-                <h2 class="card-title mb-0 me-2">Thêm mới thông tin liên hệ</h2>
+                <h2 class="card-title mb-0 me-2">Add item</h2>
                 <form id="form-new" class="row g-3">
                     <div class="col-12">
-                        <label for="input-text-new" class="form-label">Tiêu đề</label>
-                        <input type="text" name="text" class="form-control" id="input-text-new" required>
-                        <div class="invalid-feedback" id="invalid-feedback-input-text-new">Chưa nhập tên văn phòng</div>
+                        <label for="input-text-new" class="form-label">Text</label>
+                        <textarea type="text" name="text" class="form-control" id="input-text-new" rows="5" required></textarea>
+                        <div class="invalid-feedback" id="invalid-feedback-input-text-new">Text required</div>
                     </div>
                     <div class="col-12">
-                        <label for="input-address-new" class="form-label">Địa chỉ</label>
-                        <textarea name="address" class="form-control" id="input-address-new" rows="2" required></textarea>
-                        <div class="invalid-feedback" id="invalid-feedback-input-address-new">Chưa nhập địa chỉ</div>
+                        <label for="input-address-new" class="form-label">Address</label>
+                        <textarea name="address" class="form-control" id="input-address-new" rows="5" required></textarea>
+                        <div class="invalid-feedback" id="invalid-feedback-input-address-new">Address required</div>
                     </div>
                     <div class="col-12">
                         <label for="input-email-new" class="form-label">Email</label>
                         <input type="email" name="email" class="form-control" id="input-email-new" required>
-                        <div class="invalid-feedback" id="invalid-feedback-input-email-new">Chưa nhập email hợp lệ</div>
+                        <div class="invalid-feedback" id="invalid-feedback-input-email-new">Email required</div>
                     </div>
                     <div class="col-12">
                         <label for="input-phone-new" class="form-label">Phone Number</label>
                         <input type="tel" name="phoneNumber" class="form-control" id="input-phone-new" required>
-                        <div class="invalid-feedback" id="invalid-feedback-input-phone-new">Chưa nhập số điện thoại</div>
+                        <div class="invalid-feedback" id="invalid-feedback-input-phone-new">Phone number required</div>
                     </div>
                     <div class="col-12">
                         <label class="form-label">Ảnh đại diện</label>
@@ -413,7 +413,7 @@
                         <img id="input-image-new" src="" alt="">
                     </div>
                     <div class="text-center">
-                        <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
+                        <button id="btn-new" class="btn btn-primary" type="button">Add</button>
                         <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     </div>
                 </form>
@@ -436,7 +436,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
-                    <button type="button" class="btn btn-primary" id="selectImageBtn" disabled>Chọn ảnh</button>
+                    <button type="button" class="btn btn-primary" id="selectImageBtn" disabled>Choose image</button>
                 </div>
             </div>
         </div>
@@ -476,9 +476,26 @@
         </div>
     </div>
 
+    <!--     History Modal-->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">History</h5>
+                </div>
+                <div class="modal-body" id="historyTableBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script th:src="@{/js/contact-info/popup.js}" defer></script>
     <script th:src="@{/js/contact-info/filter.js}" defer></script>
     <script th:src="@{/js/contact-info/detail.js}" defer></script>
+    <script th:src="@{/js/contact-info/history.js}" defer></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
     <script th:src="@{/js/page-function/image-lib.js}"></script>

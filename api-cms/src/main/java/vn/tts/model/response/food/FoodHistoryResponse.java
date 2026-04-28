@@ -21,5 +21,4 @@ public class FoodHistoryResponse extends PublishableHistoryResponse implements S
     private BigDecimal price;
     private BigDecimal discount;
     private Integer stockQuantity;
-    private List<FoodCategoryResponse> categories;
 }

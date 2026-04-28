@@ -29,6 +29,7 @@ import static vn.tts.service.user.ValidationUtils.checkUserDelete;
 public class PasswordService extends BaseService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public String changePassword(ChangePasswordPayload payload) {
@@ -40,11 +41,10 @@ public class PasswordService extends BaseService {
         if (payload.getOldPassword().equals(payload.getNewPassword()))
             throw new AppBadRequestException(ChangePasswordPayload.Fields.newPassword, "change.password.identical");
 
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-        if (!encoder.matches(payload.getOldPassword(), userEntity.getPassword()))
+        if (!passwordEncoder.matches(payload.getOldPassword(), userEntity.getPassword()))
             throw new LoginFailedException("change.password.wrong.password");
 
-        userEntity.setPassword(encoder.encode(payload.getNewPassword()));
+        userEntity.setPassword(passwordEncoder.encode(payload.getNewPassword()));
         userRepository.save(userEntity);
 
         return getMessage("change.password.success");
@@ -58,8 +58,7 @@ public class PasswordService extends BaseService {
         checkUserDelete(userEntity);
 
         String newPassword = generatePassword();
-        userEntity.setPassword(PasswordEncoderFactories
-                .createDelegatingPasswordEncoder()
+        userEntity.setPassword(passwordEncoder
                 .encode(newPassword));
         userEntity.setForceChangePassword(1);
         userRepository.save(userEntity);

@@ -15,7 +15,7 @@
                             <div class="container py-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover align-middle mb-0">
-                                        <!-- Hàng tiêu đề -->
+                                        <!-- Hàng Title -->
                                         <thead class="table-success">
                                         <tr>
                                             <th scope="col">Status</th>
@@ -105,7 +105,7 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tiêu đề</th>
+                                                <th scope="col">Title</th>
                                                 <th scope="col">Active Status</th>
                                                 <th scope="col">Content Status</th>
                                                 <th scope="col">Creator</th>
@@ -185,7 +185,7 @@
                                        value=""/>
                                 <img src="" id="detail-image" class="card-img-top" alt="">
                                 <div class="col-12">
-                                    <label for="detail-title" class="form-label">Tiêu đề</label>
+                                    <label for="detail-title" class="form-label">Title</label>
                                     <input type="text" class="form-control" id="detail-title" disabled value=""/>
                                 </div>
                                 <div class="col-12">
@@ -273,7 +273,7 @@
                         <div class="progressed" id="progressed"></div>
                         <div class="list">
                             <div class="step" data-index="1"><span class="dot"></span><span
-                                    class="label">DRAFT/REJECT</span></div>
+                                    class="label">DRAFT/REJECTED</span></div>
                             <div class="step" data-index="2"><span class="dot"></span><span class="label">PENDING_APPROVAL</span>
                             </div>
                             <div class="step" data-index="3"><span class="dot"></span><span
@@ -306,8 +306,8 @@
                         <div class="drop-indicator"></div>
                     </div>
                     <div class="mb-3" id="detail-title-update">
-                        <label for="edit-title" class="form-label">Tiêu đề</label>
-                        <input type="text" class="form-control" id="edit-title" placeholder="Nhập tiêu đề"/>
+                        <label for="edit-title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="edit-title" placeholder="Nhập Title"/>
                     </div>
                     <div class="mb-3" id="detail-description-update">
                         <label for="edit-description" class="form-label">Description</label>
@@ -414,12 +414,12 @@
     <div class="modal fade clearfix" id="popup-new" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-content modal-dialog modal-lg">
             <div class="modal-body">
-                <h2 class="card-title mb-0 me-2">Thêm mới Banner Chính trang Home</h2>
+                <h2 class="card-title mb-0 me-2">Add Banner Chính trang Home</h2>
                 <form id="form-new" class="row g-3">
                     <div class="col-12">
-                        <label for="input-title-new" class="form-label">Tiêu đề</label>
+                        <label for="input-title-new" class="form-label">Title</label>
                         <input name="title" class="form-control" id="input-title-new" required>
-                        <div class="invalid-feedback" id="invalid-feedback-input-title-new">Chưa nhập tiêu đề</div>
+                        <div class="invalid-feedback" id="invalid-feedback-input-title-new">Chưa nhập Title</div>
                     </div>
                     <div class="col-12">
                         <label for="input-description-new" class="form-label">Description</label>
@@ -445,7 +445,7 @@
                         <img id="input-image-new" src="" alt="">
                     </div>
                     <div class="text-center">
-                        <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
+                        <button id="btn-new" class="btn btn-primary" type="button">Add</button>
                         <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     </div>
                 </form>
@@ -468,7 +468,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
-                    <button type="button" class="btn btn-primary" id="selectFoodBtn" disabled>Chọn Món ăn</button>
+                    <button type="button" class="btn btn-primary" id="selectFoodBtn" disabled>Select</button>
                 </div>
             </div>
         </div>
@@ -530,10 +530,25 @@
             </div>
         </div>
     </div>
-
+    <!--     History Modal-->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">History</h5>
+                </div>
+                <div class="modal-body" id="historyTableBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:src="@{/js/home-page/home-main-banner/popup.js}" defer></script>
     <script th:src="@{/js/home-page/home-main-banner/filter.js}" defer></script>
     <script th:src="@{/js/home-page/home-main-banner/detail.js}" defer></script>
+    <script th:src="@{/js/home-page/home-main-banner/history.js}" defer></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
     <script th:src="@{/js/page-function/image-lib.js}"></script>
@@ -601,15 +616,15 @@
             try {
                 const data = await callApi('/v1/api/food');
                 data.data.forEach((food) => {
-                    if (food.status !== 'Publish') return;
+                    if (food.status !== 'PUBLISHED') return;
 
                     const col = document.createElement('div');
                     col.className = 'col-md-3 mb-3';
 
                     col.innerHTML = `
-                <img src="${food.imageUrl}" alt="food image" class="img-thumbnail selectable-image" style="cursor:pointer;" />
-                <p class="text-center">${food.name}</p>
-            `;
+                        <img src="${food.imageUrl}" alt="food image" class="img-thumbnail selectable-image" style="cursor:pointer;" />
+                        <p class="text-center">${food.name}</p>
+                    `;
 
                     col.querySelector('img').addEventListener('click', () => {
                         // Highlight selected image

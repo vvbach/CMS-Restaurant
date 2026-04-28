@@ -41,6 +41,19 @@
     <!-- ##### All Javascript Files ##### -->
     <script th:inline="javascript">
         const domain = "http://" + [[${apiHostname}]] + ":" + [[${apiPort}]] + "/api-business"
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPath = window.location.pathname;
+
+            const navLinks = document.querySelectorAll('.classynav ul li a');
+
+            navLinks.forEach(link => {
+                link.parentElement.classList.remove('active');
+                if (link.getAttribute('href') === currentPath) {
+                    link.parentElement.classList.add('active');
+                }
+            });
+        });
     </script>
     <script th:src="@{/js/utils.js}"></script>
     <script th:src="@{/js/layout/social-link.js}"></script>

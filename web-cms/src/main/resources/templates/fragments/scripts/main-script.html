@@ -26,12 +26,6 @@
             APPROVED: 'Approved',
         }[s] ?? (s || '-'));
 
-        const mapGender = (s) => ({
-            MALE: 'Male',
-            FEMALE: 'Female',
-            OTHER: 'Other'
-        }[s] ?? (s || '-'))
-
         function setPage(page) {
             const li = document.querySelector('#pagination .page-link').closest('.page-item');
             if (page === '+') {
@@ -187,7 +181,6 @@
         // ====== Helpers ======
         function setProgress(activeIndex) {
             const steps = document.querySelectorAll('.step');
-            const total = steps.length;
 
             steps.forEach(s => {
                 const idx = +s.dataset.index;
@@ -195,11 +188,28 @@
                 s.classList.toggle('active', idx === activeIndex);
             });
 
-            const pct = total > 1
-                ? ((activeIndex - 1) / (total - 1)) * 100
-                : 100;
+            const applyProgress = () => {
+                const stepsEl = document.getElementById('steps');
+                const progressed = document.getElementById('progressed');
+                const activeDot = steps[activeIndex - 1]?.querySelector('.dot');
 
-            document.getElementById('progressed').style.width = pct + '%';
+                if (!activeDot || !stepsEl.offsetWidth) return false;
+
+                if (activeIndex === 4) {
+                    progressed.style.width = (stepsEl.offsetWidth - 35 - 40) + 'px';
+                } else {
+                    const endX = activeDot.offsetLeft + activeDot.offsetWidth / 2;
+                    progressed.style.width = (endX - 35) + 'px';
+                }
+                return true;
+            };
+
+            if (!applyProgress()) {
+                const observer = new ResizeObserver(() => {
+                    if (applyProgress()) observer.disconnect();
+                });
+                observer.observe(document.getElementById('steps'));
+            }
         }
 
         function updateHeader({text, cls}) {

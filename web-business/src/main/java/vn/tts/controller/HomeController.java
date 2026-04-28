@@ -14,37 +14,31 @@ public class HomeController {
 
     @GetMapping("/")
     public String index(Model model) {
-        return "index"; // map tới templates/index.html
-    }
-
-    @GetMapping("/image")
-    public String imageWeb() {
-        return "image_web";
+        model.addAttribute("location", "index");
+        return "index";
     }
 
     @GetMapping("/product")
     public String product(Model model) {
+        model.addAttribute("location", "product");
         return "product";
     }
 
     @GetMapping("/product/detail/{id}")
     public String productDetail(@PathVariable("id") UUID id, Model model) {
+        model.addAttribute("location", "product");
         return "detail";
     }
 
     @GetMapping("/about")
     public String about(Model model) {
+        model.addAttribute("location", "about");
         return "about";
     }
 
     @GetMapping("/contact")
     public String contact(Model model) {
+        model.addAttribute("location", "contact");
         return "contact";
-    }
-
-    @GetMapping("/category-page/{id}")
-    public String categoryPage(@PathVariable("id") UUID id, Model model) {
-        model.addAttribute("id", id);
-        return "category-page";
     }
 }

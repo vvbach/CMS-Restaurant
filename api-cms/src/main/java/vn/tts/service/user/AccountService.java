@@ -157,7 +157,7 @@ public class AccountService extends BaseService {
 
 
     private void updateUser(UserEntity usersEntity, MultipartFile file, UpdateUserPayload payload) {
-        String avatarUrl = null;
+        String avatarUrl = usersEntity.getAvatar();
 
         if (file != null && !file.isEmpty()) {
             validateImageFile(file);

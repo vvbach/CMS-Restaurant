@@ -45,7 +45,7 @@ public class AboutPageController {
     }
 
     @Operation(summary = "Lấy lịch sử của một about banner article")
-    @GetMapping("/history/{id}")
+    @GetMapping("/{id}/history")
     @PreAuthorize("hasAuthority('UI_READ')")
     public ResponseEntity<ResponseBase<List<AboutPageHistoryResponse>>> getHistory(@PathVariable UUID id) {
         return ResponseBase.success(aboutPageService.history(id));

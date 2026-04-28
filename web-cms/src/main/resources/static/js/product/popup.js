@@ -13,6 +13,7 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             const d = resp?.data ?? resp;
 
             setStatus(d, "PRODUCT");
+            setProgress(MAP_STATUS_STEP[d?.status] ?? 0);
             document.querySelector('#detail-img-update').src = d?.imageUrl;
             document.querySelector('#detail-name-update').querySelector("input").value = d?.name;
             document.querySelector('#detail-description-update').querySelector("textarea").value = d?.description;
@@ -40,10 +41,13 @@ document.getElementById('openModalBtn').addEventListener('click', async function
                 console.error("Error loading categories:", err);
             }
 
-            if (d?.status === 'DRAFT') {
-                document.getElementById('btn-update-detail').classList.remove('d-none')
-            } else {
-                document.getElementById('btn-update-detail').classList.add('d-none')
+            const btnUpdateDetail = document.getElementById('btn-update-detail');
+            if (btnUpdateDetail) {
+                if (d?.status === 'DRAFT') {
+                    btnUpdateDetail.classList.remove('d-none')
+                } else {
+                    btnUpdateDetail.classList.add('d-none')
+                }
             }
         });
     } catch (err) {

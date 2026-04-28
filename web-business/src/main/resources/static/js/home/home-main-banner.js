@@ -15,7 +15,7 @@ async function loadHomeMainBanner() {
                             <div class="hero-slides-content" data-animation="fadeInUp" data-delay="100ms">
                                 <h2 data-animation="fadeInUp" data-delay="300ms">${food.title}</h2>
                                 <p data-animation="fadeInUp" data-delay="700ms">${food.description}</p>
-                                <a href="/product/detail/${food.foodId}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">Xem ngay</a>
+                                <a href="/product/detail/${food.foodId}" class="btn delicious-btn" data-animation="fadeInUp" data-delay="1000ms">Watch now</a>
                             </div>
                         </div>
                     </div>

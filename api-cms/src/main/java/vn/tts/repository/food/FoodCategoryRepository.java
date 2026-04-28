@@ -62,7 +62,7 @@ public interface FoodCategoryRepository extends
     @Query(value = """
              SELECT c.id, c.name, c.description, c.status,
                     c.is_delete, c.created_by_name, c.created_at, c.updated_by_name, c.updated_at,
-                    c.reason_delete, c.reason_rejection, c.reason_unpublish, rel.rev
+                    c.deletion_reason, c.rejection_reason, c.unpublish_reason, rel.rev
              FROM public.food_category_relation_aud rel
              JOIN public.food_category c ON rel.food_category_id = c.id
              WHERE rel.rev IN (:revs)

@@ -63,7 +63,7 @@
                         <div class="col-md-6 d-flex gap-2">
                             <!-- nút mở modal chọn vai trò -->
                             <button type="button" class="btn btn-primary" id="openRoleModalBtn">
-                                <i class="bi bi-person-lines-fill me-1"></i> Chọn vai trò
+                                <i class="bi bi-person-lines-fill me-1"></i> Choose role
                             </button>
 
                             <!-- nút lưu trực tiếp (gọi API cập nhật vai trò cho user hiện tại) -->
@@ -104,7 +104,7 @@
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="rolesModalLabel">Chọn vai trò</h5>
+                    <h5 class="modal-title" id="rolesModalLabel">Choose role</h5>
                     <button type="button" class="btn-close" aria-label="Close" id="modalCloseBtn"></button>
                 </div>
 
@@ -124,15 +124,14 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button id="clearSelection" type="button" class="btn btn-outline-secondary">Xóa chọn</button>
-                    <button id="saveRoles" type="button" class="btn btn-primary">Áp dụng</button>
+                    <button id="clearSelection" type="button" class="btn btn-outline-secondary">Clear all roles</button>
+                    <button id="saveRoles" type="button" class="btn btn-primary">Apply</button>
                 </div>
             </div>
         </div>
     </div>
 
     <style>
-        /* modal tự triển khai (CSS-only) */
         .vanilla-modal {
             display: none;
             position: fixed;
@@ -189,11 +188,10 @@
 
     <script th:inline="javascript">
         (function () {
-            // Các phần tử
             const openBtn = document.getElementById('openRoleModalBtn');
             const modalEl = document.getElementById('rolesModal');
             const closeBtn = document.getElementById('modalCloseBtn');
-            const saveBtn = document.getElementById('saveRoles'); // Áp dụng (lưu selection vào UI)
+            const saveBtn = document.getElementById('saveRoles');
             const clearBtn = document.getElementById('clearSelection');
             const reloadBtn = document.getElementById('reloadRolesBtn');
             const tokenContainer = document.getElementById('tokenContainer');
@@ -381,7 +379,6 @@
                     return;
                 }
 
-                // tạo HTML cho mỗi role (KHÔNG hiển thị id ở bên phải)
                 rolesList.innerHTML = '';
                 roles.forEach(r => {
                     const label = document.createElement('label');
@@ -416,7 +413,6 @@
                     rolesList.appendChild(label);
                 });
 
-                // sau khi render, nếu đã có roleIds trong hidden => tick các checkbox tương ứng
                 const selected = new Set(getSelectedIdsFromHidden());
                 rolesList.querySelectorAll('.role-checkbox').forEach(cb => {
                     cb.checked = selected.has(cb.dataset.roleId);

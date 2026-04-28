@@ -39,13 +39,13 @@ public class FoodCategoryController {
 
     @Operation(description = "lấy thông tin danh mục món ăn theo id")
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('PRODUCT_READ')")
+    @PreAuthorize("hasAuthority('PRODUCT_READ') or hasAuthority('UI_READ')")
     public ResponseEntity<ResponseBase<FoodCategoryResponse>> findById(@PathVariable UUID id) {
         return ResponseBase.success(foodCategoryService.findById(id));
     }
 
     @Operation(summary = "Lấy lịch sử của một danh mục món ăn")
-    @GetMapping("/history/{id}")
+    @GetMapping("/{id}/history")
     @PreAuthorize("hasAuthority('PRODUCT_READ')")
     public ResponseEntity<ResponseBase<List<FoodCategoryHistoryResponse>>> getHistory(@PathVariable UUID id) {
         return ResponseBase.success(foodCategoryService.history(id));

@@ -18,10 +18,13 @@ document.getElementById('openModalBtn').addEventListener('click', async function
         document.querySelector('#detail-title-update').querySelector("input").value = d?.title;
         context = d?.text;
 
-        if (d?.status === 'DRAFT') {
-            document.getElementById('btn-update-detail').classList.remove('d-none')
-        } else {
-            document.getElementById('btn-update-detail').classList.add('d-none')
+        const btnUpdateDetail = document.getElementById('btn-update-detail');
+        if (btnUpdateDetail) {
+            if (d?.status === 'DRAFT') {
+                btnUpdateDetail.classList.remove('d-none')
+            } else {
+                btnUpdateDetail.classList.add('d-none')
+            }
         }
     });
     this.disabled = false;

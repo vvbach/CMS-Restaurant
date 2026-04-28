@@ -15,7 +15,7 @@
                             <div class="container py-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover align-middle mb-0">
-                                        <!-- Hàng tiêu đề -->
+                                        <!-- Hàng Title -->
                                         <thead class="table-success">
                                         <tr>
                                             <th scope="col">Status</th>
@@ -105,7 +105,7 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Danh mục</th>
+                                                <th scope="col">Category</th>
                                                 <th scope="col">Active Status</th>
                                                 <th scope="col">Content Status</th>
                                                 <th scope="col">Creator</th>
@@ -185,7 +185,7 @@
                                        value=""/>
                                 <img src="" id="detail-image" class="card-img-top" alt="">
                                 <div class="col-12">
-                                    <label for="detail-category" class="form-label">Danh mục</label>
+                                    <label for="detail-category" class="form-label">Category</label>
                                     <input type="text" class="form-control" id="detail-category" disabled value=""/>
                                 </div>
                                 <div class="col-12">
@@ -269,7 +269,7 @@
                         <div class="progressed" id="progressed"></div>
                         <div class="list">
                             <div class="step" data-index="1"><span class="dot"></span><span
-                                    class="label">DRAFT/REJECT</span></div>
+                                    class="label">DRAFT/REJECTED</span></div>
                             <div class="step" data-index="2"><span class="dot"></span><span class="label">PENDING_APPROVAL</span>
                             </div>
                             <div class="step" data-index="3"><span class="dot"></span><span
@@ -408,7 +408,7 @@
     <div class="modal fade clearfix" id="popup-new" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-content modal-dialog modal-lg">
             <div class="modal-body">
-                <h2 class="card-title mb-0 me-2">Thêm mới Danh mục nổi bật</h2>
+                <h2 class="card-title mb-0 me-2">Add Category nổi bật</h2>
                 <form id="form-new" class="row g-3">
                     <div class="col-12">
                         <label for="input-description-new" class="form-label">Description</label>
@@ -423,7 +423,7 @@
                         </button>
                         <label class="d-none" for="input-categoryId-new"></label>
                         <input type="text" class="d-none" id="input-categoryId-new" disabled>
-                        <label class="form-label" for="input-categoryName-new">Danh mục</label>
+                        <label class="form-label" for="input-categoryName-new">Category</label>
                         <input class="form-control" type="text" id="input-categoryName-new" disabled>
                     </div>
                     <div class="col-12">
@@ -434,7 +434,7 @@
                         <img id="input-image-new" src="" alt="">
                     </div>
                     <div class="text-center">
-                        <button id="btn-new" class="btn btn-primary" type="button">Thêm mới</button>
+                        <button id="btn-new" class="btn btn-primary" type="button">Add</button>
                         <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
                     </div>
                 </form>
@@ -458,7 +458,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
-                    <button type="button" class="btn btn-primary" id="selectCategoryBtn" disabled>Chọn Danh mục</button>
+                    <button type="button" class="btn btn-primary" id="selectCategoryBtn" disabled>Chọn Category</button>
                 </div>
             </div>
         </div>
@@ -495,7 +495,7 @@
                     <button type="button" class="btn-close" onclick="closeAllModals()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa Danh mục nổi bật này?</p>
+                    <p class="mb-0 confirm-message">Bạn có chắc chắn muốn xóa Category nổi bật này?</p>
                     <div class="mb-0">
                         <label for="deleteReasonDetail" class="form-label">
                             Description chi tiết <small class="text-muted">(Minimum 1 character)</small>
@@ -520,10 +520,25 @@
             </div>
         </div>
     </div>
-
+    <!--     History Modal-->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">History</h5>
+                </div>
+                <div class="modal-body" id="historyTableBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:src="@{/js/home-page/featured-category/popup.js}" defer></script>
     <script th:src="@{/js/home-page/featured-category/filter.js}" defer></script>
     <script th:src="@{/js/home-page/featured-category/detail.js}" defer></script>
+    <script th:src="@{/js/home-page/featured-category/history.js}" defer></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
     <script th:src="@{/js/page-function/image-lib.js}"></script>

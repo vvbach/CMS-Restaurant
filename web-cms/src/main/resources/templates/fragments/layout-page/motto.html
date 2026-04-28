@@ -15,7 +15,7 @@
                             <div class="container py-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover align-middle mb-0">
-                                        <!-- Hàng tiêu đề -->
+                                        <!-- Hàng Title -->
                                         <thead class="table-success">
                                         <tr>
                                             <th scope="col">Status</th>
@@ -105,7 +105,7 @@
                                             <thead class="table-success">
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tiêu đề</th>
+                                                <th scope="col">Title</th>
                                                 <th scope="col">Active Status</th>
                                                 <th scope="col">Content Status</th>
                                                 <th scope="col">Creator</th>
@@ -269,7 +269,7 @@
                         <div class="progressed" id="progressed"></div>
                         <div class="list">
                             <div class="step" data-index="1"><span class="dot"></span><span
-                                    class="label">DRAFT/REJECT</span></div>
+                                    class="label">DRAFT/REJECTED</span></div>
                             <div class="step" data-index="2"><span class="dot"></span><span class="label">PENDING_APPROVAL</span>
                             </div>
                             <div class="step" data-index="3"><span class="dot"></span><span
@@ -290,7 +290,7 @@
                         </div>
                     </div>
                     <div class="mb-3" id="detail-title-update">
-                        <label for="edit-title" class="form-label">Tên</label>
+                        <label for="edit-title" class="form-label">Name</label>
                         <input type="text" class="form-control" id="edit-title" placeholder="Nhập tiêu ngữ"/>
                     </div>
                     <div class="mb-3" id="detail-description-update">
@@ -389,7 +389,7 @@
     <div class="modal fade clearfix" id="popup-new" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-content modal-dialog modal-lg">
             <div class="modal-body">
-                <h2 class="card-title mb-0 me-2">Thêm mới tiêu ngữ</h2>
+                <h2 class="card-title mb-0 me-2">Add tiêu ngữ</h2>
                 <form id="form-new" class="row g-3">
                     <div class="col-12">
                         <label for="input-title-new" class="form-label">Motto</label>
@@ -446,10 +446,25 @@
             </div>
         </div>
     </div>
-
+    <!--     History Modal-->
+    <div class="modal fade" id="history-modal" tabindex="-1" aria-labelledby="imageLibraryLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">History</h5>
+                </div>
+                <div class="modal-body" id="historyTableBody">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light border" onclick="closeAllModals()"><i class="bi bi-x-circle"></i> Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:src="@{/js/layout/motto/popup.js}" defer></script>
     <script th:src="@{/js/layout/motto/filter.js}" defer></script>
     <script th:src="@{/js/layout/motto/detail.js}" defer></script>
+    <script th:src="@{/js/layout/motto/history.js}" defer></script>
 
     <script th:src="@{/js/page-function/hideRoleBasedEl.js}"></script>
     <script th:src="@{/js/page-function/set-status-popup.js}"></script>

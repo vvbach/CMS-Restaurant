@@ -33,8 +33,10 @@ public class SendEmailEventConsumer {
                 .distinct()
                 .toList();
         System.out.println("Sending email to: " + uniqueEmails);
-        emailService.sendEmail(
-                new EmailPayload(uniqueEmails, subject, body)
-        );
+        try {
+            emailService.sendEmail(new EmailPayload(uniqueEmails, subject, body));
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 }

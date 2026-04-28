@@ -22,10 +22,13 @@ document.getElementById('openModalBtn').addEventListener('click', async function
             document.querySelector('#edit-title').value = d?.title ?? "";
             document.querySelector('#edit-description').value = d?.description ?? "";
 
-            if (d?.status === 'DRAFT') {
-                document.getElementById('btn-update-detail').classList.remove('d-none')
-            } else {
-                document.getElementById('btn-update-detail').classList.add('d-none')
+            const btnUpdateDetail = document.getElementById('btn-update-detail');
+            if (btnUpdateDetail) {
+                if (d?.status === 'DRAFT') {
+                    btnUpdateDetail.classList.remove('d-none')
+                } else {
+                    btnUpdateDetail.classList.add('d-none')
+                }
             }
         });
 

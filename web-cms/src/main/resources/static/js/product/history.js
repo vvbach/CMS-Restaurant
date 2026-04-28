@@ -7,7 +7,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
         let myModal = new bootstrap.Modal(document.getElementById('history-modal'));
         let id = document.getElementById('detail-id').value;
 
-        await callApi(`/v1/api/image-web/${id}/history`, {
+        await callApi(`/v1/api/food/${id}/history`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         }, (resp) => {
@@ -33,8 +33,8 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
 
                             <div class="d-flex align-items-center gap-3 mb-2">
 
-                                ${item.pathImage ? `
-                                    <img src="${item.pathImage}" 
+                                ${item.imageUrl ? `
+                                    <img src="${item.imageUrl}" 
                                          alt="logo"
                                          class="rounded border"
                                          style="width: 40px; height: 40px; object-fit: cover;">
@@ -46,7 +46,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
                                 `}
 
                                 <div>
-                                    <div class="fw-semibold">${item.description ?? '-'}</div>
+                                    <div class="fw-semibold">${item.name ?? '-'}</div>
                                     <div class="small text-muted">
                                         ${formatDate(item.eventDate)}
                                     </div>

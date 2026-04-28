@@ -45,7 +45,7 @@ public class RoleService extends BaseService {
     
     public RoleResponse findById(UUID id) {
         RoleEntity roleEntity = roleRepository.findById(id)
-                .orElseThrow(() -> new AppBadRequestException("id", getMessage("message.entity.not.found")));
+                .orElseThrow(() -> new AppBadRequestException("message", getMessage("message.entity.not.found")));
         return getResponse(roleEntity);
     }
 
@@ -103,13 +103,13 @@ public class RoleService extends BaseService {
     @Transactional
     public RoleDetailResponse update(UUID id, RolePayload payload) {
         RoleEntity entity = roleRepository.findById(id)
-                .orElseThrow(() -> new AppBadRequestException("id", getMessage("message.entity.not.found")));
+                .orElseThrow(() -> new AppBadRequestException("message", getMessage("message.entity.not.found")));
         if (DeleteEnum.YES.equals(entity.getIsDelete())) {
-            throw new AppBadRequestException("id", getMessage("role.deleted"));
+            throw new AppBadRequestException("message", getMessage("role.deleted"));
         }
 
         if (entity.isDefault())
-            throw new AppBadRequestException("id", getMessage("message.update.default.role"));
+            throw new AppBadRequestException("message", getMessage("message.update.default.role"));
 
         entity.setName(payload.getName());
         entity.setCode(payload.getCode());
@@ -123,13 +123,13 @@ public class RoleService extends BaseService {
     @Transactional
     public void delete(UUID id) {
         RoleEntity entity = roleRepository.findById(id)
-                .orElseThrow(() -> new AppBadRequestException("id", getMessage("message.entity.not.found")));
+                .orElseThrow(() -> new AppBadRequestException("message", getMessage("message.entity.not.found")));
         if (DeleteEnum.YES.equals(entity.getIsDelete())) {
-            throw new AppBadRequestException("id", getMessage("role.deleted"));
+            throw new AppBadRequestException("message", getMessage("role.deleted"));
         }
 
         if (entity.isDefault())
-            throw new AppBadRequestException("id", getMessage("message.delete.default.role"));
+            throw new AppBadRequestException("message", getMessage("message.delete.default.role"));
         entity.setIsDelete(DeleteEnum.YES);
         roleRepository.save(entity);
     }

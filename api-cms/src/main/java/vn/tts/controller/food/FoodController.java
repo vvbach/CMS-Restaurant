@@ -71,7 +71,7 @@ public class FoodController {
     }
 
     @Operation(summary = "Lấy lịch sử của một món ăn")
-    @GetMapping("/history/{id}")
+    @GetMapping("/{id}/history")
     @PreAuthorize("hasAuthority('PRODUCT_READ')")
     public ResponseEntity<ResponseBase<List<FoodHistoryResponse>>> getHistory(@PathVariable UUID id) {
         return ResponseBase.success(foodService.history(id));
