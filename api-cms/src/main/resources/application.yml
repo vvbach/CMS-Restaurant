@@ -3,6 +3,10 @@ server:
     servlet:
         context-path: /api-cms
 
+app:
+    cors:
+        allowed-origins: http://localhost:8080,https://localhost:8080,http://rasberry:${WEB_CMS_PORT:8080},https://rasberry:${WEB_CMS_PORT:8080}
+
 spring:
     application:
         name: api-cms

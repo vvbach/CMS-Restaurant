@@ -7,7 +7,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
         let myModal = new bootstrap.Modal(document.getElementById('history-modal'));
         let id = document.getElementById('detail-id').value;
 
-        await callApi(`/v1/api/admin-unit/${id}/history`, {
+        await callApi(`/v1/api/logo-page/${id}/history`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         }, (resp) => {
@@ -33,8 +33,8 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
 
                             <div class="d-flex align-items-center gap-3 mb-2">
 
-                                ${item.logoUrl ? `
-                                    <img src="${item.logoUrl}" 
+                                ${item.url ? `
+                                    <img src="${item.url}" 
                                          alt="logo"
                                          class="rounded border"
                                          style="width: 40px; height: 40px; object-fit: cover;">

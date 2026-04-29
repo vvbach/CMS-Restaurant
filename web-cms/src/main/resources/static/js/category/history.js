@@ -7,7 +7,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
         let myModal = new bootstrap.Modal(document.getElementById('history-modal'));
         let id = document.getElementById('detail-id').value;
 
-        await callApi(`/v1/api/admin-unit/${id}/history`, {
+        await callApi(`/v1/api/category/${id}/history`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         }, (resp) => {
@@ -47,7 +47,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
 
                                 <span class="badge ${getStatusColor(item.status)} ms-auto">
                                     ${mapStatus(item.status)}
-                                </span>cac
+                                </span>
 
                             </div>
 

@@ -7,7 +7,6 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
         let myModal = new bootstrap.Modal(document.getElementById('history-modal'));
         let id = document.getElementById('detail-id').value;
 
-        // call about history endpoint (was admin-unit)
         await callApi(`/v1/api/about/${id}/history`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},

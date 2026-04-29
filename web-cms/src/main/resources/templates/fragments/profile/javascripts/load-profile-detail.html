@@ -14,7 +14,7 @@
             loadFullNameTitle(data.data.fullName);
             loadStatus(data.data.status);
             loadProfileTextFields(profileTextFields, data.data);
-
+            loadRoleAndPermission(data.data.roles);
             insertProfileDetailIntoUpdate(data.data);
         });
     }
@@ -41,6 +41,34 @@
 
     function loadFullNameTitle(fullName) {
         document.getElementById('profile-fullName-title').innerText = fullName;
+    }
+
+    function loadRoleAndPermission(roles) {
+        if (!roles || roles.length === 0) {
+            document.getElementById('profile-role').innerText = "No Role";
+            document.getElementById('profile-permission').innerText = "No Permission";
+            return;
+        }
+
+        const roleNames = roles.map(role => role.name).join(', ');
+        document.getElementById('profile-role').innerHTML = `<span>${roleNames}</span>`;
+
+
+        const allPermissions = roles.flatMap(role => role.permissions);
+
+        const uniquePermissions = Array.from(
+            new Map(allPermissions.map(p => [p.id, p])).values()
+        );
+
+        const permissionHtml = uniquePermissions.map(p => `
+            <span class="badge text-success border border-success-subtle me-1 mb-1"
+                  style="font-size: 0.75rem;"
+                  title="${p.code}">
+                ${p.name}
+            </span>
+        `).join('');
+
+        document.getElementById('profile-permission').innerHTML = permissionHtml || "None";
     }
 
     function insertProfileDetailIntoUpdate(data) {

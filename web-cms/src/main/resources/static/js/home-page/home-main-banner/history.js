@@ -7,7 +7,7 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
         let myModal = new bootstrap.Modal(document.getElementById('history-modal'));
         let id = document.getElementById('detail-id').value;
 
-        await callApi(`/v1/api/admin-unit/${id}/history`, {
+        await callApi(`/v1/api/home-main-banner/${id}/history`, {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         }, (resp) => {
@@ -30,23 +30,10 @@ document.getElementById('openModalHistoryBtn').addEventListener('click', async f
                 <div class="timeline">
                     ${d.map(item => `
                         <div class="timeline-item border-start border-3 ps-3 mb-4">
-
                             <div class="d-flex align-items-center gap-3 mb-2">
 
-                                ${item.logoUrl ? `
-                                    <img src="${item.logoUrl}" 
-                                         alt="logo"
-                                         class="rounded border"
-                                         style="width: 40px; height: 40px; object-fit: cover;">
-                                ` : `
-                                    <div class="bg-light border rounded d-flex align-items-center justify-content-center"
-                                         style="width: 40px; height: 40px;">
-                                        <i class="bi bi-image text-muted"></i>
-                                    </div>
-                                `}
-
                                 <div>
-                                    <div class="fw-semibold">${item.name ?? '-'}</div>
+                                    <div class="fw-semibold">${item.title ?? '-'}</div>
                                     <div class="small text-muted">
                                         ${formatDate(item.eventDate)}
                                     </div>
