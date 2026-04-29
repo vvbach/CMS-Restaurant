@@ -21,6 +21,8 @@ services:
       - MINIO_PASSWORD=${MINIO_PASSWORD}
       - KAFKA_PORT=${KAFKA_PORT}
       - SECRET_KEY=${SECRET_KEY}
+      - EMAIL_USERNAME=${EMAIL_USERNAME}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
       - JAVA_OPTS=-Xms256m -Xmx512m
     restart: always
 
